@@ -1,5 +1,5 @@
 import MockAdapter from "axios-mock-adapter";
-import axiosInstance from "../axiosInstance";
+import axiosInstance from "@/apis/axiosInstance";
 import { AxiosError } from "axios";
 
 describe("axiosInstance", () => {
