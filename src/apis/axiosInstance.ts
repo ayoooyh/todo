@@ -17,8 +17,6 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    console.log("헤더:", response.headers);
-    console.log("데이터:", response.data);
     return response;
   },
   (error) => Promise.reject(error)
