@@ -13,7 +13,7 @@ export interface ISignUpResponse {
   name: string;
 }
 
-export interface IAuthField {
+export interface IAuthFormData {
   name: string;
   email: string;
   password: string;

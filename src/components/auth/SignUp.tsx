@@ -6,7 +6,7 @@ import { ISignUpRequest } from "@/types/auth";
 import { signUp } from "@/apis/auth/auth";
 import { useForm, RegisterOptions } from "react-hook-form";
 import { AuthInput } from "@/components/auth/AuthInput";
-import { IAuthField } from "@/types/auth";
+import { IAuthFormData } from "@/types/auth";
 import { useRouter } from "next/navigation";
 
 export default function SignUp() {
@@ -19,7 +19,7 @@ export default function SignUp() {
     handleSubmit,
     watch,
     formState: { errors, isValid },
-  } = useForm<IAuthField>({
+  } = useForm<IAuthFormData>({
     defaultValues: {
       name: "",
       email: "",
@@ -30,7 +30,7 @@ export default function SignUp() {
   });
 
   const registerOptions: Partial<
-    Record<keyof IAuthField, RegisterOptions<IAuthField>>
+    Record<keyof IAuthFormData, RegisterOptions<IAuthFormData>>
   > = {
     name: { required: { value: true, message: "이름을 입력해주세요" } },
     email: {
@@ -59,7 +59,7 @@ export default function SignUp() {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  const onSubmit = async (formData: IAuthField) => {
+  const onSubmit = async (formData: IAuthFormData) => {
     try {
       const signUpData: ISignUpRequest = {
         name: formData.name,

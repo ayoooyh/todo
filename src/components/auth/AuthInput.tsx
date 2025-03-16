@@ -1,7 +1,7 @@
 import Image from "next/image";
 import eyeOff from "../../../public/images/auth/visibility-off.svg";
 import eyeOn from "../../../public/images/auth/visibility-on.svg";
-import { IAuthInputProps } from "@/types/auth/form";
+import { IAuthInputProps } from "@/types/form";
 import { FieldValues, Path } from "react-hook-form";
 
 export function AuthInput<T extends FieldValues>({
