@@ -69,6 +69,7 @@ export default function SignUp() {
       await signUp(signUpData);
       router.push("/auth/signin");
     } catch (error) {
+      alert("회원가입에 실패했습니다.");
       console.error("회원가입 실패:", error);
     }
   };
