@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ISignUpRequest } from "@/types/auth/auth";
 import { signUp } from "@/apis/auth/auth";
 import { useForm, RegisterOptions } from "react-hook-form";
-import { AuthInput } from "@/components/common/AuthInput";
+import { AuthInput } from "@/components/auth/AuthInput";
 import { IAuthField } from "@/types/auth/auth";
 import { useRouter } from "next/navigation";
 
