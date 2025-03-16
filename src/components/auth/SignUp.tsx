@@ -75,78 +75,76 @@ export default function SignUp() {
   };
 
   return (
-    <div>
-      <form
-        className="flex flex-col justify-center gap-12 w-full max-w-[640px]"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="flex flex-col gap-6">
-          <AuthInput
-            label="이름"
-            type="text"
-            name="name"
-            placeholder="이름을 입력해주세요"
-            errors={errors.name?.message}
-            register={register}
-            registerOptions={registerOptions}
-          />
-          <AuthInput
-            label="이메일"
-            type="email"
-            name="email"
-            placeholder="이메일을 입력해주세요"
-            errors={errors.email?.message}
-            register={register}
-            registerOptions={registerOptions}
-          />
-          <AuthInput
-            label="비밀번호"
-            type="password"
-            name="password"
-            placeholder="비밀번호를 입력해주세요"
-            errors={errors.password?.message}
-            register={register}
-            registerOptions={registerOptions}
-            showPassword={showPassword}
-            onTogglePassword={handleShowPassword}
-          />
-          <AuthInput
-            label="비밀번호 확인"
-            type="password"
-            name="confirmPassword"
-            placeholder="비밀번호를 입력해주세요"
-            errors={errors.confirmPassword?.message}
-            register={register}
-            registerOptions={registerOptions}
-            showPassword={showConfirmPassword}
-            onTogglePassword={handleShowConfirmPassword}
-          />
-        </div>
-        <div className="flex flex-col items-center gap-10">
-          <button
-            type="submit"
-            className={`rounded-xl py-3 px-[277px] font-semibold text-base
+    <form
+      className="flex flex-col justify-center gap-12 w-full max-w-[640px]"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <div className="flex flex-col gap-6">
+        <AuthInput
+          label="이름"
+          type="text"
+          name="name"
+          placeholder="이름을 입력해주세요"
+          errors={errors.name?.message}
+          register={register}
+          registerOptions={registerOptions}
+        />
+        <AuthInput
+          label="이메일"
+          type="email"
+          name="email"
+          placeholder="이메일을 입력해주세요"
+          errors={errors.email?.message}
+          register={register}
+          registerOptions={registerOptions}
+        />
+        <AuthInput
+          label="비밀번호"
+          type="password"
+          name="password"
+          placeholder="비밀번호를 입력해주세요"
+          errors={errors.password?.message}
+          register={register}
+          registerOptions={registerOptions}
+          showPassword={showPassword}
+          onTogglePassword={handleShowPassword}
+        />
+        <AuthInput
+          label="비밀번호 확인"
+          type="password"
+          name="confirmPassword"
+          placeholder="비밀번호를 입력해주세요"
+          errors={errors.confirmPassword?.message}
+          register={register}
+          registerOptions={registerOptions}
+          showPassword={showConfirmPassword}
+          onTogglePassword={handleShowConfirmPassword}
+        />
+      </div>
+      <div className="flex flex-col items-center gap-10">
+        <button
+          type="submit"
+          className={`rounded-xl py-3 px-[277px] font-semibold text-base
               ${
                 isValid
                   ? "bg-blue-600 text-white hover:bg-blue-700"
                   : "bg-slate-400 text-white cursor-not-allowed"
               }`}
+        >
+          회원가입하기
+        </button>
+        <div className="flex justify-center items-center gap-1">
+          <span className="text-[15px] font-medium text-state-800">
+            이미 회원이신가요?
+          </span>
+          <Link
+            href="/auth/signin"
+            className="text-[15px] text-blue-600 font-medium underline"
           >
-            회원가입하기
-          </button>
-          <div className="flex justify-center items-center gap-1">
-            <span className="text-[15px] font-medium text-state-800">
-              이미 회원이신가요?
-            </span>
-            <Link
-              href="/auth/signin"
-              className="text-[15px] text-blue-600 font-medium underline"
-            >
-              로그인
-            </Link>
-          </div>
+            로그인
+          </Link>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 }
