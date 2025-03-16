@@ -1,8 +1,33 @@
 import Image from "next/image";
-import eyeOff from "../../../../public/images/auth/visibility-off.svg";
-import eyeOn from "../../../../public/images/auth/visibility-on.svg";
+import eyeOff from "../../../public/images/auth/visibility-off.svg";
+import eyeOn from "../../../public/images/auth/visibility-on.svg";
 import { IAuthInputProps } from "@/types/form";
-import { FieldValues, Path } from "react-hook-form";
+import {
+  FieldValues,
+  Path,
+  UseFormRegister,
+  RegisterOptions,
+} from "react-hook-form";
+
+export interface BaseInputProps {
+  label?: string;
+  type?: string;
+  placeholder?: string;
+  className?: string;
+  inputClassName?: string;
+  labelClassName?: string;
+  error?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  showPassword?: boolean;
+  onTogglePassword?: () => void;
+}
+
+export interface FormInputProps<T extends FieldValues> extends BaseInputProps {
+  name: Path<T>;
+  register?: UseFormRegister<T>;
+  registerOptions?: Record<Path<T>, RegisterOptions>;
+}
 
 export function Input<T extends FieldValues>({
   label,

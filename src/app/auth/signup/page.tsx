@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ISignUpRequest } from "@/types/auth";
 import { signUp } from "@/apis/auth/auth";
 import { useForm, RegisterOptions } from "react-hook-form";
-import { Input } from "@/app/auth/components/input";
+import { Input } from "@/components/common/Input";
 import { IAuthFormData } from "@/types/auth";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
