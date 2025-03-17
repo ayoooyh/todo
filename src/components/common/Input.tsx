@@ -54,7 +54,8 @@ export function Input<T extends FieldValues>({
           {...register(name, registerOptions[name as Path<T>])}
           type={isPasswordField && showPassword ? "text" : type}
           placeholder={placeholder}
-          className={`flex py-3 px-6 bg-neutral-100 rounded-xl outline-none
+          className={`flex py-3 px-6 bg-slate-50  rounded-xl outline-none
+            placeholder:text-slate-400
             ${
               errors
                 ? "border-2 border-red-700"
