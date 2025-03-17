@@ -9,6 +9,7 @@ import { Input } from "@/components/common/Input";
 import { IAuthFormData } from "@/types/auth";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { setCookie } from "cookies-next";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
@@ -67,8 +68,15 @@ export default function Signup() {
         email: formData.email,
         password: formData.password,
       };
-      await signUp(signUpData);
-      router.push("/auth/signin");
+      // TODO: 자동로그인처리
+      const result = await signUp(signUpData);
+      if (result.access_token && result.refresh_token) {
+        setCookie("access_token", result.access_token, { path: "/" });
+        setCookie("refresh_token", result.refresh_token, {
+          path: "/",
+        });
+        router.push("/");
+      }
     } catch (error) {
       // TODO: 회원가입 실패 alert 수정
       alert("회원가입에 실패했습니다.");

@@ -6,20 +6,13 @@ import { IAuthFormData, ISignInRequest } from "@/types/auth";
 import { useRouter } from "next/navigation";
 import { signIn } from "@/apis/auth/auth";
 import { useForm, RegisterOptions } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Input } from "@/components/common/Input";
-import { getCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 
 export default function Signin() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-
-  useEffect(() => {
-    const token = getCookie("accessToken");
-    if (token) {
-      router.push("/");
-    }
-  }, [router]);
 
   const {
     register,
@@ -59,14 +52,21 @@ export default function Signin() {
         email: formData.email,
         password: formData.password,
       };
-      await signIn(signInData);
-      router.push("/");
+      const result = await signIn(signInData);
+      if (result.access_token && result.refresh_token) {
+        setCookie("access_token", result.access_token, { path: "/" });
+        setCookie("refresh_token", result.refresh_token, {
+          path: "/",
+        });
+        router.push("/");
+      }
     } catch (error) {
       // TODO: 로그인 실패 alert 수정
       alert("로그인에 실패했습니다.");
       console.error("로그인 실패:", error);
     }
   };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-15">
       <Link href="/">
