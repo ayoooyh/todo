@@ -11,10 +11,5 @@ export const signIn = async (data: ISignInRequest) => {
     "/auth/login",
     data
   );
-
-  if (response.data.access_token) {
-    return response.data;
-  } else {
-    throw new Error("토큰없음");
-  }
+  return response.data;
 };
