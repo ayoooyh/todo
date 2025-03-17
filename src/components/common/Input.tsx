@@ -48,7 +48,7 @@ export function Input<T extends FieldValues>({
 
   return (
     <div className="relative">
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-3">
         <label className="text-base font-medium text-state-800">{label}</label>
         <input
           {...register(name, registerOptions[name as Path<T>])}
@@ -68,7 +68,7 @@ export function Input<T extends FieldValues>({
 
       {isPasswordField && onTogglePassword && (
         <div
-          className="absolute right-6 top-[62px] cursor-pointer"
+          className="absolute right-4 top-[50px] cursor-pointer"
           onClick={onTogglePassword}
         >
           <Image
