@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ISignUpRequest } from "@/types/auth";
-import { signUp } from "@/apis/auth/auth";
+import { signUp, signIn } from "@/apis/auth/auth";
 import { useForm, RegisterOptions } from "react-hook-form";
 import { Input } from "@/components/common/Input";
 import { IAuthFormData } from "@/types/auth";
@@ -63,22 +63,27 @@ export default function Signup() {
 
   const onSubmit = async (formData: IAuthFormData) => {
     try {
+      // 1. 회원가입 진행
       const signUpData: ISignUpRequest = {
         name: formData.name,
         email: formData.email,
         password: formData.password,
       };
-      // TODO: 자동로그인처리
-      const result = await signUp(signUpData);
-      if (result.access_token && result.refresh_token) {
-        setCookie("access_token", result.access_token, { path: "/" });
-        setCookie("refresh_token", result.refresh_token, {
-          path: "/",
-        });
+      await signUp(signUpData);
+
+      // 2. 회원가입 성공 후 로그인 진행
+      const signInResult = await signIn({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      // 3. 로그인 성공 시 토큰 저장 및 리다이렉트
+      if (signInResult.access_token && signInResult.refresh_token) {
+        setCookie("access_token", signInResult.access_token, { path: "/" });
+        setCookie("refresh_token", signInResult.refresh_token, { path: "/" });
         router.push("/");
       }
     } catch (error) {
-      // TODO: 회원가입 실패 alert 수정
       alert("회원가입에 실패했습니다.");
       console.error("회원가입 실패:", error);
     }
