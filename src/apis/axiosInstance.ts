@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie, setCookie } from "cookies-next";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -23,20 +23,44 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    if (response.data.access_token) {
-      setCookie("access_token", response.data.access_token, {
-        maxAge: 24 * 60 * 60, // 24시간
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-      });
-    }
-    console.log("로그인 성공", response);
     return response;
   },
   async (error) => {
-    if (error.response?.status === 401) {
-      window.location.replace("/");
+    if (
+      error.response?.status === 401 &&
+      error.response?.data.detail === "Token has expired"
+    ) {
+      const refreshToken = getCookie("refresh_token");
+      if (!refreshToken) {
+        return Promise.reject(error);
+      }
+      deleteCookie("access_token");
+      deleteCookie("refresh_token");
+
+      const refreshResponse = await axiosInstance.post(
+        "/auth/tokens",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${refreshToken}`,
+          },
+        }
+      );
+      if (
+        refreshResponse.data.access_token &&
+        refreshResponse.data.refresh_token
+      ) {
+        setCookie("accessToken", refreshResponse.data.access_token, {
+          path: "/",
+        });
+        setCookie("refreshToken", refreshResponse.data.refresh_token, {
+          path: "/",
+        });
+        return axiosInstance(error.config);
+      } else {
+        deleteCookie("access_token");
+        deleteCookie("refresh_token");
+      }
     }
     return Promise.reject(error);
   }
