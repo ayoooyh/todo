@@ -62,30 +62,38 @@ export default function Signup() {
   };
 
   const onSubmit = async (formData: IAuthFormData) => {
-    try {
-      // 1. 회원가입 진행
-      const signUpData: ISignUpRequest = {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-      };
-      await signUp(signUpData);
+    // 1. 회원가입 진행
+    const signUpData: ISignUpRequest = {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+    };
 
+    try {
+      await signUp(signUpData);
+    } catch (error) {
+      alert("회원가입에 실패했습니다.");
+      console.error("회원가입 실패:", error);
+      return;
+    }
+
+    try {
       // 2. 회원가입 성공 후 로그인 진행
       const signInResult = await signIn({
         email: formData.email,
         password: formData.password,
       });
-
-      // 3. 로그인 성공 시 토큰 저장 및 리다이렉트
-      if (signInResult.access_token && signInResult.refresh_token) {
-        setCookie("access_token", signInResult.access_token, { path: "/" });
-        setCookie("refresh_token", signInResult.refresh_token, { path: "/" });
-        router.push("/");
+      if (!signInResult.access_token || !signInResult.refresh_token) {
+        throw new Error("로그인 실패");
       }
+
+      setCookie("access_token", signInResult.access_token, { path: "/" });
+      setCookie("refresh_token", signInResult.refresh_token, { path: "/" });
+      router.push("/");
+      return;
     } catch (error) {
-      alert("회원가입에 실패했습니다.");
-      console.error("회원가입 실패:", error);
+      alert("로그인에 실패했습니다.");
+      console.error("로그인 실패:", error);
     }
   };
 
