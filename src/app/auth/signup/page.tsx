@@ -3,18 +3,19 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ISignUpRequest } from "@/types/auth";
-import { signUp, signIn } from "@/apis/auth/auth";
+import { signUp } from "@/apis/auth/auth";
 import { useForm, RegisterOptions } from "react-hook-form";
 import { Input } from "@/components/common/Input";
 import { IAuthFormData } from "@/types/auth";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { setCookie } from "cookies-next";
+import { useLogin } from "@/hooks/auth";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
+  const { login } = useLogin();
 
   const {
     register,
@@ -77,24 +78,8 @@ export default function Signup() {
       return;
     }
 
-    try {
-      // 2. 회원가입 성공 후 로그인 진행
-      const signInResult = await signIn({
-        email: formData.email,
-        password: formData.password,
-      });
-      if (!signInResult.access_token || !signInResult.refresh_token) {
-        throw new Error("로그인 실패");
-      }
-
-      setCookie("access_token", signInResult.access_token, { path: "/" });
-      setCookie("refresh_token", signInResult.refresh_token, { path: "/" });
-      router.push("/");
-      return;
-    } catch (error) {
-      alert("로그인에 실패했습니다.");
-      console.error("로그인 실패:", error);
-    }
+    await login({ email: formData.email, password: formData.password });
+    router.push("/");
   };
 
   return (

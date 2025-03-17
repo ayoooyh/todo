@@ -2,18 +2,17 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { IAuthFormData, ISignInRequest } from "@/types/auth";
+import { IAuthFormData } from "@/types/auth";
 import { useRouter } from "next/navigation";
-import { signIn } from "@/apis/auth/auth";
 import { useForm, RegisterOptions } from "react-hook-form";
 import { useState } from "react";
 import { Input } from "@/components/common/Input";
-import { setCookie } from "cookies-next";
+import { useLogin } from "@/hooks/auth";
 
 export default function Signin() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-
+  const { login } = useLogin();
   const {
     register,
     handleSubmit,
@@ -47,24 +46,8 @@ export default function Signin() {
   };
 
   const onSubmit = async (formData: IAuthFormData) => {
-    try {
-      const signInData: ISignInRequest = {
-        email: formData.email,
-        password: formData.password,
-      };
-      const result = await signIn(signInData);
-      if (result.access_token && result.refresh_token) {
-        setCookie("access_token", result.access_token, { path: "/" });
-        setCookie("refresh_token", result.refresh_token, {
-          path: "/",
-        });
-        router.push("/");
-      }
-    } catch (error) {
-      // TODO: 로그인 실패 alert 수정
-      alert("로그인에 실패했습니다.");
-      console.error("로그인 실패:", error);
-    }
+    await login({ email: formData.email, password: formData.password });
+    router.push("/");
   };
 
   return (
