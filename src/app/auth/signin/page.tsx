@@ -1,33 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { ISignUpRequest } from "@/types/auth";
-import { signUp } from "@/apis/auth/auth";
-import { useForm, RegisterOptions } from "react-hook-form";
-import { Input } from "@/components/common/Input";
+import Image from "next/image";
 import { IAuthFormData } from "@/types/auth";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { useForm, RegisterOptions } from "react-hook-form";
+import { useState } from "react";
+import { Input } from "@/components/common/Input";
 import { useLogin } from "@/hooks/auth";
 
-export default function Signup() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+export default function Signin() {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
   const { login } = useLogin();
-
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isValid },
   } = useForm<IAuthFormData>({
     defaultValues: {
-      name: "",
       email: "",
       password: "",
-      confirmPassword: "",
     },
     mode: "onChange",
   });
@@ -35,7 +28,6 @@ export default function Signup() {
   const registerOptions: Partial<
     Record<keyof IAuthFormData, RegisterOptions<IAuthFormData>>
   > = {
-    name: { required: { value: true, message: "이름을 입력해주세요" } },
     email: {
       required: { value: true, message: "이메일을 입력해주세요" },
       pattern: {
@@ -47,37 +39,13 @@ export default function Signup() {
       required: { value: true, message: "비밀번호를 입력해주세요" },
       minLength: { value: 8, message: "비밀번호는 최소 8자 이상이어야 합니다" },
     },
-    confirmPassword: {
-      required: { value: true, message: "비밀번호를 입력해주세요" },
-      validate: (value: string) =>
-        value === watch("password") || "비밀번호가 일치하지 않습니다",
-    },
   };
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleShowConfirmPassword = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
-
   const onSubmit = async (formData: IAuthFormData) => {
-    // 1. 회원가입 진행
-    const signUpData: ISignUpRequest = {
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-    };
-
-    try {
-      await signUp(signUpData);
-    } catch (error) {
-      alert("회원가입에 실패했습니다.");
-      console.error("회원가입 실패:", error);
-      return;
-    }
-
     await login({ email: formData.email, password: formData.password });
     router.push("/");
   };
@@ -99,15 +67,6 @@ export default function Signup() {
       >
         <div className="flex flex-col gap-6">
           <Input
-            label="이름"
-            type="text"
-            name="name"
-            placeholder="이름을 입력해주세요"
-            errors={errors.name?.message}
-            register={register}
-            registerOptions={registerOptions}
-          />
-          <Input
             label="이메일"
             type="email"
             name="email"
@@ -116,6 +75,7 @@ export default function Signup() {
             register={register}
             registerOptions={registerOptions}
           />
+
           <Input
             label="비밀번호"
             type="password"
@@ -126,17 +86,6 @@ export default function Signup() {
             registerOptions={registerOptions}
             showPassword={showPassword}
             onTogglePassword={handleShowPassword}
-          />
-          <Input
-            label="비밀번호 확인"
-            type="password"
-            name="confirmPassword"
-            placeholder="비밀번호를 입력해주세요"
-            errors={errors.confirmPassword?.message}
-            register={register}
-            registerOptions={registerOptions}
-            showPassword={showConfirmPassword}
-            onTogglePassword={handleShowConfirmPassword}
           />
         </div>
         <div className="flex flex-col items-center gap-10">
@@ -149,17 +98,17 @@ export default function Signup() {
                   : "bg-slate-400 text-white cursor-not-allowed"
               }`}
           >
-            회원가입하기
+            로그인하기
           </button>
           <div className="flex justify-center items-center gap-1">
             <span className="text-[15px] font-medium text-state-800">
-              이미 회원이신가요?
+              슬리드 투 두가 처음이신가요?
             </span>
             <Link
-              href="/auth/signin"
+              href="/auth/signup"
               className="text-[15px] text-blue-600 font-medium underline"
             >
-              로그인
+              회원가입
             </Link>
           </div>
         </div>
