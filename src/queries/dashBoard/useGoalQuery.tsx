@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getGoals, postGoal, getGoal } from "@/apis/dashBoard/goals";
 
-export const useGoalsQuery = () => {
+export const useGetGoalsQuery = () => {
   return useQuery({
     queryKey: ["goals"],
     queryFn: getGoals,
