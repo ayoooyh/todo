@@ -11,7 +11,7 @@ export default function User() {
   if (!data) return <div>사용자 정보가 없습니다.</div>;
 
   return (
-    <div className="flex flex-col justify-center gap-4 px-4 py-3 max-w-[280px]">
+    <div className="flex flex-col justify-center gap-4 px-4 pb-3">
       <div className="flex justify-between items-center gap-3">
         <Image
           src="/images/userDefaultImage.svg"
