@@ -18,8 +18,8 @@ export const postGoal = async (
   return response.data;
 };
 
-export const getGoal = async (goal_id: number): Promise<IGoalResponse> => {
-  const response = await axiosInstance.get(`/goals/${goal_id}`);
+export const getGoal = async (goalId: number): Promise<IGoalResponse> => {
+  const response = await axiosInstance.get(`/goals/${goalId}`);
   return response.data;
 };
 

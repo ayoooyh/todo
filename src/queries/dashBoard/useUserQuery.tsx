@@ -5,7 +5,7 @@ export const useUserQuery = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
-    staleTime: 60 * 1000,
+    staleTime: Infinity,
     refetchOnMount: true,
   });
 
