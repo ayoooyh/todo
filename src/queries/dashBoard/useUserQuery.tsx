@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUser } from "@/apis/dashBoard/user";
+import { getUsers } from "@/apis/dashBoard/users";
 
 export const useUserQuery = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["user"],
-    queryFn: getUser,
+    queryFn: getUsers,
     staleTime: 60 * 1000,
     refetchOnMount: true,
   });
