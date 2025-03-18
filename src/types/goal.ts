@@ -1,4 +1,4 @@
-export interface IGoal {
+export interface IGoals {
   next_cursor: null;
   total_count: number;
   goals: [
@@ -12,11 +12,11 @@ export interface IGoal {
   ];
 }
 
-export interface IPostGoalRequest {
+export interface IPostGoalsRequest {
   title: string;
 }
 
-export interface IPostGoalResponse {
+export interface IPostGoalsResponse {
   id: number;
   created_at: string;
   updated_at: string;
@@ -24,7 +24,7 @@ export interface IPostGoalResponse {
   user_id: number;
 }
 
-export interface IGetGoalIdResponse {
+export interface IGetGoalsByIdResponse {
   created_at: string;
   updated_at: string;
   user_id: number;
