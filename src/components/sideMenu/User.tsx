@@ -6,12 +6,26 @@ import { useUser } from "@/hooks/dashBoard/useUser";
 export default function User() {
   const { data, isLoading, error } = useUser();
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error) return <div>에러가 발생했습니다: {error.message}</div>;
-  if (!data) return <div>사용자 정보가 없습니다.</div>;
+  // TODO: 로딩 중 화면 렌더링 추가 필요
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center h-full">로딩 중...</div>
+    );
+  if (error)
+    return (
+      <div className="flex justify-center items-center h-full">
+        에러가 발생했습니다: {error.message}
+      </div>
+    );
+  if (!data)
+    return (
+      <div className="flex justify-center items-center h-full">
+        사용자 정보가 없습니다.
+      </div>
+    );
 
   return (
-    <div className="flex flex-col justify-center gap-4 px-4 pb-3">
+    <div className="flex flex-col justify-center gap-4 px-6">
       <div className="flex justify-between items-center gap-3">
         <Image
           src="/images/userDefaultImage.svg"

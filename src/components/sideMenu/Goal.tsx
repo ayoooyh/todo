@@ -13,7 +13,7 @@ export default function Goal() {
 
   const handleAddGoal = () => {
     postGoal({ title: newGoal });
-    // setIsAdding(false);
+    setIsAdding(false);
     setNewGoal("");
   };
 
@@ -29,9 +29,23 @@ export default function Goal() {
     setNewGoal("");
   };
 
-  if (isLoading || isPending) return <div>로딩 중...</div>;
-  if (error) return <div>에러가 발생했습니다: {error.message}</div>;
-  if (!data) return <div>데이터가 없습니다.</div>;
+  // TODO: 로딩 중 화면 렌더링 추가 필요
+  if (isLoading || isPending)
+    return (
+      <div className="flex justify-center items-center h-full">로딩 중...</div>
+    );
+  if (error)
+    return (
+      <div className="flex justify-center items-center h-full">
+        에러가 발생했습니다: {error.message}
+      </div>
+    );
+  if (!data)
+    return (
+      <div className="flex justify-center items-center h-full">
+        데이터가 없습니다.
+      </div>
+    );
 
   return (
     <div className="flex flex-col gap-4 px-6">

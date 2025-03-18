@@ -8,15 +8,16 @@ export default function SideMenu() {
   const [isFolded, setIsFolded] = useState(false);
 
   return (
+    // TODO: fold 시 에니메이션 효과 추후 추가 필요
     <div
-      className={`flex flex-col bg-white h-screen transition-all duration-300 ${
+      className={`flex flex-col bg-white transition-all duration-300 ${
         isFolded ? "w-[60px]" : "max-w-[280px]"
       }`}
     >
       <div
-        className={`flex ${
-          isFolded ? "flex-col gap-4" : "justify-between"
-        } items-center px-4 py-4`}
+        className={`flex items-center px-4 py-4 ${
+          isFolded ? "flex-col gap-4" : "justify-between w-full"
+        }`}
       >
         {isFolded ? (
           <Image
@@ -39,7 +40,7 @@ export default function SideMenu() {
       </div>
 
       {!isFolded && (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 ">
           <User />
           <div className="border-t border-slate-200" />
           <div className="flex justify-left items-center gap-2 px-6">
