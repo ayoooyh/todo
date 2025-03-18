@@ -16,7 +16,7 @@ export interface IPostGoalsRequest {
   title: string;
 }
 
-export interface IPostGoalsResponse {
+export interface IGoalResponse {
   id: number;
   created_at: string;
   updated_at: string;
@@ -24,7 +24,7 @@ export interface IPostGoalsResponse {
   user_id: number;
 }
 
-export interface IGetGoalsByIdResponse {
+export interface IGetGoalResponse {
   created_at: string;
   updated_at: string;
   user_id: number;

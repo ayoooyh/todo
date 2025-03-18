@@ -1,18 +1,18 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getGoals, postGoals, getGoalById } from "@/apis/dashBoard/goals";
+import { getGoals, postGoal, getGoal } from "@/apis/dashBoard/goals";
 
-export const useGoalsQuery = () => {
+export const useGoalQuery = () => {
   return useQuery({
     queryKey: ["goal"],
     queryFn: getGoals,
   });
 };
 
-export const usePostGoalsMutation = () => {
+export const usePostGoalMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: postGoals,
+    mutationFn: postGoal,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["goal"] });
     },
@@ -22,9 +22,9 @@ export const usePostGoalsMutation = () => {
   });
 };
 
-export const useGetGoalByIdQuery = (goal_id: number) => {
+export const useGetGoalQuery = (goal_id: number) => {
   return useQuery({
     queryKey: ["goal", goal_id],
-    queryFn: () => getGoalById(goal_id),
+    queryFn: () => getGoal(goal_id),
   });
 };

@@ -1,19 +1,19 @@
 "use client";
 
 import {
-  useGoalsQuery,
-  usePostGoalsMutation,
+  useGoalQuery,
+  usePostGoalMutation,
 } from "@/queries/dashBoard/useGoalQuery";
 import { useState } from "react";
 import Image from "next/image";
 
 export default function Goal() {
-  const { data, isLoading, error } = useGoalsQuery();
+  const { data, isLoading, error } = useGoalQuery();
   const [isAdding, setIsAdding] = useState(false);
   const [newGoal, setNewGoal] = useState("");
 
   //postGoal은 mutate 함수여서 mutateAsync를 사용해야 함
-  const { mutateAsync: postGoal, isPending } = usePostGoalsMutation();
+  const { mutateAsync: postGoal, isPending } = usePostGoalMutation();
 
   const handleAddGoal = async () => {
     try {
