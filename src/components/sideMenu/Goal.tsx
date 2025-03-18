@@ -1,15 +1,18 @@
 "use client";
 
-import { useGoal, usePostGoal } from "@/hooks/dashBoard/useGoal";
+import {
+  useGoalsQuery,
+  usePostGoalsMutation,
+} from "@/queries/dashBoard/useGoalQuery";
 import { useState } from "react";
 import Image from "next/image";
 
 export default function Goal() {
-  const { data, isLoading, error } = useGoal();
+  const { data, isLoading, error } = useGoalsQuery();
   const [isAdding, setIsAdding] = useState(false);
   const [newGoal, setNewGoal] = useState("");
 
-  const { mutate: postGoal, isPending } = usePostGoal();
+  const { mutate: postGoal, isPending } = usePostGoalsMutation();
 
   const handleAddGoal = () => {
     postGoal({ title: newGoal });

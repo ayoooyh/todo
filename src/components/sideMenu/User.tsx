@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useUser } from "@/hooks/dashBoard/useUser";
+import { useUserQuery } from "@/queries/dashBoard/useUserQuery";
 
 export default function User() {
-  const { data, isLoading, error } = useUser();
+  const { data, isLoading, error } = useUserQuery();
 
   // TODO: 로딩 중 화면 렌더링 추가 필요
   if (isLoading)
