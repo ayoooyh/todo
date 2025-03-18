@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import SideMenu from "@/components/SideMenu";
+import SideMenu from "@/components/sideMenu/SideMenu";
 
 const noSidebarRoutes = ["/auth/signin", "/auth/signup"];
 
