@@ -12,12 +12,18 @@ export default function Goal() {
   const [isAdding, setIsAdding] = useState(false);
   const [newGoal, setNewGoal] = useState("");
 
-  const { mutate: postGoal, isPending } = usePostGoalsMutation();
+  //postGoal은 mutate 함수여서 mutateAsync를 사용해야 함
+  const { mutateAsync: postGoal, isPending } = usePostGoalsMutation();
 
-  const handleAddGoal = () => {
-    postGoal({ title: newGoal });
-    setIsAdding(false);
-    setNewGoal("");
+  const handleAddGoal = async () => {
+    try {
+      await postGoal({ title: newGoal });
+      setIsAdding(false);
+      setNewGoal("");
+    } catch (error) {
+      console.error("목표 추가 실패:", error);
+      alert("목표를 추가하는데 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
