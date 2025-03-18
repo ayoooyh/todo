@@ -27,7 +27,9 @@ export default function Goal() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    // 한글 입력 시 Enter 이벤트가 두 번 발생하는 것 방지
+    // isComposing이 false일 때만 이벤트 처리
+    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
       e.preventDefault();
       handleAddGoal();
     }
