@@ -15,7 +15,7 @@ export default function SideMenu() {
       }`}
     >
       <div
-        className={`flex items-center px-4 py-4 ${
+        className={`flex items-center px-4 py-4 h-screen ${
           isFolded ? "flex-col gap-4" : "justify-between w-full"
         }`}
       >
