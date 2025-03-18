@@ -12,11 +12,6 @@ export default function User() {
 
   return (
     <div className="flex flex-col justify-center gap-4 px-4 py-3 max-w-[280px]">
-      <div className="flex justify-between items-center">
-        <Image src="/images/logo.svg" alt="logo" width={106} height={35} />
-        <Image src="/images/fold.svg" alt="fold" width={24} height={24} />
-      </div>
-
       <div className="flex justify-between items-center gap-3">
         <Image
           src="/images/userDefaultImage.svg"
