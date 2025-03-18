@@ -3,7 +3,7 @@ import {
   IGoals,
   IPostGoalsRequest,
   IGoalResponse,
-  IGetGoalResponse,
+  IPostGoalResponse,
 } from "@/types/goal";
 
 export const getGoals = async (): Promise<IGoals> => {
@@ -13,12 +13,12 @@ export const getGoals = async (): Promise<IGoals> => {
 
 export const postGoal = async (
   data: IPostGoalsRequest
-): Promise<IGoalResponse> => {
+): Promise<IPostGoalResponse> => {
   const response = await axiosInstance.post("/goals", data);
   return response.data;
 };
 
-export const getGoal = async (goal_id: number): Promise<IGetGoalResponse> => {
+export const getGoal = async (goal_id: number): Promise<IGoalResponse> => {
   const response = await axiosInstance.get(`/goals/${goal_id}`);
   return response.data;
 };
