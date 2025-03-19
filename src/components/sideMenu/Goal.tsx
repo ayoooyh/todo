@@ -1,0 +1,115 @@
+"use client";
+
+import {
+  useGetGoalsQuery,
+  usePostGoalMutation,
+} from "@/queries/dashBoard/useGoalQuery";
+import { useState } from "react";
+import Image from "next/image";
+
+export default function Goal() {
+  const { data, isLoading, error } = useGetGoalsQuery();
+  const [isAdding, setIsAdding] = useState(false);
+  const [newGoal, setNewGoal] = useState("");
+
+  //postGoal은 mutate 함수여서 mutateAsync를 사용해야 함
+  const { mutateAsync: postGoal, isPending } = usePostGoalMutation();
+
+  const handleAddGoal = async () => {
+    try {
+      await postGoal({ title: newGoal });
+      setIsAdding(false);
+      setNewGoal("");
+    } catch (error) {
+      console.error("목표 추가 실패:", error);
+      alert("목표를 추가하는데 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // 한글 입력 시 Enter 이벤트가 두 번 발생하는 것 방지
+    // isComposing이 false일 때만 이벤트 처리
+    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+      e.preventDefault();
+      handleAddGoal();
+    }
+  };
+
+  const onClickCancel = () => {
+    setIsAdding(false);
+    setNewGoal("");
+  };
+
+  // TODO: 로딩 중 화면 렌더링 추가 필요
+  if (isLoading || isPending)
+    return (
+      <div className="flex justify-center items-center h-full">로딩 중...</div>
+    );
+  if (error)
+    return (
+      <div className="flex justify-center items-center h-full">
+        에러가 발생했습니다: {error.message}
+      </div>
+    );
+  if (!data)
+    return (
+      <div className="flex justify-center items-center h-full">
+        데이터가 없습니다.
+      </div>
+    );
+
+  return (
+    <div className="flex flex-col gap-4 px-6">
+      <div className="flex justify-left items-center gap-2">
+        <Image src="/images/flag.svg" alt="goal" width={24} height={24} />
+        <span className="text-lg font-medium text-slate-800">목표</span>
+      </div>
+      <div className="flex flex-col">
+        {data.goals.map((goal) => (
+          <span
+            key={goal.id}
+            className="p-2 text-slate-700 font-medium text-sm"
+          >
+            <span className="pr-1 text-slate-700 font-medium text-sm">・</span>
+
+            {goal.title}
+          </span>
+        ))}
+      </div>
+
+      {isAdding ? (
+        <div className="relative w-full">
+          <input
+            type="text"
+            value={newGoal}
+            onChange={(e) => setNewGoal(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="w-full border border-blue-500 rounded-xl h-[50px] text-xs p-3"
+            placeholder="새로운 목표를 입력하세요"
+          />
+          <button
+            onClick={onClickCancel}
+            className="absolute right-3 top-1/2 -translate-y-1/2"
+          >
+            <Image src="/images/exit.svg" alt="exit" width={12} height={12} />
+          </button>
+        </div>
+      ) : (
+        <button
+          onClick={() => setIsAdding(true)}
+          className="bg-white border border-blue-500 py-3  rounded-xl w-full"
+        >
+          <div className="flex justify-center items-center gap-1 ">
+            <Image
+              src="/images/plus-blue.svg"
+              alt="plus"
+              width={24}
+              height={24}
+            />
+            <span className="text-base font-medium text-blue-500">새 목표</span>
+          </div>
+        </button>
+      )}
+    </div>
+  );
+}

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
+import { QueryProvider } from "@/providers/QueryProviders";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,7 +15,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <QueryProvider>{children}</QueryProvider>
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            style: {
+              fontSize: "14px",
+              padding: "14px",
+              maxWidth: "500px",
+              alignItems: "center",
+              justifyContent: "center",
+            },
+          }}
+        />
+      </body>
     </html>
   );
 }

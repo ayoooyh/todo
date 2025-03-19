@@ -48,13 +48,14 @@ export function Input<T extends FieldValues>({
 
   return (
     <div className="relative">
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-3">
         <label className="text-base font-medium text-state-800">{label}</label>
         <input
           {...register(name, registerOptions[name as Path<T>])}
           type={isPasswordField && showPassword ? "text" : type}
           placeholder={placeholder}
-          className={`flex py-3 px-6 bg-neutral-100 rounded-xl outline-none
+          className={`flex py-3 px-6 bg-slate-50  rounded-xl outline-none
+            placeholder:text-slate-400
             ${
               errors
                 ? "border-2 border-red-700"
@@ -68,7 +69,7 @@ export function Input<T extends FieldValues>({
 
       {isPasswordField && onTogglePassword && (
         <div
-          className="absolute right-6 top-[62px] cursor-pointer"
+          className="absolute right-4 top-[50px] cursor-pointer"
           onClick={onTogglePassword}
         >
           <Image
