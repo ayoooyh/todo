@@ -3,7 +3,7 @@ import { getTodos, getProgressTodo } from "@/apis/dashBoard/todos";
 import { ITodos, IProgressTodoResponse } from "@/types/todo";
 
 export const useGetTodosQuery = (props?: { goalId?: number }) => {
-  const { data, isLoading, error } = useQuery<ITodos>({
+  return useQuery<ITodos>({
     queryKey: ["todos", props?.goalId],
     queryFn: async () => {
       const response = await getTodos({
@@ -17,12 +17,6 @@ export const useGetTodosQuery = (props?: { goalId?: number }) => {
     refetchOnWindowFocus: false,
     retry: 1,
   });
-
-  return {
-    todos: data?.todos ?? [],
-    isLoading,
-    error,
-  };
 };
 
 export const useGetProgressTodoQuery = (goalId: number) => {
