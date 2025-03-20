@@ -1,4 +1,4 @@
-import { signIn } from "@/apis/auth/auth";
+import { signIn } from "@/apis/auth";
 import { setCookie } from "cookies-next";
 import { useCallback } from "react";
 

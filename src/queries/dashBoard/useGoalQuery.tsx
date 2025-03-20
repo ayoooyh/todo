@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getGoals, postGoal, getGoal } from "@/apis/dashBoard/goals";
+import { getGoals, postGoal, getGoal } from "@/apis/goals";
 
 export const useGetGoalsQuery = () => {
   return useQuery({

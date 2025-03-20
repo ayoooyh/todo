@@ -1,9 +1,9 @@
 import { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { postTodo } from "@/apis/dashBoard/todos";
+import { postTodo } from "@/apis/todos";
 import { ICreateTodo } from "@/types/todo";
 import GoalDropDown from "./GoalDropDown";
-import { uploadFile } from "@/apis/dashBoard/todos";
+import { uploadFile } from "@/apis/todos";
 import { Input } from "@/components/common/Input";
 import Image from "next/image";
 

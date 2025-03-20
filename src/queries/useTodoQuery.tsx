@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getTodos, getProgressTodo } from "@/apis/dashBoard/todos";
+import { getTodos, getProgressTodo } from "@/apis/todos";
 import { ITodos, IProgressTodoResponse } from "@/types/todo";
 
 export const useGetTodosQuery = (props?: { goalId?: number }) => {

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUser } from "@/apis/dashBoard/user";
+import { getUser } from "@/apis/user";
 
 export const useUserQuery = () => {
   const { data, isLoading, error } = useQuery({
