@@ -39,10 +39,12 @@ export function Input<T extends FieldValues>({
   registerOptions,
   showPassword,
   onTogglePassword,
+  className,
 }: IAuthInputProps<T> & {
   showPassword?: boolean;
   onTogglePassword?: () => void;
   isConfirmPasswordField?: boolean;
+  className?: string;
 }) {
   const isPasswordField = type === "password" || type === "text";
 
@@ -60,7 +62,7 @@ export function Input<T extends FieldValues>({
               errors
                 ? "border-2 border-red-700"
                 : "border-2 border-transparent focus:border-blue-500"
-            }`}
+            } ${className}`}
         />
         {errors && (
           <span className="text-sm font-normal text-red-700">{errors}</span>
