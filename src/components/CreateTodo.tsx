@@ -30,15 +30,6 @@ export default function MakeTodoModal({ onClose }: { onClose: () => void }) {
   );
   const [selectedGoalId, setSelectedGoalId] = useState<number | null>(null);
 
-  const handleClose = () => {
-    setIsCloseConfirmOpen(true);
-  };
-
-  const handleGoalSelect = (goalId: number | null) => {
-    setSelectedGoalId(goalId);
-    setValue("goalId", goalId);
-  };
-
   const onSubmit = useCallback(
     async (data: IMakeTodoForm) => {
       // TODO: Form 처리 올바르게 해서 리팩토링하기
@@ -86,7 +77,9 @@ export default function MakeTodoModal({ onClose }: { onClose: () => void }) {
         <div className="flex justify-between items-center mb-6">
           <span className="text-lg font-bold">할 일 생성</span>
           <button
-            onClick={handleClose}
+            onClick={() => {
+              setIsCloseConfirmOpen(true);
+            }}
             className="text-gray-500 hover:text-gray-700"
           >
             <Image src="/images/exit.svg" alt="exit" width={24} height={24} />
@@ -161,7 +154,10 @@ export default function MakeTodoModal({ onClose }: { onClose: () => void }) {
           </div>
           <span>목표</span>
           <GoalDropDown
-            onFilterChange={handleGoalSelect}
+            onFilterChange={(goalId: number | null) => {
+              setSelectedGoalId(goalId);
+              setValue("goalId", goalId);
+            }}
             value={selectedGoalId}
           />
           <div className="flex justify-end gap-4 mt-4">
