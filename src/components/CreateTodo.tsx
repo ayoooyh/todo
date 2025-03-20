@@ -67,9 +67,7 @@ export default function MakeTodoModal({ onClose }: { onClose: () => void }) {
   });
 
   const [isCloseConfirmOpen, setIsCloseConfirmOpen] = useState(false);
-  const [attachmentType, setAttachmentType] = useState<"file" | "link" | null>(
-    null
-  );
+  const [attachmentType, setAttachmentType] = useState<"file" | "link">("file");
   const [selectedGoalId, setSelectedGoalId] = useState<number | null>(null);
 
   const onSubmit = useCallback(
@@ -137,7 +135,10 @@ export default function MakeTodoModal({ onClose }: { onClose: () => void }) {
             errors={errors.title?.message}
             registerOptions={{
               title: {
-                required: "제목을 입력해주세요",
+                required: {
+                  value: true,
+                  message: "제목을 입력해주세요",
+                },
                 maxLength: {
                   value: 30,
                   message: "제목은 30자 이하로 입력해주세요",
@@ -179,7 +180,14 @@ export default function MakeTodoModal({ onClose }: { onClose: () => void }) {
                 name="fileUrl"
                 placeholder=""
                 register={register}
-                registerOptions={{ fileUrl: {} }}
+                registerOptions={{
+                  fileUrl: {
+                    required: {
+                      value: true,
+                      message: "파일을 첨부해주세요",
+                    },
+                  },
+                }}
                 className="text-sm text-slate-400 file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0  file:bg-slate-200 file:text-slate-800 hover:file:bg-slate-300"
               />
             )}
@@ -190,11 +198,19 @@ export default function MakeTodoModal({ onClose }: { onClose: () => void }) {
                 name="linkUrl"
                 placeholder="관련 링크를 입력하세요"
                 register={register}
-                registerOptions={{ linkUrl: {} }}
+                registerOptions={{
+                  linkUrl: {
+                    required: {
+                      value: true,
+                      message: "링크를 입력해주세요",
+                    },
+                  },
+                }}
               />
             )}
           </div>
           <span>목표</span>
+          {/* TODO: validation 기능 추가 */}
           <GoalDropDown
             onFilterChange={(goalId: number | null) => {
               setSelectedGoalId(goalId);
