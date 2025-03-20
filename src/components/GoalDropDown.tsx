@@ -26,6 +26,7 @@ export default function GoalDropDown({ onFilterChange, value }: DropDownProps) {
   return (
     <div className="relative">
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="bg-slate-50  w-full px-6 py-3 rounded-xl text-left flex justify-between items-center"
       >
