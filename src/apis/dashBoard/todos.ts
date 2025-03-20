@@ -7,14 +7,27 @@ import {
   IUploadFileResponse,
 } from "@/types/todo";
 
-export const getTodos = async (
-  goalId?: number,
-  size: number = 20
-): Promise<ITodos> => {
-  const url = goalId
-    ? `/todos?goalId=${goalId}&size=${size}`
-    : `/todos?size=${size}`;
-  const response = await axiosInstance.get(url);
+export const getTodos = async ({
+  goalId = undefined,
+  size = 20,
+  done = undefined,
+  cursor = undefined,
+  sortOrder = "newest",
+}: {
+  goalId?: number;
+  size?: number;
+  done?: boolean;
+  cursor?: string;
+  sortOrder?: "newest" | "oldest";
+}): Promise<ITodos> => {
+  const queryParams = new URLSearchParams();
+  if (goalId !== undefined) queryParams.set("goalId", goalId.toString());
+  if (size !== undefined) queryParams.set("size", size.toString());
+  if (done !== undefined) queryParams.set("done", JSON.stringify(done));
+  if (cursor !== undefined) queryParams.set("cursor", cursor);
+  if (sortOrder !== undefined) queryParams.set("sortOrder", sortOrder);
+
+  const response = await axiosInstance.get(`/todos?${queryParams.toString()}`);
   return response.data;
 };
 

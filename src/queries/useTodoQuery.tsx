@@ -6,7 +6,9 @@ export const useGetTodosQuery = (props?: { goalId?: number }) => {
   const { data, isLoading, error } = useQuery<ITodos>({
     queryKey: ["todos", props?.goalId],
     queryFn: async () => {
-      const response = await getTodos(props?.goalId);
+      const response = await getTodos({
+        goalId: props?.goalId,
+      });
       return response;
     },
     enabled: true,
