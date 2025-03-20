@@ -48,11 +48,6 @@ export default function MakeTodoModal({ onClose }: { onClose: () => void }) {
         const formData = new FormData();
         formData.append("file", file);
 
-        // FormData 내용 확인
-        for (const [key, value] of formData.entries()) {
-          console.log(key + ": " + value);
-        }
-
         const uploadResponse = await uploadFile(formData);
         fileUploadUrl = uploadResponse.url;
       }
