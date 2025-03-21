@@ -1,11 +1,10 @@
 import { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { postTodo } from "@/apis/todos";
 import { ICreateTodo } from "@/types/todo";
 import GoalDropDown from "./GoalDropDown";
-import { uploadFile } from "@/apis/todos";
 import { Input } from "@/components/common/Input";
 import Image from "next/image";
+import { useCreateTodoMutation } from "@/queries/useTodoQuery";
 
 interface IMakeTodoForm {
   title: string;
@@ -66,13 +65,13 @@ export default function MakeTodoModal({ onClose }: { onClose: () => void }) {
     mode: "onChange",
   });
 
+  const createTodoMutation = useCreateTodoMutation();
   const [isCloseConfirmOpen, setIsCloseConfirmOpen] = useState(false);
   const [attachmentType, setAttachmentType] = useState<"file" | "link">("file");
   const [selectedGoalId, setSelectedGoalId] = useState<number | null>(null);
 
   const onSubmit = useCallback(
     async (data: IMakeTodoForm) => {
-      // TODO: Form 처리 올바르게 해서 리팩토링하기
       const todoData: ICreateTodo = {
         title: data.title,
         goalId: data.goalId ? Number(data.goalId) : null,
@@ -82,33 +81,19 @@ export default function MakeTodoModal({ onClose }: { onClose: () => void }) {
 
       if (attachmentType === "link") {
         todoData.linkUrl = data.linkUrl;
-      } else {
-        if (attachmentType !== "file" || !data.fileUrl?.length) {
-          console.error("fileUrl is required");
-          return;
-        }
-
-        const formData = new FormData();
-        formData.append("file", data.fileUrl[0]);
-        try {
-          const uploadResponse = await uploadFile(formData);
-          todoData.fileUrl = uploadResponse.url;
-        } catch (error) {
-          console.error(error);
-          return;
-        }
       }
 
       try {
-        await postTodo(todoData);
-        // TODO: 제거하고 캐시 초기화 하기
-        window.location.reload();
+        await createTodoMutation.mutateAsync({
+          todoData,
+          file: attachmentType === "file" ? data.fileUrl?.[0] : undefined,
+        });
         onClose();
       } catch (error) {
         console.error(error);
       }
     },
-    [attachmentType, onClose]
+    [attachmentType, onClose, createTodoMutation]
   );
 
   return (
