@@ -1,13 +1,21 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getGoals, postGoal, getGoal } from "@/apis/goals";
-
-export const useGetGoalsQuery = () => {
-  return useQuery({
-    queryKey: ["goals"],
-    queryFn: getGoals,
-    staleTime: Infinity,
-    refetchOnMount: true,
+import { IGoals } from "@/types/goal";
+export const useGetGoalsQuery = ({
+  cursor = undefined,
+  size = 20,
+  sortOrder = "newest",
+}: {
+  cursor?: string;
+  size?: number;
+  sortOrder?: "newest" | "oldest";
+}) => {
+  return useQuery<IGoals>({
+    queryKey: ["goals", cursor, size, sortOrder],
+    queryFn: () =>
+      getGoals({ cursor: cursor, size: size, sortOrder: sortOrder }),
     enabled: true,
+    retry: 1,
   });
 };
 

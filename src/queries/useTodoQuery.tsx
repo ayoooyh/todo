@@ -28,9 +28,6 @@ export const useGetTodosQuery = ({
       return response;
     },
     enabled: true,
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
     retry: 1,
   });
 };

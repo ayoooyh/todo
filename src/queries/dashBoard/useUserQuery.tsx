@@ -1,13 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "@/apis/user";
+import { IUser } from "@/types/user";
 
 export const useUserQuery = () => {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error } = useQuery<IUser>({
     queryKey: ["user"],
     queryFn: getUser,
     staleTime: Infinity,
-    refetchOnMount: true,
-    enabled: true,
   });
 
   return { data, isLoading, error };
