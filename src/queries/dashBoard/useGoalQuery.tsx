@@ -5,6 +5,9 @@ export const useGetGoalsQuery = () => {
   return useQuery({
     queryKey: ["goals"],
     queryFn: getGoals,
+    staleTime: Infinity,
+    refetchOnMount: true,
+    enabled: true,
   });
 };
 
@@ -26,5 +29,8 @@ export const useGetGoalQuery = (goalId: number) => {
   return useQuery({
     queryKey: ["goal", goalId],
     queryFn: () => getGoal(goalId),
+    staleTime: Infinity,
+    refetchOnMount: true,
+    enabled: true,
   });
 };

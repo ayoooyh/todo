@@ -7,6 +7,7 @@ export const useUserQuery = () => {
     queryFn: getUser,
     staleTime: Infinity,
     refetchOnMount: true,
+    enabled: true,
   });
 
   return { data, isLoading, error };
