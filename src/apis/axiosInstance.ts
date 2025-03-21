@@ -37,20 +37,25 @@ axiosInstance.interceptors.response.use(
     ) {
       const refreshToken = getCookie(TokenTypes.REFRESH_TOKEN);
       if (!refreshToken) {
+        console.log("refreshToken 없음");
         return Promise.reject(error);
       }
       deleteCookie(TokenTypes.ACCESS_TOKEN);
       deleteCookie(TokenTypes.REFRESH_TOKEN);
-
-      const refreshResponse = await axiosInstance.post(
-        "/auth/tokens",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
-        }
-      );
+      let refreshResponse;
+      try {
+        refreshResponse = await axiosInstance.post(
+          "/auth/tokens",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${refreshToken}`,
+            },
+          }
+        );
+      } catch (error) {
+        return Promise.reject(error);
+      }
       if (
         refreshResponse.data.access_token &&
         refreshResponse.data.refresh_token
