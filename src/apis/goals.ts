@@ -6,8 +6,21 @@ import {
   IPostGoalResponse,
 } from "@/types/goal";
 
-export const getGoals = async (): Promise<IGoals> => {
-  const response = await axiosInstance.get("/goals");
+export const getGoals = async ({
+  cursor = undefined,
+  size = 20,
+  sortOrder = "newest",
+}: {
+  cursor?: string;
+  size?: number;
+  sortOrder?: "newest" | "oldest";
+}): Promise<IGoals> => {
+  const queryParams = new URLSearchParams();
+  if (cursor !== undefined) queryParams.set("cursor", cursor);
+  if (size !== undefined) queryParams.set("size", size.toString());
+  if (sortOrder !== undefined) queryParams.set("sortOrder", sortOrder);
+
+  const response = await axiosInstance.get(`/goals?${queryParams.toString()}`);
   return response.data;
 };
 
