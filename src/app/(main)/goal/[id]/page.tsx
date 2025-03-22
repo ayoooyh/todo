@@ -1,11 +1,9 @@
 "use client";
 
-import TodoByGoalPage from "@/components/TodoByGoal";
+import TodoByGoal from "@/components/TodoByGoal";
 import Image from "next/image";
 import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
-// import { useGetTodosQuery } from "@/queries/useTodoQuery";
 import { useGetProgressTodoQuery } from "@/queries/useTodoQuery";
-// import { useState } from "react";
 import { useGoalId } from "@/hooks/useGoalId";
 
 export default function GoalPage() {
@@ -15,13 +13,13 @@ export default function GoalPage() {
     data: goalData,
     isLoading: goalLoading,
     error: goalError,
-  } = useGetGoalQuery(goalId ?? 0);
+  } = useGetGoalQuery({ goalId });
 
   const {
     data: progressData,
     isLoading: progressLoading,
     error: progressError,
-  } = useGetProgressTodoQuery(goalId ?? 0);
+  } = useGetProgressTodoQuery({ goalId });
 
   if (!goalId) {
     return <div>유효하지 않은 목표 입니다.</div>;
@@ -96,7 +94,7 @@ export default function GoalPage() {
           />
         </div>
 
-        <TodoByGoalPage />
+        <TodoByGoal />
       </div>
     </div>
   );

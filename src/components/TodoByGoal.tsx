@@ -7,14 +7,14 @@ import { useState } from "react";
 import { useUpdateTodoMutation } from "@/queries/useTodoQuery";
 import { useGoalId } from "@/hooks/useGoalId";
 
-export default function TodoByGoalPage() {
+export default function TodoByGoal() {
   const goalId = useGoalId();
 
   const {
     data: todos,
     isLoading: todosLoading,
     error: todosError,
-  } = useGetTodosQuery({ goalId: goalId ?? 0 });
+  } = useGetTodosQuery({ goalId });
 
   const { mutate: updateTodo } = useUpdateTodoMutation();
 
@@ -126,7 +126,14 @@ export default function TodoByGoalPage() {
                         type="checkbox"
                         checked={todo.done}
                         onChange={() =>
-                          updateTodo({ todoId: todo.id, done: !todo.done })
+                          updateTodo({
+                            todoId: todo.id,
+                            title: todo.title,
+                            done: !todo.done,
+                            fileUrl: todo.file_url,
+                            linkUrl: todo.link_url,
+                            goalId: goalId as number,
+                          })
                         }
                         className="cursor-pointer"
                       />
@@ -168,7 +175,11 @@ export default function TodoByGoalPage() {
                             onChange={() =>
                               updateTodo({
                                 todoId: todo.id,
+                                title: todo.title,
                                 done: !todo.done,
+                                fileUrl: todo.file_url,
+                                linkUrl: todo.link_url,
+                                goalId: goalId as number,
                               })
                             }
                             className="cursor-pointer"
