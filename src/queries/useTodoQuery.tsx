@@ -47,8 +47,6 @@ export const useGetProgressTodoQuery = ({ goalId }: { goalId: number }) => {
   return useQuery<IProgressTodoResponse>({
     queryKey: ["progress", goalId],
     queryFn: () => getProgressTodo(goalId),
-    // 바로 데이터를 불러오는 것처럼 보이게 하기 위해
-    refetchInterval: 100,
   });
 };
 
@@ -93,6 +91,7 @@ export const useUpdateTodoMutation = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
+      queryClient.invalidateQueries({ queryKey: ["progress"] });
     },
   });
 };
