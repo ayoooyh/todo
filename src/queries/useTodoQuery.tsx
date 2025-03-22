@@ -14,7 +14,7 @@ export const useGetTodosQuery = ({
   done?: boolean;
   cursor?: string;
   sortOrder?: "newest" | "oldest";
-}) => {
+} = {}) => {
   return useQuery<ITodos>({
     queryKey: ["todos", goalId, size, done, cursor, sortOrder],
     queryFn: async () => {
@@ -60,6 +60,32 @@ export const useCreateTodoMutation = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
+};
+
+export const useUpdateTodoMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ todoId, done }: { todoId: number; done: boolean }) => {
+      const queryKey = ["todos"];
+      const queries = queryClient.getQueriesData<ITodos>({ queryKey });
+
+      queries.forEach(([key, currentData]) => {
+        if (!currentData?.todos) return;
+
+        const updatedTodos = {
+          ...currentData,
+          todos: currentData.todos.map((todo) =>
+            todo.id === todoId ? { ...todo, done } : todo
+          ),
+        };
+
+        queryClient.setQueryData(key, updatedTodos);
+      });
+
+      return { success: true };
     },
   });
 };
