@@ -33,20 +33,10 @@ export const useGetTodosQuery = ({
 };
 
 export const useGetProgressTodoQuery = (goalId: number) => {
-  const {
-    data: progressData,
-    isLoading: progressLoading,
-    error: progressError,
-  } = useQuery<IProgressTodoResponse>({
+  return useQuery<IProgressTodoResponse>({
     queryKey: ["progress", goalId],
     queryFn: () => getProgressTodo(goalId),
   });
-
-  return {
-    progressData,
-    progressLoading,
-    progressError,
-  };
 };
 
 export const useCreateTodoMutation = () => {
