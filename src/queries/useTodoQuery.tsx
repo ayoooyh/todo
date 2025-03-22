@@ -1,6 +1,17 @@
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { getTodos, getProgressTodo, postTodo, uploadFile } from "@/apis/todos";
-import { ITodos, IProgressTodoResponse, ICreateTodo } from "@/types/todo";
+import {
+  getTodos,
+  getProgressTodo,
+  postTodo,
+  uploadFile,
+  editTodo,
+} from "@/apis/todos";
+import {
+  ITodos,
+  IProgressTodoResponse,
+  ICreateTodo,
+  IUpdateTodo,
+} from "@/types/todo";
 
 export const useGetTodosQuery = ({
   goalId = undefined,
@@ -32,10 +43,12 @@ export const useGetTodosQuery = ({
   });
 };
 
-export const useGetProgressTodoQuery = (goalId: number) => {
+export const useGetProgressTodoQuery = ({ goalId }: { goalId: number }) => {
   return useQuery<IProgressTodoResponse>({
     queryKey: ["progress", goalId],
     queryFn: () => getProgressTodo(goalId),
+    // 바로 데이터를 불러오는 것처럼 보이게 하기 위해
+    refetchInterval: 100,
   });
 };
 
@@ -68,24 +81,18 @@ export const useUpdateTodoMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ todoId, done }: { todoId: number; done: boolean }) => {
-      const queryKey = ["todos"];
-      const queries = queryClient.getQueriesData<ITodos>({ queryKey });
-
-      queries.forEach(([key, currentData]) => {
-        if (!currentData?.todos) return;
-
-        const updatedTodos = {
-          ...currentData,
-          todos: currentData.todos.map((todo) =>
-            todo.id === todoId ? { ...todo, done } : todo
-          ),
-        };
-
-        queryClient.setQueryData(key, updatedTodos);
-      });
-
-      return { success: true };
+    mutationFn: async ({
+      todoId,
+      title,
+      done,
+      fileUrl,
+      linkUrl,
+      goalId,
+    }: IUpdateTodo & { todoId: number }) => {
+      return await editTodo(todoId, { title, done, fileUrl, linkUrl, goalId });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
   });
 };
