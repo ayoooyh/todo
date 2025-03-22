@@ -1,5 +1,6 @@
 import axios from "axios";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
+import { TokenTypes } from "@/types/token";
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -11,7 +12,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     if (typeof window !== "undefined") {
-      const token = getCookie("access_token");
+      const token = getCookie(TokenTypes.ACCESS_TOKEN);
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -30,36 +31,45 @@ axiosInstance.interceptors.response.use(
       error.response?.status === 401 &&
       error.response?.data.detail === "Token has expired"
     ) {
-      const refreshToken = getCookie("refresh_token");
+      const refreshToken = getCookie(TokenTypes.REFRESH_TOKEN);
       if (!refreshToken) {
+        console.log("refreshToken 없음");
         return Promise.reject(error);
       }
-      deleteCookie("access_token");
-      deleteCookie("refresh_token");
-
-      const refreshResponse = await axiosInstance.post(
-        "/auth/tokens",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
-        }
-      );
+      deleteCookie(TokenTypes.ACCESS_TOKEN);
+      deleteCookie(TokenTypes.REFRESH_TOKEN);
+      let refreshResponse;
+      try {
+        refreshResponse = await axiosInstance.post(
+          "/auth/tokens",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${refreshToken}`,
+            },
+          }
+        );
+      } catch (error) {
+        return Promise.reject(error);
+      }
       if (
         refreshResponse.data.access_token &&
         refreshResponse.data.refresh_token
       ) {
-        setCookie("accessToken", refreshResponse.data.access_token, {
+        setCookie(TokenTypes.ACCESS_TOKEN, refreshResponse.data.access_token, {
           path: "/",
         });
-        setCookie("refreshToken", refreshResponse.data.refresh_token, {
-          path: "/",
-        });
+        setCookie(
+          TokenTypes.REFRESH_TOKEN,
+          refreshResponse.data.refresh_token,
+          {
+            path: "/",
+          }
+        );
         return axiosInstance(error.config);
       } else {
-        deleteCookie("access_token");
-        deleteCookie("refresh_token");
+        deleteCookie(TokenTypes.ACCESS_TOKEN);
+        deleteCookie(TokenTypes.REFRESH_TOKEN);
       }
     }
     return Promise.reject(error);

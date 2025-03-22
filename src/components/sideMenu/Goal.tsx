@@ -8,7 +8,11 @@ import { useState } from "react";
 import Image from "next/image";
 
 export default function Goal() {
-  const { data, isLoading, error } = useGetGoalsQuery();
+  const { data, isLoading, error } = useGetGoalsQuery({
+    cursor: undefined,
+    size: 20,
+    sortOrder: "newest",
+  });
   const [isAdding, setIsAdding] = useState(false);
   const [newGoal, setNewGoal] = useState("");
 

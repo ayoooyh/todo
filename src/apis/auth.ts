@@ -1,4 +1,4 @@
-import axiosInstance from "../axiosInstance";
+import axiosInstance from "./axiosInstance";
 import { ISignUpRequest, ISignInRequest, ISignInResponse } from "@/types/auth";
 
 export const signUp = async (data: ISignUpRequest) => {

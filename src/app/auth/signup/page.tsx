@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ISignUpRequest } from "@/types/auth";
-import { signUp } from "@/apis/auth/auth";
+import { signUp } from "@/apis/auth";
 import { useForm, RegisterOptions } from "react-hook-form";
 import { Input } from "@/components/common/Input";
 import { IAuthFormData } from "@/types/auth";

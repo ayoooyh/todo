@@ -2,9 +2,24 @@
 
 import Image from "next/image";
 import { useUserQuery } from "@/queries/dashBoard/useUserQuery";
+import { useState } from "react";
+import MakeTodoModal from "../CreateTodo";
 
 export default function User() {
   const { data, isLoading, error } = useUserQuery();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    if (isModalOpen) {
+      setIsModalOpen(false);
+    } else {
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
 
   // TODO: 로딩 중 화면 렌더링 추가 필요
   if (isLoading)
@@ -46,13 +61,16 @@ export default function User() {
           <div className="text-xs font-normal text-slate-400">로그아웃</div>
         </div>
       </div>
-      {/* TODO: 할일생성 구현 시 버튼 클릭 시 모달 추가 */}
-      <button className="flex justify-center items-center gap-1 bg-blue-500 py-3 rounded-xl">
+      <button
+        className="flex justify-center items-center gap-1 bg-blue-500 py-3 rounded-xl"
+        onClick={handleModalOpen}
+      >
         <Image src="/images/plus.svg" alt="plus" width={24} height={24} />
         <span className="font-medium text-base text-white text-center tracking-[0%]">
           새 할 일
         </span>
       </button>
+      {isModalOpen && <MakeTodoModal onClose={handleModalClose} />}
     </div>
   );
 }

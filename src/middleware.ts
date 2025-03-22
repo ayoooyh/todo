@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { TokenTypes } from "@/types/token";
 
 export function middleware(request: NextRequest) {
-  const accessToken = request.cookies.get("access_token");
-  const refreshToken = request.cookies.get("refresh_token");
+  const accessToken = request.cookies.get(TokenTypes.ACCESS_TOKEN);
+  const refreshToken = request.cookies.get(TokenTypes.REFRESH_TOKEN);
 
   const protectedRoutes = ["/"];
   const isProtectedRoute = protectedRoutes.includes(request.nextUrl.pathname);

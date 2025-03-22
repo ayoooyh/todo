@@ -1,10 +1,31 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getGoals, postGoal, getGoal } from "@/apis/dashBoard/goals";
+import { getGoals, postGoal, getGoal } from "@/apis/goals";
+import { IGoals } from "@/types/goal";
 
-export const useGetGoalsQuery = () => {
-  return useQuery({
-    queryKey: ["goals"],
-    queryFn: getGoals,
+export const useGetGoalsQuery = (
+  {
+    cursor = undefined,
+    size = 20,
+    sortOrder = "newest",
+  }: {
+    cursor?: string;
+    size?: number;
+    sortOrder?: "newest" | "oldest";
+  } = {}
+  // = {} : 파라미터 없이도 호출 가능하도록 빈 객체를 기본값으로 설정
+) => {
+  return useQuery<IGoals>({
+    queryKey: ["goals", cursor, size, sortOrder],
+    queryFn: async () => {
+      const response = await getGoals({
+        cursor,
+        size,
+        sortOrder,
+      });
+      return response;
+    },
+    enabled: true,
+    retry: 1,
   });
 };
 
@@ -26,5 +47,8 @@ export const useGetGoalQuery = (goalId: number) => {
   return useQuery({
     queryKey: ["goal", goalId],
     queryFn: () => getGoal(goalId),
+    staleTime: Infinity,
+    refetchOnMount: true,
+    enabled: true,
   });
 };
