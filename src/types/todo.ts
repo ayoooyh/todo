@@ -52,3 +52,11 @@ export interface ICreateTodoResponse {
 export interface IUploadFileResponse {
   url: string;
 }
+
+export interface IUpdateTodo {
+  title: string;
+  done: boolean;
+  fileUrl: string;
+  linkUrl: string;
+  goalId: number;
+}

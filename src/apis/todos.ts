@@ -5,6 +5,7 @@ import {
   ICreateTodo,
   ICreateTodoResponse,
   IUploadFileResponse,
+  IUpdateTodo,
 } from "@/types/todo";
 
 export const getTodos = async ({
@@ -53,5 +54,13 @@ export const uploadFile = async (
       "Content-Type": "multipart/form-data",
     },
   });
+  return response.data;
+};
+
+export const editTodo = async (
+  todoId: number,
+  data: IUpdateTodo
+): Promise<IUpdateTodo> => {
+  const response = await axiosInstance.patch(`/todos/${todoId}`, data);
   return response.data;
 };
