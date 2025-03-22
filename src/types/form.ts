@@ -14,3 +14,10 @@ export interface IAuthInputProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   registerOptions: Partial<Record<Path<T>, RHFRegisterOptions<T>>>;
 }
+
+export interface IMakeTodoForm {
+  title: string;
+  fileUrl: FileList | null;
+  linkUrl: string | null;
+  goalId: number | null;
+}

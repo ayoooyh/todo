@@ -5,13 +5,7 @@ import GoalDropDown from "./GoalDropDown";
 import { Input } from "@/components/common/Input";
 import Image from "next/image";
 import { useCreateTodoMutation } from "@/queries/useTodoQuery";
-
-interface IMakeTodoForm {
-  title: string;
-  fileUrl: FileList | null;
-  linkUrl: string | null;
-  goalId: number | null;
-}
+import { IMakeTodoForm } from "@/types/form";
 
 const ConformModal = ({
   setIsCloseConfirmOpen,
@@ -195,13 +189,17 @@ export default function MakeTodoModal({ onClose }: { onClose: () => void }) {
             )}
           </div>
           <span>목표</span>
-          {/* TODO: validation 기능 추가 */}
           <GoalDropDown
             onFilterChange={(goalId: number | null) => {
               setSelectedGoalId(goalId);
-              setValue("goalId", goalId);
+              setValue("goalId", goalId, {
+                shouldValidate: true,
+              });
             }}
             value={selectedGoalId}
+            register={register}
+            name="goalId"
+            error={errors.goalId?.message}
           />
           <div className="flex justify-end gap-4 mt-4">
             <button
