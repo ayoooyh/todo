@@ -1,5 +1,6 @@
 import axios from "axios";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
+import { TokenTypes } from "@/types/token";
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -7,11 +8,6 @@ const axiosInstance = axios.create({
     "Content-Type": "application/json",
   },
 });
-
-enum TokenTypes {
-  ACCESS_TOKEN = "access_token",
-  REFRESH_TOKEN = "refresh_token",
-}
 
 axiosInstance.interceptors.request.use(
   (config) => {

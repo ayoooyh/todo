@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-
-enum TokenTypes {
-  ACCESS_TOKEN = "access_token",
-  REFRESH_TOKEN = "refresh_token",
-}
+import { TokenTypes } from "@/types/token";
 
 export function middleware(request: NextRequest) {
   const accessToken = request.cookies.get(TokenTypes.ACCESS_TOKEN);
