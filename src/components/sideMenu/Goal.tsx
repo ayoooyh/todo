@@ -6,7 +6,7 @@ import {
 } from "@/queries/dashBoard/useGoalQuery";
 import { useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Goal() {
   const { data, isLoading, error } = useGetGoalsQuery({
@@ -16,7 +16,6 @@ export default function Goal() {
   });
   const [isAdding, setIsAdding] = useState(false);
   const [newGoal, setNewGoal] = useState("");
-  const router = useRouter();
 
   //postGoal은 mutate 함수여서 mutateAsync를 사용해야 함
   const { mutateAsync: postGoal, isPending } = usePostGoalMutation();
@@ -44,10 +43,6 @@ export default function Goal() {
   const onClickCancel = () => {
     setIsAdding(false);
     setNewGoal("");
-  };
-
-  const handleOnClickGoal = (goalId: number) => {
-    router.push(`/goal/${goalId}`);
   };
 
   // TODO: 로딩 중 화면 렌더링 추가 필요
@@ -81,12 +76,7 @@ export default function Goal() {
             className="p-2 text-slate-700 font-medium text-sm"
           >
             <span className="pr-1 text-slate-700 font-medium text-sm">・</span>
-            <button
-              onClick={() => handleOnClickGoal(goal.id)}
-              className="cursor-pointer"
-            >
-              {goal.title}
-            </button>
+            <Link href={`/goal/${goal.id}`}>{goal.title}</Link>
           </span>
         ))}
       </div>
