@@ -1,6 +1,6 @@
 "use client";
 
-import TodoByGoal from "@/components/TodoByGoal";
+import TodoByGoal from "./components/TodoByGoal";
 import Image from "next/image";
 import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
 import { useGetProgressTodoQuery } from "@/queries/useTodoQuery";
