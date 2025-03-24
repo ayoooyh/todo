@@ -1,11 +1,11 @@
 "use client";
 
-import { useGetTodosQuery } from "@/queries/useTodoQuery";
+import CreateTodo from "@/components/CreateTodo";
 import Image from "next/image";
-import CreateTodo from "./CreateTodo";
+import { useGetTodosQuery } from "@/queries/useTodoQuery";
+import { useGoalId } from "@/hooks/useGoalId";
 import { useState } from "react";
 import { useUpdateTodoMutation } from "@/queries/useTodoQuery";
-import { useGoalId } from "@/hooks/useGoalId";
 
 export default function TodoByGoal() {
   const goalId = useGoalId();
