@@ -1,17 +1,19 @@
 export interface ITodos {
   next_cursor: null;
   total_count: number;
-  todos: {
-    id: number;
-    title: string;
-    link_url: string;
-    user_id: number;
-    created_at: string;
-    updated_at: string;
-    done: boolean;
-    file_url: string;
-    goal_id: number;
-  }[];
+  todos: ITodo[];
+}
+
+export interface ITodo {
+  id: number;
+  title: string;
+  link_url: string;
+  user_id: number;
+  created_at: string;
+  updated_at: string;
+  done: boolean;
+  file_url: string;
+  goal_id: number;
 }
 
 export interface ICreateTodo {
