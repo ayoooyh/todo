@@ -21,11 +21,11 @@ export default function MainLayout({
         </div>
       )}
       <div
-        className={`flex-1 w-full bg-neutral-100 ${
+        className={`flex-1 w-full bg-neutral-100 flex-col gap-3 py-6 px-20 ${
           showSidebar ? "pl-[180px]" : ""
         }`}
       >
-        {children}
+        <div className="max-w-[1200px] mx-auto">{children}</div>
       </div>
     </div>
   );
