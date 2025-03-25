@@ -1,4 +1,9 @@
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import {
+  useSuspenseQuery,
+  useQuery,
+  useQueryClient,
+  useMutation,
+} from "@tanstack/react-query";
 import {
   getTodos,
   getProgressTodo,
@@ -26,7 +31,7 @@ export const useGetTodosQuery = ({
   cursor?: string;
   sortOrder?: "newest" | "oldest";
 } = {}) => {
-  return useQuery<ITodos>({
+  return useSuspenseQuery<ITodos>({
     queryKey: ["todos", goalId, size, done, cursor, sortOrder],
     queryFn: async () => {
       const response = await getTodos({
@@ -38,7 +43,6 @@ export const useGetTodosQuery = ({
       });
       return response;
     },
-    enabled: true,
     retry: 1,
   });
 };
