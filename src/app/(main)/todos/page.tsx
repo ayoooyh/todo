@@ -6,13 +6,13 @@ import { useState } from "react";
 import CreateTodo from "@/components/CreateTodo";
 import { useUpdateTodoMutation } from "@/queries/useTodoQuery";
 
-const TodoFilter = () => {
-  const [selectedFilter, setSelectedFilter] = useState("All");
-
-  const handleFilterClick = (filter: string) => {
-    setSelectedFilter(filter);
-  };
-
+const TodoFilter = ({
+  selectedFilter,
+  onFilterChange,
+}: {
+  selectedFilter: string;
+  onFilterChange: (filter: string) => void;
+}) => {
   return (
     <div className="flex items-center gap-2.5">
       <button
@@ -21,7 +21,7 @@ const TodoFilter = () => {
             ? "text-white bg-blue-500 border-blue-500 "
             : "text-slate-800 bg-white border-slate-200"
         }`}
-        onClick={() => handleFilterClick("All")}
+        onClick={() => onFilterChange("All")}
       >
         All
       </button>
@@ -31,7 +31,7 @@ const TodoFilter = () => {
             ? "text-white bg-blue-500 border-blue-500"
             : "text-slate-800 bg-white border-slate-200"
         }`}
-        onClick={() => handleFilterClick("To do")}
+        onClick={() => onFilterChange("To do")}
       >
         To do
       </button>
@@ -41,7 +41,7 @@ const TodoFilter = () => {
             ? "text-white bg-blue-500 border-blue-500"
             : "text-slate-800 bg-white border-slate-200"
         }`}
-        onClick={() => handleFilterClick("Done")}
+        onClick={() => onFilterChange("Done")}
       >
         Done
       </button>
@@ -51,6 +51,7 @@ const TodoFilter = () => {
 
 export default function TodosPage() {
   const { mutate: updateTodo } = useUpdateTodoMutation();
+  const [selectedFilter, setSelectedFilter] = useState("All");
 
   const { data, isLoading } = useGetTodosQuery({
     size: 40,
@@ -70,6 +71,13 @@ export default function TodosPage() {
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
+
+  const filteredTodos = data?.todos.filter((todo) => {
+    if (selectedFilter === "All") return true;
+    if (selectedFilter === "To do") return !todo.done;
+    if (selectedFilter === "Done") return todo.done;
+    return true;
+  });
 
   return (
     <div className="flex flex-col gap-3 py-6 px-20 max-w-[1200px] mx-auto">
@@ -92,31 +100,41 @@ export default function TodosPage() {
         </button>
         {isModalOpen && <CreateTodo onClose={handleModalClose} />}
       </div>
-      <div className="flex flex-col gap-2.5 bg-white border border-slate-100 rounded-xl p-6">
-        <TodoFilter />
-        {data?.todos.map((todo) => (
-          <div
-            key={todo.id}
-            className="flex items-center gap-2 text-slate-800 text-sm font-normal"
-          >
-            <input
-              type="checkbox"
-              checked={todo.done}
-              onChange={() =>
-                updateTodo({
-                  todoId: todo.id,
-                  title: todo.title,
-                  done: !todo.done,
-                  fileUrl: todo.file_url,
-                  linkUrl: todo.link_url,
-                  goalId: todo.goal_id,
-                })
-              }
-              className="cursor-pointer"
-            />
-            {todo.title}
-          </div>
-        ))}
+
+      <div className="flex flex-col gap-4 bg-white border border-slate-100 rounded-xl p-6">
+        <TodoFilter
+          selectedFilter={selectedFilter}
+          onFilterChange={setSelectedFilter}
+        />
+        <div className="flex flex-col gap-2">
+          {filteredTodos?.map((todo) => (
+            <div
+              key={todo.id}
+              className="flex items-center gap-2 text-slate-800 text-sm font-normal"
+            >
+              <input
+                type="checkbox"
+                checked={todo.done}
+                onChange={() =>
+                  updateTodo({
+                    todoId: todo.id,
+                    title: todo.title,
+                    done: !todo.done,
+                    fileUrl: todo.file_url,
+                    linkUrl: todo.link_url,
+                    goalId: todo.goal_id,
+                  })
+                }
+                className="cursor-pointer"
+              />
+              {todo.done ? (
+                <span className="line-through">{todo.title}</span>
+              ) : (
+                <span>{todo.title}</span>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
