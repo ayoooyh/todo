@@ -63,7 +63,12 @@ export default function GoalHeader() {
         {/* TODO: 프로그레스 바 애니메이션 구현 */}
         <span className="text-slate-900 text-xs font-semibold">Progress</span>
         <span className="text-slate-900 text-xs font-semibold">
-          {progressData.progress}%
+          {progressData.progress === 0
+            ? "0"
+            : progressData.progress < 1
+            ? (Math.ceil(progressData.progress * 10) / 10).toFixed(1)
+            : Math.floor(progressData.progress)}
+          %
         </span>
       </div>
     </div>
