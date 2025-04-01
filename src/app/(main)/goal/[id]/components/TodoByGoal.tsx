@@ -46,7 +46,10 @@ const TodoContainer = ({ goalId }: { goalId: number }) => {
       <div className="flex flex-col gap-1 w-1/2 bg-white rounded-xl p-4 h-[228px]">
         <div className="flex items-center justify-between">
           <span className="text-slate-800 font-semibold text-sm">To do</span>
-          <button className="flex items-center gap-1" onClick={handleModalOpen}>
+          <button
+            className="flex items-center gap-1 cursor-pointer"
+            onClick={handleModalOpen}
+          >
             <Image
               src="/images/plus-blue.svg"
               alt="plus"
