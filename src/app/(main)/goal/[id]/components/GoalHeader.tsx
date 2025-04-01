@@ -20,10 +20,6 @@ export default function GoalHeader() {
     error: progressError,
   } = useGetProgressTodoQuery({ goalId });
 
-  if (!goalId) {
-    return <div>유효하지 않은 목표 입니다.</div>;
-  }
-
   if (goalLoading || progressLoading)
     return (
       <div className="flex justify-center items-center h-screen">
