@@ -88,12 +88,12 @@ export const useUpdateTodoMutation = () => {
     }: IUpdateTodo & { todoId: number }) => {
       return await editTodo(todoId, { title, done, fileUrl, linkUrl, goalId });
     },
-    onSuccess: (_, variables) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["todos", variables.goalId],
+        queryKey: ["todos"],
       });
       queryClient.invalidateQueries({
-        queryKey: ["progress", variables.goalId],
+        queryKey: ["progress"],
       });
     },
   });
