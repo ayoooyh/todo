@@ -1,6 +1,17 @@
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { getTodos, getProgressTodo, postTodo, uploadFile } from "@/apis/todos";
-import { ITodos, IProgressTodoResponse, ICreateTodo } from "@/types/todo";
+import {
+  getTodos,
+  getProgressTodo,
+  postTodo,
+  uploadFile,
+  editTodo,
+} from "@/apis/todos";
+import {
+  ITodos,
+  IProgressTodoResponse,
+  ICreateTodo,
+  IUpdateTodo,
+} from "@/types/todo";
 
 export const useGetTodosQuery = ({
   goalId = undefined,
@@ -14,25 +25,24 @@ export const useGetTodosQuery = ({
   done?: boolean;
   cursor?: string;
   sortOrder?: "newest" | "oldest";
-}) => {
+} = {}) => {
   return useQuery<ITodos>({
     queryKey: ["todos", goalId, size, done, cursor, sortOrder],
-    queryFn: async () => {
-      const response = await getTodos({
-        goalId: goalId,
-        size: size,
-        done: done,
-        cursor: cursor,
-        sortOrder: sortOrder,
-      });
-      return response;
-    },
-    enabled: true,
-    retry: 1,
+    queryFn: () =>
+      getTodos({
+        goalId,
+        size,
+        done,
+        cursor,
+        sortOrder,
+      }),
+    staleTime: 5 * 60 * 1000,
+    retry: 0,
+    refetchOnWindowFocus: false,
   });
 };
 
-export const useGetProgressTodoQuery = (goalId: number) => {
+export const useGetProgressTodoQuery = ({ goalId }: { goalId: number }) => {
   return useQuery<IProgressTodoResponse>({
     queryKey: ["progress", goalId],
     queryFn: () => getProgressTodo(goalId),
@@ -60,6 +70,31 @@ export const useCreateTodoMutation = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
+};
+
+export const useUpdateTodoMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      todoId,
+      title,
+      done,
+      fileUrl,
+      linkUrl,
+      goalId,
+    }: IUpdateTodo & { todoId: number }) => {
+      return await editTodo(todoId, { title, done, fileUrl, linkUrl, goalId });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["todos"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["progress"],
+      });
     },
   });
 };

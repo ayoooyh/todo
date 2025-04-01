@@ -43,7 +43,7 @@ export const usePostGoalMutation = () => {
   });
 };
 
-export const useGetGoalQuery = (goalId: number) => {
+export const useGetGoalQuery = ({ goalId }: { goalId: number }) => {
   return useQuery({
     queryKey: ["goal", goalId],
     queryFn: () => getGoal(goalId),

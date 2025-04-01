@@ -6,6 +6,7 @@ import {
 } from "@/queries/dashBoard/useGoalQuery";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Goal() {
   const { data, isLoading, error } = useGetGoalsQuery({
@@ -75,8 +76,7 @@ export default function Goal() {
             className="p-2 text-slate-700 font-medium text-sm"
           >
             <span className="pr-1 text-slate-700 font-medium text-sm">・</span>
-
-            {goal.title}
+            <Link href={`/goal/${goal.id}`}>{goal.title}</Link>
           </span>
         ))}
       </div>
