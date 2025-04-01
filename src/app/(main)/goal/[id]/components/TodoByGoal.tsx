@@ -13,7 +13,12 @@ import { ErrorBoundary } from "react-error-boundary";
 import { ITodo } from "@/types/todo";
 
 const TodoContainer = ({ goalId }: { goalId: number }) => {
-  const { data: todosData } = useGetTodosQuery({ goalId });
+  const { data: todosData, isLoading } = useGetTodosQuery({
+    goalId,
+    done: undefined,
+    size: 20,
+  });
+
   const todos = useMemo(() => todosData?.todos || [], [todosData]);
 
   const undoneTodos = useMemo(
@@ -23,6 +28,10 @@ const TodoContainer = ({ goalId }: { goalId: number }) => {
   const doneTodos = useMemo(() => todos.filter((todo) => todo.done), [todos]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  if (isLoading) {
+    return <div>로딩 중</div>;
+  }
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
