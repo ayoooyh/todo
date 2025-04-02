@@ -115,10 +115,15 @@ export default function TodosPage() {
           {filteredTodos?.map((todo) => (
             <div className="flex justify-between w-full" key={todo.id}>
               <div className="flex items-center gap-2 text-slate-800 text-sm font-normal">
-                <input
-                  type="checkbox"
-                  checked={todo.done}
-                  onChange={() =>
+                <Image
+                  src={
+                    todo.done ? "/images/active.svg" : "/images/inactive.svg"
+                  }
+                  alt={todo.done ? "완료" : "미완료"}
+                  width={20}
+                  height={20}
+                  className="cursor-pointer"
+                  onClick={() =>
                     updateTodo({
                       todoId: todo.id,
                       title: todo.title,
@@ -128,7 +133,6 @@ export default function TodosPage() {
                       goalId: todo.goal_id,
                     })
                   }
-                  className="cursor-pointer"
                 />
                 {todo.done ? (
                   <span className="line-through">{todo.title}</span>
