@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { EditTodoModal } from "@/components/EditTodo";
 import { ITodo } from "@/types/todo";
