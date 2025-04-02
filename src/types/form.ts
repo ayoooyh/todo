@@ -21,3 +21,7 @@ export interface IMakeTodoForm {
   linkUrl: string | null;
   goalId: number | null;
 }
+
+export interface IEditTodoForm extends IMakeTodoForm {
+  done: boolean;
+}
