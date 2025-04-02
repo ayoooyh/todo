@@ -1,5 +1,3 @@
-"use client";
-
 import GoalHeader from "./components/GoalHeader";
 import Image from "next/image";
 import TodoByGoal from "./components/TodoByGoal";
