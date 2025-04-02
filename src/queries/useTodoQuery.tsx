@@ -85,8 +85,24 @@ export const useUpdateTodoMutation = () => {
       fileUrl,
       linkUrl,
       goalId,
-    }: IUpdateTodo & { todoId: number }) => {
-      return await editTodo(todoId, { title, done, fileUrl, linkUrl, goalId });
+      file,
+    }: IUpdateTodo & { todoId: number; file?: File }) => {
+      let updatedFileUrl = fileUrl;
+
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        const uploadResponse = await uploadFile(formData);
+        updatedFileUrl = uploadResponse.url;
+      }
+
+      return await editTodo(todoId, {
+        title,
+        done,
+        fileUrl: updatedFileUrl,
+        linkUrl,
+        goalId,
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
