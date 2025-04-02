@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { EditTodoModal } from "@/components/EditTodo";
 import { ITodo } from "@/types/todo";
+import { DeleteTodo } from "@/components/DeleteTodo";
+import { useDeleteTodoMutation } from "@/queries/useTodoQuery";
 
 export default function EditAndDelete({
   todoId,
@@ -9,10 +11,21 @@ export default function EditAndDelete({
   todoId: number;
   todo: ITodo;
 }) {
+  const { mutate: deleteTodo } = useDeleteTodoMutation();
   const [isOpen, setIsOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const handleEditClick = () => {
     setIsOpen(true);
+  };
+
+  const handleDeleteClick = () => {
+    setIsDeleteOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    deleteTodo(todoId);
+    setIsDeleteOpen(false);
   };
 
   return (
@@ -24,7 +37,10 @@ export default function EditAndDelete({
         >
           수정하기
         </button>
-        <button className="cursor-pointer text-sm font-normal text-slate-700">
+        <button
+          className="cursor-pointer text-sm font-normal text-slate-700"
+          onClick={handleDeleteClick}
+        >
           삭제하기
         </button>
       </div>
@@ -35,6 +51,13 @@ export default function EditAndDelete({
           }}
           todoId={todoId}
           todo={todo}
+        />
+      )}
+      {isDeleteOpen && (
+        <DeleteTodo
+          setIsCloseConfirmOpen={setIsDeleteOpen}
+          onClose={handleDeleteConfirm}
+          todoOrGoal={"할 일"}
         />
       )}
     </>
