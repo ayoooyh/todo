@@ -5,6 +5,7 @@ import {
   postTodo,
   uploadFile,
   editTodo,
+  deleteTodo,
 } from "@/apis/todos";
 import {
   ITodos,
@@ -111,6 +112,17 @@ export const useUpdateTodoMutation = () => {
       queryClient.invalidateQueries({
         queryKey: ["progress"],
       });
+    },
+  });
+};
+
+export const useDeleteTodoMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (todoId: number) => await deleteTodo(todoId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
   });
 };
