@@ -4,24 +4,21 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGetGoalsQuery } from "@/queries/dashBoard/useGoalQuery";
-import { UseFormRegister } from "react-hook-form";
-import { IMakeTodoForm } from "@/types/form";
+import { UseFormRegister, FieldValues, Path } from "react-hook-form";
 
-interface DropDownProps {
-  onFilterChange: (goalId: number | null) => void;
-  value: number | null;
-  register?: UseFormRegister<IMakeTodoForm>;
-  name?: string;
-  error?: string;
-}
-
-export default function GoalDropDown({
+export default function GoalDropDown<T extends FieldValues>({
   onFilterChange,
   value,
   register,
-  name = "goalId",
+  name,
   error,
-}: DropDownProps) {
+}: {
+  onFilterChange: (goalId: number | null) => void;
+  value: number | null;
+  register: UseFormRegister<T>;
+  name: string;
+  error?: string;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const { data, isLoading, error: queryError } = useGetGoalsQuery();
 
@@ -60,7 +57,7 @@ export default function GoalDropDown({
         <input
           type="hidden"
           value={value || ""}
-          {...register(name as keyof IMakeTodoForm, {
+          {...register(name as Path<T>, {
             required: "목표를 선택해주세요",
           })}
         />
