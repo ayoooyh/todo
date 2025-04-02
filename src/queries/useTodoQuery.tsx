@@ -38,7 +38,7 @@ export const useGetTodosQuery = ({
         sortOrder,
       }),
     staleTime: 5 * 60 * 1000,
-    retry: 0,
+    retry: 1,
     refetchOnWindowFocus: false,
   });
 };
