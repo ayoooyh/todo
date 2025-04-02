@@ -70,21 +70,41 @@ export function EditTodoModal({
     [attachmentType, onClose, updateTodo, todo, todoId]
   );
 
-  console.log(todoId);
-
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg max-w-[520px] w-full">
-        <div className="flex justify-between items-center mb-6">
-          <span className="text-lg font-bold">할 일 수정</span>
-          <button
-            onClick={() => {
-              setIsCloseConfirmOpen(true);
-            }}
-            className="text-gray-500 hover:text-gray-700 cursor-pointer"
-          >
-            <Image src="/images/exit.svg" alt="exit" width={24} height={24} />
-          </button>
+        <div className="flex flex-col gap-2.5 mb-6">
+          <div className="flex justify-between items-center">
+            <span className="text-lg font-bold text-slate-800">할 일 수정</span>
+            <button
+              onClick={() => {
+                setIsCloseConfirmOpen(true);
+              }}
+              className="cursor-pointer"
+            >
+              <Image src="/images/exit.svg" alt="exit" width={24} height={24} />
+            </button>
+          </div>
+          <div className="flex items-center gap-1.5">
+            {todo.done ? (
+              <Image
+                src="/images/active.svg"
+                alt="check"
+                width={24}
+                height={24}
+              />
+            ) : (
+              <Image
+                src="/images/inactive.svg"
+                alt="check"
+                width={24}
+                height={24}
+              />
+            )}
+            <span className="text-base font-semibold text-slate-600 mt-[1px]">
+              Done
+            </span>
+          </div>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
           <Input
@@ -107,77 +127,97 @@ export function EditTodoModal({
               },
             }}
           />
-          <span>자료</span>
-          <div className="flex flex-col gap-3">
+          <span className="text-base font-semibold text-slate-800">자료</span>
+          <div className="flex flex-col">
             <div className="flex gap-3">
               <button
                 type="button"
                 onClick={() => setAttachmentType("file")}
-                className={`text-sm px-4 py-2 rounded-lg ${
+                className={`text-sm px-3 py-2 rounded-lg flex items-center gap-1 ${
                   attachmentType === "file"
                     ? "bg-slate-900 text-white"
                     : "bg-slate-100 text-slate-800"
                 }`}
               >
+                <Image
+                  src={
+                    attachmentType === "file"
+                      ? "/images/active-white.svg"
+                      : "/images/inactive.svg"
+                  }
+                  alt="upload"
+                  width={24}
+                  height={24}
+                />
                 파일 업로드
               </button>
               <button
                 type="button"
                 onClick={() => setAttachmentType("link")}
-                className={`text-sm px-4 py-2 rounded-lg ${
+                className={`text-sm px-3 py-2 rounded-lg flex items-center gap-1 ${
                   attachmentType === "link"
                     ? "bg-slate-900 text-white"
                     : "bg-slate-100 text-slate-800"
                 }`}
               >
+                <Image
+                  src={
+                    attachmentType === "link"
+                      ? "/images/active-white.svg"
+                      : "/images/inactive.svg"
+                  }
+                  alt="link"
+                  width={24}
+                  height={24}
+                />
                 링크 첨부
               </button>
             </div>
 
             {attachmentType === "file" && (
-              <div className="flex flex-col gap-3">
-                <div className="relative">
-                  <Input
-                    label=""
-                    type="file"
-                    name="fileUrl"
-                    placeholder=""
-                    register={register}
-                    registerOptions={{
-                      fileUrl: {
-                        required: false,
-                      },
-                    }}
-                    className={`${
-                      todo.file_url
-                        ? "opacity-0 absolute inset-0 w-full h-full cursor-pointer"
-                        : "w-full text-sm text-slate-400 file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:bg-slate-200 file:text-slate-800 hover:file:bg-slate-300"
-                    }`}
-                  />
-                  {todo.file_url && (
-                    <div className="flex py-3 px-6 bg-slate-50 rounded-xl border-2 border-transparent focus-within:border-blue-500">
-                      {todo.file_url.split("/").pop()}
-                    </div>
-                  )}
-                </div>
+              <div className="relative">
+                <Input
+                  label=""
+                  type="file"
+                  name="fileUrl"
+                  placeholder=""
+                  register={register}
+                  registerOptions={{
+                    fileUrl: {
+                      required: false,
+                    },
+                  }}
+                  className={`${
+                    todo.file_url
+                      ? "opacity-0 absolute inset-0 w-full h-full cursor-pointer"
+                      : "w-full text-sm text-slate-400 file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:bg-slate-200 file:text-slate-800 hover:file:bg-slate-300"
+                  }`}
+                />
+                {todo.file_url && (
+                  <div className="flex mt-3 py-3 px-6 bg-slate-50 rounded-xl border-2 border-transparent focus-within:border-blue-500">
+                    {todo.file_url.split("/").pop()}
+                  </div>
+                )}
               </div>
             )}
             {attachmentType === "link" && (
-              <Input
-                label=""
-                type="url"
-                name="linkUrl"
-                placeholder="관련 링크를 입력하세요"
-                register={register}
-                registerOptions={{
-                  linkUrl: {
-                    required: {
-                      value: true,
-                      message: "링크를 입력해주세요",
+              <div className="relative">
+                <Input
+                  label=""
+                  type="url"
+                  name="linkUrl"
+                  placeholder="관련 링크를 입력하세요"
+                  register={register}
+                  registerOptions={{
+                    linkUrl: {
+                      required: {
+                        value: true,
+                        message: "링크를 입력해주세요",
+                      },
                     },
-                  },
-                }}
-              />
+                  }}
+                />
+              </div>
             )}
           </div>
           <span>목표</span>
