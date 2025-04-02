@@ -64,3 +64,8 @@ export const editTodo = async (
   const response = await axiosInstance.patch(`/todos/${todoId}`, data);
   return response.data;
 };
+
+export const deleteTodo = async (todoId: number) => {
+  const response = await axiosInstance.delete(`/todos/${todoId}`);
+  return response.data;
+};
