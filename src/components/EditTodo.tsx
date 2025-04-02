@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useCallback } from "react";
 import { ConfirmModal } from "./ConfirmModal";
 import Image from "next/image";
@@ -18,8 +20,6 @@ export function EditTodoModal({
   todoId: number;
   todo: ITodo;
 }) {
-  console.log("todo:", todo);
-
   const {
     register,
     handleSubmit,
