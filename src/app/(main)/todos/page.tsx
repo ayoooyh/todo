@@ -3,8 +3,9 @@
 import { useGetTodosQuery } from "@/queries/useTodoQuery";
 import Image from "next/image";
 import { useState } from "react";
-import CreateTodo from "@/components/CreateTodo";
+import { MakeTodoModal } from "@/components/CreateTodo";
 import { useUpdateTodoMutation } from "@/queries/useTodoQuery";
+import TodoAttachmentIcons from "@/components/common/TodoAttachmentIcons";
 
 const TodoFilter = ({
   selectedFilter,
@@ -98,7 +99,7 @@ export default function TodosPage() {
           />
           <span className="text-sm text-blue-500 font-semibold">할일 추가</span>
         </button>
-        {isModalOpen && <CreateTodo onClose={handleModalClose} />}
+        {isModalOpen && <MakeTodoModal onClose={handleModalClose} />}
       </div>
 
       <div className="flex flex-col gap-4 bg-white border border-slate-100 rounded-xl p-6">
@@ -106,32 +107,37 @@ export default function TodosPage() {
           selectedFilter={selectedFilter}
           onFilterChange={setSelectedFilter}
         />
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col items-center gap-2">
           {filteredTodos?.map((todo) => (
-            <div
-              key={todo.id}
-              className="flex items-center gap-2 text-slate-800 text-sm font-normal"
-            >
-              <input
-                type="checkbox"
-                checked={todo.done}
-                onChange={() =>
-                  updateTodo({
-                    todoId: todo.id,
-                    title: todo.title,
-                    done: !todo.done,
-                    fileUrl: todo.file_url,
-                    linkUrl: todo.link_url,
-                    goalId: todo.goal_id,
-                  })
-                }
-                className="cursor-pointer"
+            <div className="flex justify-between w-full" key={todo.id}>
+              <div className="flex items-center gap-2 text-slate-800 text-sm font-normal">
+                <input
+                  type="checkbox"
+                  checked={todo.done}
+                  onChange={() =>
+                    updateTodo({
+                      todoId: todo.id,
+                      title: todo.title,
+                      done: !todo.done,
+                      fileUrl: todo.file_url,
+                      linkUrl: todo.link_url,
+                      goalId: todo.goal_id,
+                    })
+                  }
+                  className="cursor-pointer"
+                />
+                {todo.done ? (
+                  <span className="line-through">{todo.title}</span>
+                ) : (
+                  <span>{todo.title}</span>
+                )}
+              </div>
+              <TodoAttachmentIcons
+                fileUrl={todo.file_url}
+                linkUrl={todo.link_url}
+                todoId={todo.id}
+                todo={todo}
               />
-              {todo.done ? (
-                <span className="line-through">{todo.title}</span>
-              ) : (
-                <span>{todo.title}</span>
-              )}
             </div>
           ))}
         </div>
