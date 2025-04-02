@@ -1,3 +1,5 @@
+"use client";
+
 import User from "@/components/sideMenu/User";
 import Goal from "@/components/sideMenu/Goal";
 import Link from "next/link";

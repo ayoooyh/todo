@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import eyeOff from "../../../public/images/auth/visibility-off.svg";
 import eyeOn from "../../../public/images/auth/visibility-on.svg";

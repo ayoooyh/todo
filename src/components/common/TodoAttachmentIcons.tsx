@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import EditAndDelete from "./EditAndDelete";
 import { useState, useRef, useEffect } from "react";
