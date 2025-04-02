@@ -51,7 +51,9 @@ export function Input<T extends FieldValues>({
   return (
     <div className="relative">
       <div className="flex flex-col gap-3">
-        <label className="text-base font-medium text-state-800">{label}</label>
+        <label className="text-base font-semibold text-slate-800">
+          {label}
+        </label>
         <input
           {...register(name, registerOptions[name as Path<T>])}
           type={isPasswordField && showPassword ? "text" : type}
