@@ -2,7 +2,7 @@
 
 import { useGetTodosQuery } from "@/queries/useTodoQuery";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { MakeTodoModal } from "@/components/CreateTodo";
 import { useUpdateTodoMutation } from "@/queries/useTodoQuery";
 import TodoAttachmentIcons from "@/components/common/TodoAttachmentIcons";
@@ -61,6 +61,15 @@ export default function TodosPage() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const filteredTodos = useMemo(() => {
+    return data?.todos.filter((todo) => {
+      if (selectedFilter === "All") return true;
+      if (selectedFilter === "To do") return !todo.done;
+      if (selectedFilter === "Done") return todo.done;
+      return true;
+    });
+  }, [data?.todos, selectedFilter]);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -76,13 +85,6 @@ export default function TodosPage() {
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
-
-  const filteredTodos = data?.todos.filter((todo) => {
-    if (selectedFilter === "All") return true;
-    if (selectedFilter === "To do") return !todo.done;
-    if (selectedFilter === "Done") return todo.done;
-    return true;
-  });
 
   return (
     <div className="flex flex-col gap-3 py-6 px-20 max-w-[1200px] mx-auto">
