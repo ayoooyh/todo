@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import eyeOff from "../../../public/images/auth/visibility-off.svg";
 import eyeOn from "../../../public/images/auth/visibility-on.svg";
@@ -51,7 +53,9 @@ export function Input<T extends FieldValues>({
   return (
     <div className="relative">
       <div className="flex flex-col gap-3">
-        <label className="text-base font-medium text-state-800">{label}</label>
+        <label className="text-base font-semibold text-slate-800">
+          {label}
+        </label>
         <input
           {...register(name, registerOptions[name as Path<T>])}
           type={isPasswordField && showPassword ? "text" : type}

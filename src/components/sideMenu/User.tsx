@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useUserQuery } from "@/queries/dashBoard/useUserQuery";
 import { useState } from "react";
-import MakeTodoModal from "../CreateTodo";
+import { MakeTodoModal } from "@/components/CreateTodo";
 
 export default function User() {
   const { data, isLoading, error } = useUserQuery();

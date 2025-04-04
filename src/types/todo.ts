@@ -55,10 +55,6 @@ export interface IUploadFileResponse {
   url: string;
 }
 
-export interface IUpdateTodo {
-  title: string;
+export interface IUpdateTodo extends ICreateTodo {
   done: boolean;
-  fileUrl: string;
-  linkUrl: string;
-  goalId: number;
 }

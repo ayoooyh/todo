@@ -6,7 +6,7 @@ import {
   useUpdateTodoMutation,
 } from "@/queries/useTodoQuery";
 import Image from "next/image";
-import CreateTodo from "../../../../../components/CreateTodo";
+import CreateTodo from "@/components/CreateTodo";
 import { useState } from "react";
 import { useGoalId } from "@/hooks/useGoalId";
 import { ErrorBoundary } from "react-error-boundary";

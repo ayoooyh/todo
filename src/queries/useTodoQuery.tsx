@@ -5,6 +5,7 @@ import {
   postTodo,
   uploadFile,
   editTodo,
+  deleteTodo,
 } from "@/apis/todos";
 import {
   ITodos,
@@ -37,7 +38,8 @@ export const useGetTodosQuery = ({
         sortOrder,
       }),
     staleTime: 5 * 60 * 1000,
-    retry: 0,
+    //TODO: 토큰 관련 부분 해결 후 수정예정, 임시로 retry 1로 설정
+    retry: 1,
     refetchOnWindowFocus: false,
   });
 };
@@ -85,8 +87,24 @@ export const useUpdateTodoMutation = () => {
       fileUrl,
       linkUrl,
       goalId,
-    }: IUpdateTodo & { todoId: number }) => {
-      return await editTodo(todoId, { title, done, fileUrl, linkUrl, goalId });
+      file,
+    }: IUpdateTodo & { todoId: number; file?: File }) => {
+      let updatedFileUrl = fileUrl;
+
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        const uploadResponse = await uploadFile(formData);
+        updatedFileUrl = uploadResponse.url;
+      }
+
+      return await editTodo(todoId, {
+        title,
+        done,
+        fileUrl: updatedFileUrl,
+        linkUrl,
+        goalId,
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -95,6 +113,17 @@ export const useUpdateTodoMutation = () => {
       queryClient.invalidateQueries({
         queryKey: ["progress"],
       });
+    },
+  });
+};
+
+export const useDeleteTodoMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (todoId: number) => await deleteTodo(todoId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
   });
 };
