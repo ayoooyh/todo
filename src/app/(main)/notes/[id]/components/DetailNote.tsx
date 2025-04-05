@@ -26,7 +26,7 @@ export default function DetailNote({
   });
 
   if (isLoading || goalLoading || todoLoading) {
-    return <div>Loading...</div>;
+    return <></>;
   }
 
   return (
