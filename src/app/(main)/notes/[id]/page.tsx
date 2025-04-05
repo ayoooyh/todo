@@ -63,7 +63,11 @@ export default function NotePage() {
             <Image src="/images/kebab.svg" alt="kebab" width={24} height={24} />
           </div>
           {isDetailNoteOpen && (
-            <DetailNote onClose={() => setIsDetailNoteOpen(false)} />
+            <DetailNote
+              onClose={() => setIsDetailNoteOpen(false)}
+              noteId={note.id}
+              goalId={goalId}
+            />
           )}
           <div
             className="flex flex-col gap-3 cursor-pointer"
