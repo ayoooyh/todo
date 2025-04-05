@@ -3,8 +3,6 @@
 import Image from "next/image";
 import { useGetNotesQuery } from "@/queries/useNoteQuery";
 import { useGoalId } from "@/hooks/useGoalId";
-import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
-import { useGetTodosQuery } from "@/queries/useTodoQuery";
 import { useState } from "react";
 import DetailNote from "./components/DetailNote";
 
@@ -15,19 +13,10 @@ export default function NotePage() {
   const { data, isLoading } = useGetNotesQuery({
     goal_id: goalId,
     size: 20,
-    cursor: undefined,
   });
 
-  const { data: goalData, isLoading: goalLoading } = useGetGoalQuery({
-    goalId,
-  });
-
-  const { data: todoData, isLoading: todoLoading } = useGetTodosQuery({
-    goalId,
-  });
-
-  if (isLoading || goalLoading || todoLoading) {
-    return <div>Loading...</div>;
+  if (isLoading) {
+    return <></>;
   }
 
   const handleNoteClick = () => {
@@ -41,7 +30,7 @@ export default function NotePage() {
       <div className="bg-white border border-slate-100 rounded-xl px-6 py-3.5 flex items-center gap-2">
         <Image src="/images/black-flag.svg" alt="note" width={24} height={24} />
         <span className="text-slate-800 font-semibold text-sm mt-0.5">
-          {goalData?.title}
+          {data?.notes.map((note) => note.goal.title)}
         </span>
       </div>
 
@@ -70,12 +59,11 @@ export default function NotePage() {
               <DetailNote
                 onClose={() => setIsDetailNoteOpen(false)}
                 noteId={note.id}
-                goalId={goalId}
               />
             )}
             <div
               className="flex flex-col gap-3 cursor-pointer"
-              onClick={() => handleNoteClick()}
+              onClick={handleNoteClick}
             >
               <span className="text-slate-800 font-semibold text-sm mt-0.5">
                 {note.title}
@@ -89,10 +77,7 @@ export default function NotePage() {
                 </span>
 
                 <span className="text-slate-700 font-normal text-xs">
-                  {
-                    todoData?.todos.find((todo) => todo.id === note.todo_id)
-                      ?.title
-                  }
+                  {data?.notes.map((note) => note.todo.title)}
                 </span>
               </div>
             </div>

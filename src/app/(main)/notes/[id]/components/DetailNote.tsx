@@ -1,31 +1,19 @@
 import Image from "next/image";
 import { useGetNoteQuery } from "@/queries/useNoteQuery";
-import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
-import { useGetTodosQuery } from "@/queries/useTodoQuery";
 import { format } from "date-fns";
 
 export default function DetailNote({
   onClose,
   noteId,
-  goalId,
 }: {
   onClose: () => void;
   noteId: number;
-  goalId: number;
 }) {
   const { data, isLoading } = useGetNoteQuery({
     note_id: noteId,
   });
 
-  const { data: goalData, isLoading: goalLoading } = useGetGoalQuery({
-    goalId,
-  });
-
-  const { data: todoData, isLoading: todoLoading } = useGetTodosQuery({
-    goalId,
-  });
-
-  if (isLoading || goalLoading || todoLoading) {
+  if (isLoading) {
     return <></>;
   }
 
@@ -57,7 +45,7 @@ export default function DetailNote({
                     height={24}
                   />
                   <span className="text-base font-medium text-slate-800">
-                    {goalData?.title}
+                    {data?.goal.title}
                   </span>
                 </div>
                 {data?.id && (
@@ -68,21 +56,14 @@ export default function DetailNote({
                       </span>
 
                       <span className="text-slate-700 font-normal text-xs">
-                        {
-                          todoData?.todos.find(
-                            (todo) => todo.id === data.todo_id
-                          )?.title
-                        }
+                        {data?.todo.title}
                       </span>
                     </div>
 
                     <div className="text-xs font-normal text-slate-500 flex items-center gap-1">
                       {(() => {
-                        const todo = todoData?.todos.find(
-                          (todo) => todo.id === data.todo_id
-                        );
-                        return todo?.created_at
-                          ? format(new Date(todo.created_at), "yyyy.MM.dd")
+                        return data?.todo.created_at
+                          ? format(new Date(data.todo.created_at), "yyyy.MM.dd")
                           : null;
                       })()}
                     </div>
