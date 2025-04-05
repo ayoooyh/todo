@@ -1,8 +1,27 @@
+"use client";
+
 import GoalHeader from "./components/GoalHeader";
 import Image from "next/image";
 import TodoByGoal from "./components/TodoByGoal";
+import { useGetNotesQuery } from "@/queries/useNoteQuery";
+import { useGoalId } from "@/hooks/useGoalId";
+import Link from "next/link";
 
 export default function GoalPage() {
+  const goalId = useGoalId();
+
+  const { data, isLoading } = useGetNotesQuery({
+    goal_id: goalId,
+    size: 20,
+    cursor: undefined,
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  console.log(data);
+
   return (
     <div className="flex flex-col gap-3 py-6 px-20 max-w-[1200px] mx-auto">
       <h1 className="text-lg font-medium text-slate-900">목표</h1>
@@ -15,13 +34,17 @@ export default function GoalPage() {
               노트 모아보기
             </span>
           </div>
-          {/* TODO: 노트 모아보기 클릭 시 노트 모아보기 페이지로 이동 */}
-          <Image
-            src="/images/arrow_right.svg"
-            alt="arrow-right"
-            width={24}
-            height={24}
-          />
+          {data?.notes?.map((note) => (
+            <Link href={`/notes/${note.id}`} key={note.id}>
+              <Image
+                src="/images/arrow_right.svg"
+                alt="arrow-right"
+                width={24}
+                height={24}
+                className="cursor-pointer"
+              />
+            </Link>
+          ))}
         </div>
 
         <TodoByGoal />
