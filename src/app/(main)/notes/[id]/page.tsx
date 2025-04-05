@@ -5,10 +5,13 @@ import { useGetNotesQuery } from "@/queries/useNoteQuery";
 import { useGoalId } from "@/hooks/useGoalId";
 import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
 import { useGetTodosQuery } from "@/queries/useTodoQuery";
+import { useState } from "react";
+import DetailNote from "./components/DetailNote";
 
 export default function NotePage() {
   const goalId = useGoalId();
 
+  const [isDetailNoteOpen, setIsDetailNoteOpen] = useState(false);
   const { data, isLoading } = useGetNotesQuery({
     goal_id: goalId,
     size: 20,
@@ -26,6 +29,10 @@ export default function NotePage() {
   if (isLoading || goalLoading || todoLoading) {
     return <div>Loading...</div>;
   }
+
+  const handleNoteClick = () => {
+    setIsDetailNoteOpen(true);
+  };
 
   return (
     <div className="flex flex-col gap-3 py-6 px-20 max-w-[792px] mx-auto">
@@ -52,9 +59,16 @@ export default function NotePage() {
               width={28}
               height={28}
             />
+            {/* TODO : 수정, 삭제하기 드롭다운 및 기능 구현 */}
             <Image src="/images/kebab.svg" alt="kebab" width={24} height={24} />
           </div>
-          <div className="flex flex-col gap-3">
+          {isDetailNoteOpen && (
+            <DetailNote onClose={() => setIsDetailNoteOpen(false)} />
+          )}
+          <div
+            className="flex flex-col gap-3 cursor-pointer"
+            onClick={() => handleNoteClick()}
+          >
             <span className="text-slate-800 font-semibold text-sm mt-0.5">
               {note.title}
             </span>
