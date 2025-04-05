@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getGoals, postGoal, getGoal } from "@/apis/goals";
 import { IGoals } from "@/types/goal";
+import { useParams } from "next/navigation";
 
 export const useGetGoalsQuery = (
   {
@@ -51,4 +52,11 @@ export const useGetGoalQuery = ({ goalId }: { goalId: number }) => {
     refetchOnMount: true,
     enabled: true,
   });
+};
+
+export const useGoalId = () => {
+  const params = useParams<{ id: string }>();
+  const goalId = Number(params.id);
+
+  return goalId;
 };
