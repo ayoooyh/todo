@@ -34,17 +34,15 @@ export default function GoalPage() {
               노트 모아보기
             </span>
           </div>
-          {data?.notes?.map((note) => (
-            <Link href={`/notes/${note.goal_id}`} key={note.goal_id}>
-              <Image
-                src="/images/arrow_right.svg"
-                alt="arrow-right"
-                width={24}
-                height={24}
-                className="cursor-pointer"
-              />
-            </Link>
-          ))}
+          <Link href={`/notes/${goalId}`}>
+            <Image
+              src="/images/arrow_right.svg"
+              alt="arrow-right"
+              width={24}
+              height={24}
+              className="cursor-pointer"
+            />
+          </Link>
         </div>
 
         <TodoByGoal />
