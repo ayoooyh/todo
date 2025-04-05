@@ -1,5 +1,5 @@
 import axiosInstance from "@/apis/axiosInstance";
-import { INotes } from "@/types/note";
+import { INotes, INote } from "@/types/note";
 
 export const getNotes = async ({
   goal_id,
@@ -16,5 +16,14 @@ export const getNotes = async ({
   if (size !== undefined) queryParams.set("size", size.toString());
 
   const response = await axiosInstance.get(`/notes?${queryParams.toString()}`);
+  return response.data;
+};
+
+export const getNote = async ({
+  note_id,
+}: {
+  note_id: number;
+}): Promise<INote> => {
+  const response = await axiosInstance.get(`/notes/${note_id}`);
   return response.data;
 };

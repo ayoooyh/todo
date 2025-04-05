@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getNotes } from "@/apis/notes";
-import { INotes } from "@/types/note";
+import { getNotes, getNote } from "@/apis/notes";
+import { INotes, INote } from "@/types/note";
 
 export const useGetNotesQuery = ({
   goal_id,
@@ -18,6 +18,18 @@ export const useGetNotesQuery = ({
       return response;
     },
     enabled: true,
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
+export const useGetNoteQuery = ({ note_id }: { note_id: number }) => {
+  return useQuery<INote>({
+    queryKey: ["note", note_id],
+    queryFn: async () => {
+      const response = await getNote({ note_id });
+      return response;
+    },
+    enabled: !!note_id,
     staleTime: 5 * 60 * 1000,
   });
 };
