@@ -35,7 +35,7 @@ export default function GoalPage() {
             </span>
           </div>
           {data?.notes?.map((note) => (
-            <Link href={`/notes/${note.id}`} key={note.id}>
+            <Link href={`/notes/${note.goal_id}`} key={note.goal_id}>
               <Image
                 src="/images/arrow_right.svg"
                 alt="arrow-right"
