@@ -1,3 +1,7 @@
+import { ITodo } from "./todo";
+import { IGoal } from "./goal";
+import { IUser } from "./user";
+
 export interface INotes {
   next_cursor: number;
   total_count: number;
@@ -14,4 +18,7 @@ export interface INote {
   user_id: number;
   goal_id: number;
   todo_id: number;
+  todo: ITodo;
+  goal: IGoal;
+  user: IUser;
 }

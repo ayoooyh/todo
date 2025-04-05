@@ -1,15 +1,15 @@
 export interface IGoals {
   next_cursor: null;
   total_count: number;
-  goals: [
-    {
-      created_at: string;
-      updated_at: string;
-      user_id: number;
-      id: number;
-      title: string;
-    }
-  ];
+  goals: IGoal[];
+}
+
+export interface IGoal {
+  created_at: string;
+  updated_at: string;
+  user_id: number;
+  id: number;
+  title: string;
 }
 
 export interface IPostGoalsRequest {
