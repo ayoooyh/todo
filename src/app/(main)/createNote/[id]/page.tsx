@@ -18,16 +18,7 @@ export default function CreateNotePage() {
     handleSubmit,
     setValue,
     formState: { errors, isValid },
-  } = useForm<ICreateNoteForm>({
-    mode: "onChange",
-    defaultValues: {
-      goalId: useGoalId(),
-      todoId: 0,
-      title: "",
-      content: "",
-      linkUrl: "",
-    },
-  });
+  } = useForm<ICreateNoteForm>({ mode: "onChange", shouldUnregister: true });
 
   const createNoteMutation = useCreateNoteMutation();
   const router = useRouter();
@@ -39,25 +30,30 @@ export default function CreateNotePage() {
   const { data, isLoading } = useGetGoalQuery({ goalId: useGoalId() });
 
   const onSubmit = useCallback(
-    async (data: ICreateNoteForm) => {
+    async (formData: ICreateNoteForm) => {
       const noteData: ICreateNote = {
-        title: data.title,
-        content: data.content,
-        goal_id: data.goalId,
-        todo_id: data.todoId,
-        link_url: data.linkUrl === "" ? null : data.linkUrl,
+        title: formData.title,
+        content: formData.content,
+        goal_id: data!.id,
+        todo_id: formData.todoId,
+        link_url: formData.linkUrl === "" ? null : formData.linkUrl,
       };
 
       try {
         await createNoteMutation.mutateAsync({
           noteData,
         });
+        router.push(`/notes/${data!.id}`);
       } catch (error) {
         console.error(error);
       }
     },
-    [createNoteMutation]
+    [createNoteMutation, router, data]
   );
+
+  const handleLinkUrl = useCallback(() => {
+    setShowLinkInput(!showLinkInput);
+  }, [showLinkInput]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -66,10 +62,6 @@ export default function CreateNotePage() {
   const handleClose = () => {
     setIsConfirmOpen(false);
     router.back();
-  };
-
-  const handleLinkUrl = () => {
-    setShowLinkInput(!showLinkInput);
   };
 
   return (
@@ -114,12 +106,7 @@ export default function CreateNotePage() {
               width={24}
               height={24}
             />
-            <span
-              className="text-base font-medium text-slate-800"
-              {...register("goalId", {
-                required: "목표를 선택해주세요",
-              })}
-            >
+            <span className="text-base font-medium text-slate-800">
               {data?.title}
             </span>
           </div>
