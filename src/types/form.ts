@@ -30,6 +30,5 @@ export interface ICreateNoteForm {
   title: string;
   content: string;
   todoId: number;
-  goalId: number;
   linkUrl: string | null;
 }
