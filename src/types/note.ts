@@ -22,3 +22,26 @@ export interface INote {
   goal: IGoal;
   user: IUser;
 }
+
+export interface ICreateNote {
+  title: string;
+  content: string;
+  link_url: string | null;
+  goal_id: number;
+  todo_id: number;
+}
+
+export interface ICreateNoteResponse {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  title: string;
+  content: string;
+  link_url: string;
+  user_id: number;
+  goal_id: number;
+  todo_id: number;
+  todo: ITodo;
+  goal: IGoal;
+  user: IUser;
+}
