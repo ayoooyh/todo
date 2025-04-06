@@ -58,7 +58,7 @@ export default function NotePage() {
         data?.notes.map((note) => (
           <div
             className="flex flex-col gap-4 bg-white border border-slate-100 rounded-xl px-6 py-3.5"
-            key={note.goal_id}
+            key={note.id}
           >
             <div className="flex items-center justify-between">
               <Image
