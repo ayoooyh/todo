@@ -1,5 +1,5 @@
 import axiosInstance from "@/apis/axiosInstance";
-import { INotes, INote } from "@/types/note";
+import { INotes, INote, ICreateNote, ICreateNoteResponse } from "@/types/note";
 
 export const getNotes = async ({
   goal_id,
@@ -25,5 +25,12 @@ export const getNote = async ({
   note_id: number;
 }): Promise<INote> => {
   const response = await axiosInstance.get(`/notes/${note_id}`);
+  return response.data;
+};
+
+export const postNote = async (
+  data: ICreateNote
+): Promise<ICreateNoteResponse> => {
+  const response = await axiosInstance.post("/notes", data);
   return response.data;
 };
