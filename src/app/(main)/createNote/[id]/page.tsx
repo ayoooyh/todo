@@ -4,10 +4,10 @@ import Image from "next/image";
 import { useGoalId } from "@/hooks/useGoalId";
 import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
 import TodoDropDown from "./components/TodoDropDown";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { ICreateNoteForm } from "@/types/form";
 import { useCreateNoteMutation } from "@/queries/useNoteQuery";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { ICreateNote } from "@/types/note";
 import { ConfirmModal } from "@/components/ConfirmModal";
 import { useRouter } from "next/navigation";
@@ -19,6 +19,7 @@ export default function CreateNotePage() {
     setValue,
     formState: { errors, isValid },
     getValues,
+    control,
   } = useForm<ICreateNoteForm>({ mode: "onChange", shouldUnregister: true });
 
   const createNoteMutation = useCreateNoteMutation();
@@ -27,8 +28,45 @@ export default function CreateNotePage() {
   const [selectedTodoId, setSelectedTodoId] = useState<number>(0);
   // const [selectedLinkUrl, setSelectedLinkUrl] = useState<string>("");
   const [showLinkInput, setShowLinkInput] = useState<boolean>(false);
+  const [showTempNoteAlert, setShowTempNoteAlert] = useState<boolean>(false);
 
   const { data, isLoading } = useGetGoalQuery({ goalId: useGoalId() });
+
+  // todo ID 변경 감지
+  const todoId = useWatch({
+    control,
+    name: "todoId",
+  });
+
+  useEffect(() => {
+    if (!todoId) return;
+
+    // localStorage에서 임시저장 데이터 확인
+    const key = `note:${data?.id}:${todoId}`;
+    const savedData = localStorage.getItem(key);
+
+    if (savedData) {
+      setShowTempNoteAlert(true);
+    } else {
+      setShowTempNoteAlert(false);
+    }
+  }, [todoId, data?.id]);
+
+  useEffect(() => {
+    if (!todoId) return;
+
+    // localStorage에서 임시저장 데이터 확인
+    const key = `note:${data?.id}:${todoId}`;
+    const savedData = localStorage.getItem(key);
+
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      // 폼 데이터 설정
+      setValue("title", parsedData.title);
+      setValue("content", parsedData.content);
+      // 필요한 다른 필드들도 설정
+    }
+  }, [todoId, data?.id, setValue]);
 
   const onSubmit = useCallback(
     async (formData: ICreateNoteForm) => {
@@ -55,6 +93,36 @@ export default function CreateNotePage() {
   const handleLinkUrl = useCallback(() => {
     setShowLinkInput(!showLinkInput);
   }, [showLinkInput]);
+
+  // 임시저장 함수
+  const handleTempSave = (e?: React.MouseEvent) => {
+    e?.preventDefault(); // 이벤트가 있을 경우 기본 동작 방지
+
+    const key = `note:${data?.id}:${todoId}`;
+    const tempData = {
+      title: getValues("title"),
+      content: getValues("content"),
+      linkUrl: getValues("linkUrl"),
+      todoId: getValues("todoId"),
+    };
+    localStorage.setItem(key, JSON.stringify(tempData));
+    // TODO : 임시저장 완료 알림 구현 필요
+    alert("임시저장 완료");
+  };
+
+  const handleTempLoad = () => {
+    const key = `note:${data?.id}:${todoId}`;
+    const tempData = localStorage.getItem(key);
+
+    if (tempData) {
+      const parsedData = JSON.parse(tempData);
+      setValue("title", parsedData.title);
+      setValue("content", parsedData.content);
+      setValue("linkUrl", parsedData.linkUrl);
+      setValue("todoId", parsedData.todoId);
+      setShowTempNoteAlert(false);
+    }
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -84,18 +152,7 @@ export default function CreateNotePage() {
           <div className="flex justify-end items-center gap-2">
             <button
               className="text-sm text-blue-500 font-semibold flex items-center gap-1 py-2.5 px-4.5 rounded-xl cursor-pointer"
-              onClick={() => {
-                const key = `note:${data?.id}:${getValues("todoId")}`;
-                const tempData = {
-                  title: getValues("title"),
-                  content: getValues("content"),
-                  linkUrl: getValues("linkUrl"),
-                  todoId: getValues("todoId"),
-                };
-                localStorage.setItem(key, JSON.stringify(tempData));
-                // TODO : 임시저장 알림 추후 수정
-                alert("임시저장 완료");
-              }}
+              onClick={handleTempSave}
             >
               임시저장
             </button>
@@ -111,9 +168,33 @@ export default function CreateNotePage() {
               작성완료
             </button>
           </div>
+
+          {/* 임시저장 노트 불러오기 알림 */}
+          {showTempNoteAlert && (
+            <div className="bg-slate-50 rounded-[28px] flex items-center gap-2 py-2.5 px-4 justify-between">
+              <div className="flex items-center gap-4">
+                <Image
+                  src="/images/cancle-blue.svg"
+                  alt="cancle"
+                  width={24}
+                  height={24}
+                />
+                <span className="text-sm font-semibold text-blue-500">
+                  임시 저장된 노트가 있어요. 저장된 노트를 불러오시겠어요?
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={handleTempLoad}
+                className="bg-white border border-blue-500 px-4.5 py-2 rounded-3xl text-blue-500 text-sm font-semibold hover:bg-blue-500 hover:text-white"
+              >
+                불러오기
+              </button>
+            </div>
+          )}
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4 my-6">
           <div className="flex items-center gap-1.5">
             <Image
               src="/images/black-flag.svg"
