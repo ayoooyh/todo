@@ -6,7 +6,9 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { FieldValues } from "react-hook-form";
 import { useGetTodosQuery } from "@/queries/useTodoQuery";
+// import { useGetNoteQuery } from "@/queries/useNoteQuery";
 
+// TODO: 해당 todo에 이미 생성한 note가 있을 시 생성 못하도록 처리
 export default function TodoDropDown<T extends FieldValues>({
   onFilterChange,
   value,
@@ -14,13 +16,15 @@ export default function TodoDropDown<T extends FieldValues>({
   name,
   error,
   goalId,
-}: {
+}: // noteId,
+{
   onFilterChange: (todoId: number) => void;
   value: number;
   register: UseFormRegister<T>;
   name: string;
   error?: string;
   goalId: number;
+  // noteId?: number;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const {
@@ -30,6 +34,10 @@ export default function TodoDropDown<T extends FieldValues>({
   } = useGetTodosQuery({
     goalId,
   });
+
+  // const { data: noteData } = useGetNoteQuery({
+  //   note_id: noteId ?? 0,
+  // });
 
   const handleSelect = (todoId: number) => {
     onFilterChange(todoId);
@@ -67,7 +75,7 @@ export default function TodoDropDown<T extends FieldValues>({
       {register && (
         <input
           type="hidden"
-          value={value || ""}
+          value={value}
           {...register(name as Path<T>, {
             required: "할일을 선택해주세요",
           })}
