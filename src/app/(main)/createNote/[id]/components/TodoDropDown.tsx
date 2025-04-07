@@ -45,19 +45,21 @@ export default function TodoDropDown<T extends FieldValues>({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`bg-slate-50 w-full px-5 py-3 rounded-xl text-left flex justify-between items-center gap-3
+        className={`bg-slate-50 w-full px-3 py-0.5 rounded-[4px] text-left flex justify-between items-center gap-3 text-sm font-medium text-slate-900
           ${error ? "border-2 border-red-500" : ""}`}
       >
         {value ? (
           data?.todos.find((todo) => todo.id === value)?.title
         ) : (
-          <span className="text-slate-400">할일을 선택해주세요</span>
+          <span className="text-slate-400 text-sm font-medium">
+            할일을 선택해주세요
+          </span>
         )}
         <Image
           src="/images/arrow.svg"
           alt="arrow"
-          width={20}
-          height={20}
+          width={16}
+          height={16}
           className={`${isOpen ? "rotate-180" : ""}`}
         />
       </button>
@@ -81,14 +83,14 @@ export default function TodoDropDown<T extends FieldValues>({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute w-full mt-1 bg-slate-50 rounded-lg shadow-lg z-10"
+            className="absolute w-full mt-1 bg-slate-50 rounded-[4px] shadow-lg z-10"
           >
             {data?.todos.map((todo) => (
               <motion.li
                 key={todo.id}
                 whileHover={{ backgroundColor: "#f3f4f6" }}
                 onClick={() => handleSelect(todo.id)}
-                className="px-4 py-2 cursor-pointer text-slate-900 text-sm font-medium"
+                className="px-2 py-2 cursor-pointer text-slate-900 text-sm font-medium"
               >
                 {todo.title}
               </motion.li>
