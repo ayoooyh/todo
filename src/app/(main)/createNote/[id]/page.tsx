@@ -18,6 +18,7 @@ export default function CreateNotePage() {
     handleSubmit,
     setValue,
     formState: { errors, isValid },
+    getValues,
   } = useForm<ICreateNoteForm>({ mode: "onChange", shouldUnregister: true });
 
   const createNoteMutation = useCreateNoteMutation();
@@ -81,7 +82,21 @@ export default function CreateNotePage() {
             />
           </div>
           <div className="flex justify-end items-center gap-2">
-            <button className="text-sm text-blue-500 font-semibold flex items-center gap-1 py-2.5 px-4.5 rounded-xl">
+            <button
+              className="text-sm text-blue-500 font-semibold flex items-center gap-1 py-2.5 px-4.5 rounded-xl cursor-pointer"
+              onClick={() => {
+                const key = `note:${data?.id}:${getValues("todoId")}`;
+                const tempData = {
+                  title: getValues("title"),
+                  content: getValues("content"),
+                  linkUrl: getValues("linkUrl"),
+                  todoId: getValues("todoId"),
+                };
+                localStorage.setItem(key, JSON.stringify(tempData));
+                // TODO : 임시저장 알림 추후 수정
+                alert("임시저장 완료");
+              }}
+            >
               임시저장
             </button>
             <button
