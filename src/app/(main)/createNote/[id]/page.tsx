@@ -61,10 +61,9 @@ export default function CreateNotePage() {
 
     if (savedData) {
       const parsedData = JSON.parse(savedData);
-      // 폼 데이터 설정
       setValue("title", parsedData.title);
       setValue("content", parsedData.content);
-      // 필요한 다른 필드들도 설정
+      setValue("linkUrl", parsedData.linkUrl);
     }
   }, [todoId, data?.id, setValue]);
 
@@ -106,7 +105,7 @@ export default function CreateNotePage() {
       todoId: getValues("todoId"),
     };
     localStorage.setItem(key, JSON.stringify(tempData));
-    // TODO : 임시저장 완료 알림 구현 필요
+    // TODO: 임시저장 완료 알림 구현 필요
     alert("임시저장 완료");
   };
 
