@@ -25,3 +25,10 @@ export interface IMakeTodoForm {
 export interface IEditTodoForm extends IMakeTodoForm {
   done: boolean;
 }
+
+export interface ICreateNoteForm {
+  title: string;
+  content: string;
+  todoId: number;
+  linkUrl: string | null;
+}

@@ -5,17 +5,24 @@ import { useGetNotesQuery } from "@/queries/useNoteQuery";
 import { useGoalId } from "@/hooks/useGoalId";
 import { useState } from "react";
 import DetailNote from "./components/DetailNote";
+import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
+import Link from "next/link";
 
 export default function NotePage() {
   const goalId = useGoalId();
 
   const [isDetailNoteOpen, setIsDetailNoteOpen] = useState(false);
+
   const { data, isLoading } = useGetNotesQuery({
     goal_id: goalId,
     size: 20,
   });
 
-  if (isLoading) {
+  const { data: goalData, isLoading: isGoalLoading } = useGetGoalQuery({
+    goalId: goalId,
+  });
+
+  if (isLoading || isGoalLoading) {
     return <></>;
   }
 
@@ -25,12 +32,25 @@ export default function NotePage() {
 
   return (
     <div className="flex flex-col gap-3 py-6 px-20 max-w-[792px] mx-auto h-screen">
-      <h1 className="text-lg font-semibold text-slate-900">노트 모아보기</h1>
-
+      <div className="flex items-center justify-between">
+        <h1 className="text-lg font-semibold text-slate-900">노트 모아보기</h1>
+        <Link
+          href={`/createNote/${goalId}`}
+          className="text-sm text-blue-500 font-semibold flex items-center gap-1"
+        >
+          <Image
+            src="/images/plus-blue.svg"
+            alt="plus"
+            width={16}
+            height={16}
+          />
+          노트 추가
+        </Link>
+      </div>
       <div className="bg-white border border-slate-100 rounded-xl px-6 py-3.5 flex items-center gap-2">
         <Image src="/images/black-flag.svg" alt="note" width={24} height={24} />
         <span className="text-slate-800 font-semibold text-sm mt-0.5">
-          {data?.notes.map((note) => note.goal.title)}
+          {goalData?.title}
         </span>
       </div>
 
@@ -38,7 +58,7 @@ export default function NotePage() {
         data?.notes.map((note) => (
           <div
             className="flex flex-col gap-4 bg-white border border-slate-100 rounded-xl px-6 py-3.5"
-            key={note.goal_id}
+            key={note.id}
           >
             <div className="flex items-center justify-between">
               <Image
@@ -88,10 +108,13 @@ export default function NotePage() {
           <span className="text-slate-500 font-normal text-sm">
             아직 등록된 노트가 없어요
           </span>
-          {/* TODO : 노트 등록하기 버튼 기능 구현 */}
-          <button className="text-white font-normal text-sm bg-blue-500 rounded-xl px-4 py-2">
+
+          <Link
+            href={`/createNote/${goalId}`}
+            className="text-white font-normal text-sm bg-blue-500 rounded-xl px-4 py-2 cursor-pointer"
+          >
             노트 등록하기
-          </button>
+          </Link>
         </div>
       )}
     </div>

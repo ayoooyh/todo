@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import { getNotes, getNote } from "@/apis/notes";
-import { INotes, INote } from "@/types/note";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getNotes, getNote, postNote } from "@/apis/notes";
+import { INotes, INote, ICreateNote } from "@/types/note";
 
 export const useGetNotesQuery = ({
   goal_id,
@@ -33,3 +33,31 @@ export const useGetNoteQuery = ({ note_id }: { note_id: number }) => {
     staleTime: 5 * 60 * 1000,
   });
 };
+
+export const useCreateNoteMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ noteData }: { noteData: ICreateNote }) => {
+      const response = await postNote(noteData);
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
+    },
+  });
+};
+
+// export const useUpdateNoteMutation = () => {
+//   const queryClient = useQueryClient();
+
+//   return useMutation({
+//     mutationFn: async ({ noteData }: { noteData: ICreateNote }) => {
+//       const response = await putNote(noteData);
+//       return response;
+//     },
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ["notes"] });
+//     },
+//   });
+// };

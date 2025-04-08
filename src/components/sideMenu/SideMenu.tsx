@@ -12,7 +12,7 @@ export default function SideMenu() {
   return (
     // TODO: fold 시 에니메이션 효과 추후 추가 필요
     <div
-      className={`flex flex-col bg-white transition-all duration-300 h-screen ${
+      className={`flex flex-col border border-slate-200 bg-white transition-all duration-300 h-screen ${
         isFolded ? "w-[60px]" : "max-w-[280px]"
       }`}
     >
