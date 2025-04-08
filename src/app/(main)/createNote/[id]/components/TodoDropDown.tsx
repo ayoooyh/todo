@@ -33,11 +33,8 @@ export default function TodoDropDown<T extends FieldValues>({
     error: queryError,
   } = useGetTodosQuery({
     goalId,
+    size: 1000,
   });
-
-  // const { data: noteData } = useGetNoteQuery({
-  //   note_id: noteId ?? 0,
-  // });
 
   const handleSelect = (todoId: number) => {
     onFilterChange(todoId);
