@@ -8,6 +8,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+// TODO: infinite scroll 구현
 export default function Goal() {
   const { data, isLoading, error } = useGetGoalsQuery({
     cursor: undefined,
