@@ -140,12 +140,12 @@ export const useInfiniteTodosQuery = ({ goalId }: { goalId: number }) => {
       const res = getTodos({
         goalId,
         cursor: pageParam as string,
-        size: 1000,
+        size: 100,
       });
       return res;
     },
     getNextPageParam: (lastPage) => lastPage.next_cursor ?? undefined,
 
-    initialPageParam: null,
+    initialPageParam: 0,
   });
 };
