@@ -1,4 +1,9 @@
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import {
+  useQuery,
+  useQueryClient,
+  useMutation,
+  useInfiniteQuery,
+} from "@tanstack/react-query";
 import {
   getTodos,
   getProgressTodo,
@@ -125,5 +130,22 @@ export const useDeleteTodoMutation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
+  });
+};
+
+export const useInfiniteTodosQuery = ({ goalId }: { goalId: number }) => {
+  return useInfiniteQuery<ITodos>({
+    queryKey: ["todos", goalId],
+    queryFn: ({ pageParam }) => {
+      const res = getTodos({
+        goalId,
+        cursor: pageParam as string,
+        size: 1000,
+      });
+      return res;
+    },
+    getNextPageParam: (lastPage) => lastPage.next_cursor ?? undefined,
+
+    initialPageParam: null,
   });
 };
