@@ -5,13 +5,9 @@ import { UseFormRegister, Path } from "react-hook-form";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { FieldValues } from "react-hook-form";
-import {
-  // useGetTodosQuery,
-  useInfiniteTodosQuery,
-} from "@/queries/useTodoQuery";
+import { useInfiniteTodosQuery } from "@/queries/useTodoQuery";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
-// import { useGetNoteQuery } from "@/queries/useNoteQuery";
 
 // TODO: 해당 todo에 이미 생성한 note가 있을 시 생성 못하도록 처리
 export default function TodoDropDown<T extends FieldValues>({
@@ -30,15 +26,6 @@ export default function TodoDropDown<T extends FieldValues>({
   goalId: number;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  // const {
-  //   data,
-  //   isLoading,
-  //   error: queryError,
-  // } = useGetTodosQuery({
-  //   goalId,
-  //   size: 1000,
-  // });
-
   const {
     data,
     isLoading,
