@@ -34,7 +34,12 @@ export default function NotePage() {
 
   const handleKebabClick = (noteId: number, e: React.MouseEvent) => {
     e.stopPropagation();
-    setOpenNoteId(openNoteId === noteId ? null : noteId);
+    if (openNoteId === noteId) {
+      setOpenNoteId(null);
+      setSelectedNoteId(null);
+    } else {
+      setOpenNoteId(noteId);
+    }
   };
 
   return (
