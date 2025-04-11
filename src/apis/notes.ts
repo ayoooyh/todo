@@ -1,5 +1,5 @@
 import axiosInstance from "@/apis/axiosInstance";
-import { INotes, INote, ICreateNote, ICreateNoteResponse } from "@/types/note";
+import { INotes, INote, ICreateNote, IUpdateNote } from "@/types/note";
 
 export const getNotes = async ({
   goal_id,
@@ -28,9 +28,15 @@ export const getNote = async ({
   return response.data;
 };
 
-export const postNote = async (
-  data: ICreateNote
-): Promise<ICreateNoteResponse> => {
+export const postNote = async (data: ICreateNote): Promise<INote> => {
   const response = await axiosInstance.post("/notes", data);
+  return response.data;
+};
+
+export const updateNote = async (
+  note_id: number,
+  data: IUpdateNote
+): Promise<INote> => {
+  const response = await axiosInstance.patch(`/notes/${note_id}`, data);
   return response.data;
 };
