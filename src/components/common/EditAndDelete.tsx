@@ -5,20 +5,33 @@ import { EditTodoModal } from "@/components/EditTodo";
 import { ITodo } from "@/types/todo";
 import { DeleteTodo } from "@/components/DeleteTodo";
 import { useDeleteTodoMutation } from "@/queries/useTodoQuery";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+interface Props {
+  todoId: number;
+  todo: ITodo;
+  noteId?: number;
+  onEditClick?: () => void;
+}
 
 export default function EditAndDelete({
   todoId,
   todo,
-}: {
-  todoId: number;
-  todo: ITodo;
-}) {
+  noteId,
+}: // onEditClick,
+Props) {
   const { mutate: deleteTodo } = useDeleteTodoMutation();
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const router = useRouter();
 
   const handleEditClick = () => {
-    setIsOpen(true);
+    if (!noteId) {
+      setIsOpen(true);
+    } else {
+      router.push(`/editNote/${noteId}`);
+    }
   };
 
   const handleDeleteClick = () => {
@@ -26,9 +39,13 @@ export default function EditAndDelete({
   };
 
   const handleDeleteConfirm = () => {
-    deleteTodo(todoId);
+    if (todoId) {
+      deleteTodo(todoId);
+    }
     setIsDeleteOpen(false);
   };
+
+  console.log("컴포넌트 렌더링:", { isOpen, noteId, todoId });
 
   return (
     <>
@@ -46,7 +63,7 @@ export default function EditAndDelete({
           삭제하기
         </button>
       </div>
-      {isOpen && (
+      {isOpen && !noteId ? (
         <EditTodoModal
           onClose={() => {
             setIsOpen(false);
@@ -54,7 +71,10 @@ export default function EditAndDelete({
           todoId={todoId}
           todo={todo}
         />
-      )}
+      ) : isOpen && noteId ? (
+        <Link href={`/editNote/${noteId}`}>수정하기</Link>
+      ) : null}
+
       {isDeleteOpen && (
         <DeleteTodo
           setIsCloseConfirmOpen={setIsDeleteOpen}
