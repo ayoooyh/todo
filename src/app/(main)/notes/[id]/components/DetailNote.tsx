@@ -4,14 +4,18 @@ import { format } from "date-fns";
 
 export default function DetailNote({
   onClose,
+  todoId,
   noteId,
 }: {
   onClose: () => void;
+  todoId: number;
   noteId: number;
 }) {
   const { data, isLoading } = useGetNoteQuery({
     note_id: noteId,
   });
+
+  console.log(data);
 
   if (isLoading) {
     return <></>;
@@ -48,7 +52,7 @@ export default function DetailNote({
                     {data?.goal.title}
                   </span>
                 </div>
-                {data?.id && (
+                {todoId === data?.todo_id && (
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="px-[3px] py-0.5 bg-slate-100 rounded-[4px] text-xs font-medium text-slate-700">
@@ -73,32 +77,36 @@ export default function DetailNote({
 
               <div className="flex flex-col gap-4">
                 <hr className="border-t border-slate-200" />
-                <span className="text-lg font-medium text-slate-800">
-                  {data?.title}
-                </span>
-                <hr className="border-t border-slate-200" />
-
-                {data?.link_url && (
-                  <div className="bg-slate-200 rounded-[20px] px-1.5 py-1 flex items-center gap-2 cursor-pointer">
-                    <Image
-                      src="/images/attachment.svg"
-                      alt="attachment"
-                      width={16}
-                      height={16}
-                    />
-
-                    <span className="text-sm font-normal text-slate-700">
-                      {data?.link_url && (
-                        <a href={data.link_url} target="_blank">
-                          {data.link_url}
-                        </a>
-                      )}
+                {todoId === data?.todo_id && (
+                  <>
+                    <span className="text-lg font-medium text-slate-800">
+                      {data?.title}
                     </span>
-                  </div>
+                    <hr className="border-t border-slate-200" />
+
+                    {data?.link_url && (
+                      <div className="bg-slate-200 rounded-[20px] px-1.5 py-1 flex items-center gap-2 cursor-pointer">
+                        <Image
+                          src="/images/attachment.svg"
+                          alt="attachment"
+                          width={16}
+                          height={16}
+                        />
+
+                        <span className="text-sm font-normal text-slate-700">
+                          {data?.link_url && (
+                            <a href={data.link_url} target="_blank">
+                              {data.link_url}
+                            </a>
+                          )}
+                        </span>
+                      </div>
+                    )}
+                    <span className="text-base font-normal text-slate-700">
+                      {data?.content}
+                    </span>
+                  </>
                 )}
-                <span className="text-base font-normal text-slate-700">
-                  {data?.content}
-                </span>
               </div>
             </div>
           </div>
