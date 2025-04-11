@@ -7,12 +7,13 @@ import { useState } from "react";
 import DetailNote from "./components/DetailNote";
 import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
 import Link from "next/link";
-// import EditAndDelete from "@/components/common/EditAndDelete";
+import EditAndDelete from "@/components/common/EditAndDelete";
 
 export default function NotePage() {
   const goalId = useGoalId();
 
   const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null);
+  const [openNoteId, setOpenNoteId] = useState<number | null>(null);
 
   const { data, isLoading } = useGetNotesQuery({
     goal_id: goalId,
@@ -29,6 +30,11 @@ export default function NotePage() {
 
   const handleNoteClick = (noteId: number) => {
     setSelectedNoteId(noteId);
+  };
+
+  const handleKebabClick = (noteId: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setOpenNoteId(openNoteId === noteId ? null : noteId);
   };
 
   return (
@@ -68,18 +74,26 @@ export default function NotePage() {
                 width={28}
                 height={28}
               />
-              {/* TODO: 수정, 삭제하기 드롭다운 및 기능 구현
-              <EditAndDelete
-                todoId={note.todo.id}
-                todo={note.todo}
-                noteId={note.id}
-              /> */}
-              <Image
-                src="/images/kebab.svg"
-                alt="kebab"
-                width={24}
-                height={24}
-              />
+              <div
+                className="cursor-pointer relative"
+                onClick={(e) => handleKebabClick(note.id, e)}
+              >
+                <Image
+                  src="/images/kebab.svg"
+                  alt="kebab"
+                  width={24}
+                  height={24}
+                />
+                {openNoteId === note.id && (
+                  <div className="absolute right-0 top-full mt-1">
+                    <EditAndDelete
+                      todoId={note.todo.id}
+                      todo={note.todo}
+                      noteId={note.id}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
             {selectedNoteId === note.id && (
               <DetailNote
