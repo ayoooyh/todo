@@ -6,3 +6,10 @@ export const useGoalId = () => {
 
   return goalId;
 };
+
+export const useNoteId = () => {
+  const params = useParams<{ id: string }>();
+  const noteId = Number(params.id);
+
+  return noteId;
+};
