@@ -118,7 +118,7 @@ export default function NotePage() {
                 </span>
 
                 <span className="text-slate-700 font-normal text-xs">
-                  {data?.notes.map((note) => note.todo.title)}
+                  {note.todo.title}
                 </span>
               </div>
             </div>
