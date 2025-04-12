@@ -50,7 +50,7 @@ export default function EditNotePage() {
           todoId: note.todo_id,
         }}
         onSubmit={handleSubmit}
-        onClose={() => router.back()}
+        onClose={() => router.push(`/notes/${note.goal_id}`)}
       />
     </div>
   );
