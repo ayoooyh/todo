@@ -40,3 +40,7 @@ export const updateNote = async (
   const response = await axiosInstance.patch(`/notes/${note_id}`, data);
   return response.data;
 };
+
+export const deleteNote = async (note_id: number) => {
+  await axiosInstance.delete(`/notes/${note_id}`);
+};
