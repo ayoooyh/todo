@@ -58,10 +58,15 @@ export default function NoteForm({
 
   useEffect(() => {
     if (!todoId || mode === "edit") return;
+
+    setValue("title", "");
+    setValue("content", "");
+    setValue("linkUrl", "");
+
     const key = `note:${goalId}:${todoId}`;
     const savedData = localStorage.getItem(key);
     setShowTempNoteAlert(!!savedData);
-  }, [todoId, goalId, mode]);
+  }, [todoId, goalId, setValue, mode]);
 
   const handleFormSubmit = useCallback(
     async (formData: ICreateNoteForm) => {
@@ -218,6 +223,85 @@ export default function NoteForm({
             />
           </div>
 
+          <hr className="border-t border-slate-200" />
+
+          <div className="flex justify-between">
+            <div className="flex justify-between gap-4">
+              <div className="flex items-center gap-1">
+                <Image
+                  src="/images/editor-icons/ic_bold.svg"
+                  alt="bold"
+                  width={22}
+                  height={22}
+                />
+                <Image
+                  src="/images/editor-icons/ic_italic.svg"
+                  alt="italic"
+                  width={22}
+                  height={22}
+                />
+                <Image
+                  src="/images/editor-icons/ic_underline.svg"
+                  alt="underline"
+                  width={22}
+                  height={22}
+                />
+              </div>
+
+              <div className="flex items-center gap-1">
+                <Image
+                  src="/images/editor-icons/ic_Alignment_left.svg"
+                  alt="Alignment_left"
+                  width={22}
+                  height={22}
+                />
+                <Image
+                  src="/images/editor-icons/ic_Alignment_center.svg"
+                  alt="Alignment_center"
+                  width={22}
+                  height={22}
+                />
+                <Image
+                  src="/images/editor-icons/ic_Alignment_right.svg"
+                  alt="Alignment_right"
+                  width={22}
+                  height={22}
+                />
+              </div>
+
+              <div className="flex items-center gap-1">
+                <Image
+                  src="/images/editor-icons/ic_bullet.svg"
+                  alt="bullet"
+                  width={22}
+                  height={22}
+                />
+                <Image
+                  src="/images/editor-icons/ic_numbering.svg"
+                  alt="numbering"
+                  width={22}
+                  height={22}
+                />
+                <Image
+                  src="/images/editor-icons/ic_coloring.svg"
+                  alt="coloring"
+                  width={22}
+                  height={22}
+                />
+              </div>
+            </div>
+
+            <button type="button" onClick={handleLinkUrl}>
+              <Image
+                src="/images/editor-icons/ic_link.svg"
+                alt="link"
+                width={22}
+                height={22}
+              />
+            </button>
+          </div>
+
+          <hr className="border-t border-slate-200" />
           {showLinkInput && (
             <div className="relative">
               <input
@@ -236,16 +320,6 @@ export default function NoteForm({
               </div>
             </div>
           )}
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handleLinkUrl}
-              className="text-sm text-slate-600"
-            >
-              {showLinkInput ? "링크 숨기기" : "링크 추가"}
-            </button>
-          </div>
 
           <textarea
             placeholder="이 곳을 클릭해 노트 작성을 시작해주세요"
