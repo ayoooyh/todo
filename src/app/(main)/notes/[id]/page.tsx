@@ -90,7 +90,7 @@ export default function NotePage() {
                   height={24}
                 />
                 {openNoteId === note.id && (
-                  <div className="absolute right-0 top-full mt-1">
+                  <div className="absolute top-0 right-0">
                     <EditAndDelete
                       noteId={note.id}
                       todo={note.todo || undefined}
