@@ -18,7 +18,7 @@ export function EditTodoModal({
 }: {
   onClose: () => void;
   todoId: number;
-  todo: ITodo;
+  todo?: ITodo;
 }) {
   const {
     register,
@@ -39,7 +39,7 @@ export function EditTodoModal({
   const updateTodo = useUpdateTodoMutation();
   const [isCloseConfirmOpen, setIsCloseConfirmOpen] = useState(false);
   const [attachmentType, setAttachmentType] = useState<"file" | "link">(
-    todo.file_url ? "file" : todo.link_url ? "link" : "file"
+    todo?.file_url ? "file" : todo?.link_url ? "link" : "file"
   );
   const [selectedGoalId, setSelectedGoalId] = useState<number | null>(null);
 
@@ -48,8 +48,8 @@ export function EditTodoModal({
       const updateTodoData: IUpdateTodo = {
         title: data.title,
         goalId: data.goalId ? Number(data.goalId) : null,
-        fileUrl: attachmentType === "file" ? todo.file_url : null,
-        linkUrl: attachmentType === "link" ? data.linkUrl : null,
+        fileUrl: attachmentType === "file" ? todo?.file_url || null : null,
+        linkUrl: attachmentType === "link" ? data.linkUrl || null : null,
         done: data.done,
       };
 
@@ -86,7 +86,7 @@ export function EditTodoModal({
             </button>
           </div>
           <div className="flex items-center gap-1.5">
-            {todo.done ? (
+            {todo?.done ? (
               <Image
                 src="/images/active.svg"
                 alt="check"
@@ -188,12 +188,12 @@ export function EditTodoModal({
                     },
                   }}
                   className={`${
-                    todo.file_url
+                    todo?.file_url
                       ? "opacity-0 absolute inset-0 w-full h-full cursor-pointer"
                       : "w-full text-sm text-slate-400 file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:bg-slate-200 file:text-slate-800 hover:file:bg-slate-300"
                   }`}
                 />
-                {todo.file_url && (
+                {todo?.file_url && (
                   <div className="flex mt-3 py-3 px-6 bg-slate-50 rounded-xl border-2 border-transparent focus-within:border-blue-500">
                     {todo.file_url.split("/").pop()}
                   </div>
