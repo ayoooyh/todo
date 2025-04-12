@@ -92,9 +92,8 @@ export default function NotePage() {
                 {openNoteId === note.id && (
                   <div className="absolute right-0 top-full mt-1">
                     <EditAndDelete
-                      todoId={note.todo.id}
-                      todo={note.todo}
                       noteId={note.id}
+                      todo={note.todo || undefined}
                     />
                   </div>
                 )}
@@ -104,7 +103,7 @@ export default function NotePage() {
               <DetailNote
                 onClose={() => setSelectedNoteId(null)}
                 noteId={note.id}
-                todoId={note.todo.id}
+                todoId={note.todo?.id}
               />
             )}
             <div
@@ -123,7 +122,7 @@ export default function NotePage() {
                 </span>
 
                 <span className="text-slate-700 font-normal text-xs">
-                  {note.todo.title}
+                  {note.todo?.title}
                 </span>
               </div>
             </div>
