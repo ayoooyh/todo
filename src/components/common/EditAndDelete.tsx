@@ -31,6 +31,7 @@ export default function EditAndDelete({ todoId, todo, noteId }: Props) {
     }
   };
 
+  // 중첩 클릭 시 이벤트 충돌 방지를 위해 사용
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (todoId) {
