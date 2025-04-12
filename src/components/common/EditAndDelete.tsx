@@ -39,7 +39,6 @@ export default function EditAndDelete({ todoId, todo, noteId }: Props) {
     } else if (noteId) {
       setIsDeleteOpen(true);
     }
-    console.log("삭제 버튼 클릭됨", { isDeleteOpen, noteId });
   };
 
   const handleDeleteConfirm = () => {
