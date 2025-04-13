@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useGoalId } from "@/hooks/useGoalId";
 import { ErrorBoundary } from "react-error-boundary";
 import { ITodo } from "@/types/todo";
+import TodoAttachmentIcons from "@/components/common/TodoAttachmentIcons";
 
 const TodoContainer = ({ goalId }: { goalId: number }) => {
   const { data: todosData, isLoading } = useGetTodosQuery({
@@ -127,28 +128,34 @@ const Todos = ({ todos }: { todos: ITodo[] }) => {
   }
 
   return (
-    <div className="py-2 px-4 flex flex-col gap-2">
+    <div className="py-2 px-2 flex flex-col gap-2">
       {todos.map((todo) => (
-        <div
-          key={todo.id}
-          className="flex items-center gap-2 text-neutral-700 text-sm"
-        >
-          <input
-            type="checkbox"
-            checked={false} // 항상 체크 해제 상태
-            onChange={() =>
-              updateTodo({
-                todoId: todo.id,
-                title: todo.title,
-                done: true, // 체크박스 체크 시 할일 완료 처리
-                fileUrl: todo.file_url,
-                linkUrl: todo.link_url,
-                goalId: todo.goal_id,
-              })
-            }
-            className="cursor-pointer"
+        <div key={todo.id} className="flex justify-between items-center">
+          <div className="flex items-center gap-2 text-neutral-700 text-sm">
+            <input
+              type="checkbox"
+              checked={false} // 항상 체크 해제 상태
+              onChange={() =>
+                updateTodo({
+                  todoId: todo.id,
+                  title: todo.title,
+                  done: true, // 체크박스 체크 시 할일 완료 처리
+                  fileUrl: todo.file_url,
+                  linkUrl: todo.link_url,
+                  goalId: todo.goal_id,
+                })
+              }
+              className="cursor-pointer"
+            />
+            {todo.title}
+          </div>
+          <TodoAttachmentIcons
+            fileUrl={todo.file_url}
+            linkUrl={todo.link_url}
+            todoId={todo.id}
+            todo={todo}
+            noteId={todo.note_id}
           />
-          {todo.title}
         </div>
       ))}
     </div>
