@@ -1,7 +1,7 @@
 import axiosInstance from "./axiosInstance";
 import {
   IGoals,
-  IPostGoalsRequest,
+  IPostAndUpdateGoals,
   IGoalResponse,
   IPostGoalResponse,
 } from "@/types/goal";
@@ -25,7 +25,7 @@ export const getGoals = async ({
 };
 
 export const postGoal = async (
-  data: IPostGoalsRequest
+  data: IPostAndUpdateGoals
 ): Promise<IPostGoalResponse> => {
   const response = await axiosInstance.post("/goals", data);
   return response.data;
@@ -38,8 +38,8 @@ export const getGoal = async (goalId: number): Promise<IGoalResponse> => {
 
 export const updateGoal = async (
   goalId: number,
-  updateData: Partial<IGoals>
-): Promise<IGoals> => {
+  updateData: IPostAndUpdateGoals
+): Promise<IPostAndUpdateGoals> => {
   const response = await axiosInstance.patch(`/goals/${goalId}`, updateData);
   return response.data;
 };
