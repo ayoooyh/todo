@@ -30,7 +30,7 @@ export default function CreateNotePage() {
         const key = `note:${noteData.goal_id}:${noteData.todo_id}`;
         localStorage.removeItem(key);
 
-        router.push(`/goal/${goalId}`);
+        router.push(`/notes/${noteData.goal_id}`);
       } catch (error) {
         console.error("노트 생성 실패:", error);
         alert("노트 생성에 실패했습니다.");
