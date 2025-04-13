@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getGoals, postGoal, getGoal } from "@/apis/goals";
-import { IGoals } from "@/types/goal";
+import { getGoals, postGoal, getGoal, updateGoal } from "@/apis/goals";
+import { IGoals, IPostAndUpdateGoals } from "@/types/goal";
 
 export const useGetGoalsQuery = (
   {
@@ -50,5 +50,32 @@ export const useGetGoalQuery = ({ goalId }: { goalId: number }) => {
     staleTime: Infinity,
     refetchOnMount: true,
     enabled: true,
+  });
+};
+
+export const useUpdateGoalMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      goalId,
+      updateData,
+    }: {
+      goalId: number;
+      updateData: IPostAndUpdateGoals;
+    }) => updateGoal(goalId, updateData),
+
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["goal", variables.goalId, data],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["goals", variables.goalId],
+      });
+    },
+    onError: (error) => {
+      console.error("Goal 수정 실패:", error);
+    },
   });
 };
