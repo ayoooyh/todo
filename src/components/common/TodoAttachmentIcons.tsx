@@ -50,7 +50,7 @@ const TodoAttachmentIcons = ({
       <button className="cursor-pointer" onClick={handleKebabClick}>
         <Image src="/images/kebab.svg" alt="kebab" width={24} height={24} />
       </button>
-      {isOpen && <EditAndDelete todoId={todoId} todo={todo} noteId={0} />}
+      {isOpen && <EditAndDelete todoId={todoId} todo={todo} />}
     </div>
   );
 };
