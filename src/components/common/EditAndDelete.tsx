@@ -72,6 +72,7 @@ export default function EditAndDelete({ todoId, todo, noteId, goalId }: Props) {
       </div>
       {isOpen && goalId ? (
         <EditGoal
+          goalId={goalId}
           onClose={() => {
             setIsOpen(false);
           }}
