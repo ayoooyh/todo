@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDeleteNoteMutation } from "@/queries/useNoteQuery";
 import EditGoal from "@/components/EditGoal";
+import { useDeleteGoalMutation } from "@/queries/dashBoard/useGoalQuery";
 
 interface Props {
   todoId?: number;
@@ -21,6 +22,7 @@ interface Props {
 export default function EditAndDelete({ todoId, todo, noteId, goalId }: Props) {
   const { mutate: deleteTodo } = useDeleteTodoMutation();
   const { mutate: deleteNote } = useDeleteNoteMutation();
+  const { mutate: deleteGoal } = useDeleteGoalMutation();
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const router = useRouter();
@@ -42,6 +44,8 @@ export default function EditAndDelete({ todoId, todo, noteId, goalId }: Props) {
       setIsDeleteOpen(true);
     } else if (noteId) {
       setIsDeleteOpen(true);
+    } else if (goalId) {
+      setIsDeleteOpen(true);
     }
   };
 
@@ -50,6 +54,9 @@ export default function EditAndDelete({ todoId, todo, noteId, goalId }: Props) {
       deleteTodo(todoId);
     } else if (noteId) {
       deleteNote({ note_id: noteId });
+    } else if (goalId) {
+      deleteGoal(goalId);
+      router.push("/");
     }
     setIsDeleteOpen(false);
   };
@@ -93,8 +100,10 @@ export default function EditAndDelete({ todoId, todo, noteId, goalId }: Props) {
         <DeleteModal
           setIsCloseConfirmOpen={setIsDeleteOpen}
           onClose={handleDeleteConfirm}
-          todoOrGoal={noteId ? "노트" : "할 일"}
+          todoOrGoalOrNote={noteId ? "노트" : todoId ? "할 일" : "목표"}
           noteId={noteId}
+          todoId={todoId}
+          goalId={goalId}
         />
       )}
     </>

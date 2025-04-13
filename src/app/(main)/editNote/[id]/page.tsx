@@ -39,9 +39,9 @@ export default function EditNotePage() {
     <div className="flex flex-col gap-3 py-6 px-20 max-w-[792px] mx-auto h-screen">
       <NoteForm
         goalId={note.goal_id}
-        goalTitle={note.goal.title}
+        goalTitle={note.goal?.title}
         todoId={note.todo_id}
-        todoTitle={note.todo.title}
+        todoTitle={note.todo?.title}
         mode="edit"
         initialData={{
           title: note.title,
