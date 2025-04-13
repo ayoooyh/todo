@@ -8,15 +8,17 @@ import { useDeleteTodoMutation } from "@/queries/useTodoQuery";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDeleteNoteMutation } from "@/queries/useNoteQuery";
+import EditGoal from "@/components/EditGoal";
 
 interface Props {
   todoId?: number;
   todo?: ITodo;
   noteId?: number;
+  goalId?: number;
   onEditClick?: () => void;
 }
 
-export default function EditAndDelete({ todoId, todo, noteId }: Props) {
+export default function EditAndDelete({ todoId, todo, noteId, goalId }: Props) {
   const { mutate: deleteTodo } = useDeleteTodoMutation();
   const { mutate: deleteNote } = useDeleteNoteMutation();
   const [isOpen, setIsOpen] = useState(false);
@@ -24,10 +26,12 @@ export default function EditAndDelete({ todoId, todo, noteId }: Props) {
   const router = useRouter();
 
   const handleEditClick = () => {
-    if (!noteId) {
+    if (goalId) {
       setIsOpen(true);
-    } else {
+    } else if (noteId) {
       router.push(`/editNote/${noteId}`);
+    } else if (todoId) {
+      setIsOpen(true);
     }
   };
 
@@ -66,7 +70,15 @@ export default function EditAndDelete({ todoId, todo, noteId }: Props) {
           삭제하기
         </button>
       </div>
-      {isOpen && !noteId ? (
+      {isOpen && goalId ? (
+        <EditGoal
+          onClose={() => {
+            setIsOpen(false);
+          }}
+        />
+      ) : isOpen && noteId ? (
+        <Link href={`/editNote/${noteId}`}>수정하기</Link>
+      ) : isOpen && todoId ? (
         <EditTodoModal
           onClose={() => {
             setIsOpen(false);
@@ -74,8 +86,6 @@ export default function EditAndDelete({ todoId, todo, noteId }: Props) {
           todoId={todoId || 0}
           todo={todo || undefined}
         />
-      ) : isOpen && noteId ? (
-        <Link href={`/editNote/${noteId}`}>수정하기</Link>
       ) : null}
 
       {isDeleteOpen && (

@@ -73,7 +73,7 @@ export default function GoalHeader() {
         </button>
         {isOpen && (
           <div className="absolute top-4 right-3">
-            <EditAndDelete />
+            <EditAndDelete goalId={goalId} />
           </div>
         )}
       </div>
