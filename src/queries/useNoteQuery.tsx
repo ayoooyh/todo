@@ -70,7 +70,9 @@ export const useUpdateNoteMutation = () => {
     },
     onSuccess: (data, variables) => {
       // 노트 업데이트 후 업데이트된 노트를 가져오기 위해 개별 노트 쿼리 무효화 처리
-      queryClient.invalidateQueries({ queryKey: ["note", variables.note_id] });
+      queryClient.invalidateQueries({
+        queryKey: ["note", variables.note_id, data],
+      });
 
       // 노트 목록 쿼리 무효화
       queryClient.invalidateQueries({ queryKey: ["notes"] });
