@@ -23,10 +23,7 @@ export interface INote {
   user: IUser;
 }
 
-export interface ICreateNote {
-  title: string;
-  content: string;
-  link_url: string | null;
+export interface ICreateNote extends IUpdateNote {
   goal_id: number;
   todo_id: number;
 }
@@ -44,4 +41,10 @@ export interface ICreateNoteResponse {
   todo: ITodo;
   goal: IGoal;
   user: IUser;
+}
+
+export interface IUpdateNote {
+  title: string;
+  content: string;
+  link_url: string | null;
 }

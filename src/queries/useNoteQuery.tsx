@@ -1,6 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getNotes, getNote, postNote } from "@/apis/notes";
-import { INotes, INote, ICreateNote } from "@/types/note";
+import {
+  getNotes,
+  getNote,
+  postNote,
+  updateNote,
+  deleteNote,
+} from "@/apis/notes";
+import { INotes, INote, ICreateNote, IUpdateNote } from "@/types/note";
 
 export const useGetNotesQuery = ({
   goal_id,
@@ -48,16 +54,40 @@ export const useCreateNoteMutation = () => {
   });
 };
 
-// export const useUpdateNoteMutation = () => {
-//   const queryClient = useQueryClient();
+export const useUpdateNoteMutation = () => {
+  const queryClient = useQueryClient();
 
-//   return useMutation({
-//     mutationFn: async ({ noteData }: { noteData: ICreateNote }) => {
-//       const response = await putNote(noteData);
-//       return response;
-//     },
-//     onSuccess: () => {
-//       queryClient.invalidateQueries({ queryKey: ["notes"] });
-//     },
-//   });
-// };
+  return useMutation({
+    mutationFn: async ({
+      note_id,
+      noteData,
+    }: {
+      note_id: number;
+      noteData: IUpdateNote;
+    }) => {
+      const response = await updateNote(note_id, noteData);
+      return response;
+    },
+    onSuccess: (data, variables) => {
+      // 노트 업데이트 후 업데이트된 노트를 가져오기 위해 개별 노트 쿼리 무효화 처리
+      queryClient.invalidateQueries({ queryKey: ["note", variables.note_id] });
+
+      // 노트 목록 쿼리 무효화
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
+    },
+  });
+};
+
+export const useDeleteNoteMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ note_id }: { note_id: number }) => {
+      const response = await deleteNote(note_id);
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
+    },
+  });
+};

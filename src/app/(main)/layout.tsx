@@ -22,7 +22,9 @@ export default function MainLayout({
       )}
       <div
         className={`flex-1 w-full ${
-          pathname.includes("/createNote") ? "bg-white" : "bg-slate-100"
+          pathname.includes("/createNote") || pathname.includes("/editNote")
+            ? "bg-white"
+            : "bg-slate-100"
         } flex-col gap-3 py-6 px-20 ${showSidebar ? "pl-[180px]" : ""}`}
       >
         <div className="max-w-[1200px] mx-auto">{children}</div>

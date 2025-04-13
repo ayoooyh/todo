@@ -1,16 +1,21 @@
 "use client";
 
 import Image from "next/image";
+import { useDeleteNoteMutation } from "@/queries/useNoteQuery";
 
-export function DeleteTodo({
+export function DeleteModal({
   setIsCloseConfirmOpen,
   onClose,
   todoOrGoal,
+  noteId,
 }: {
   setIsCloseConfirmOpen: (isCloseConfirmOpen: boolean) => void;
   onClose: () => void;
   todoOrGoal: string;
+  noteId?: number;
 }) {
+  const { mutate: deleteNote } = useDeleteNoteMutation();
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/80 z-50">
       <div className="bg-white p-6 rounded-lg w-[300px]">
@@ -39,7 +44,12 @@ export function DeleteTodo({
               </span>
             </button>
             <button
-              onClick={onClose}
+              onClick={() => {
+                if (noteId) {
+                  deleteNote({ note_id: noteId });
+                }
+                onClose();
+              }}
               className="py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 w-1/2"
             >
               확인

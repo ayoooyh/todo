@@ -3,30 +3,50 @@
 import { useState } from "react";
 import { EditTodoModal } from "@/components/EditTodo";
 import { ITodo } from "@/types/todo";
-import { DeleteTodo } from "@/components/DeleteTodo";
+import { DeleteModal } from "@/components/DeleteModal";
 import { useDeleteTodoMutation } from "@/queries/useTodoQuery";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useDeleteNoteMutation } from "@/queries/useNoteQuery";
 
-export default function EditAndDelete({
-  todoId,
-  todo,
-}: {
-  todoId: number;
-  todo: ITodo;
-}) {
+interface Props {
+  todoId?: number;
+  todo?: ITodo;
+  noteId?: number;
+  onEditClick?: () => void;
+}
+
+export default function EditAndDelete({ todoId, todo, noteId }: Props) {
   const { mutate: deleteTodo } = useDeleteTodoMutation();
+  const { mutate: deleteNote } = useDeleteNoteMutation();
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const router = useRouter();
 
   const handleEditClick = () => {
-    setIsOpen(true);
+    if (!noteId) {
+      setIsOpen(true);
+    } else {
+      router.push(`/editNote/${noteId}`);
+    }
   };
 
-  const handleDeleteClick = () => {
-    setIsDeleteOpen(true);
+  // 중첩 클릭 시 이벤트 충돌 방지를 위해 사용
+  const handleDeleteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (todoId) {
+      setIsDeleteOpen(true);
+    } else if (noteId) {
+      setIsDeleteOpen(true);
+    }
   };
 
   const handleDeleteConfirm = () => {
-    deleteTodo(todoId);
+    if (todoId) {
+      deleteTodo(todoId);
+    } else if (noteId) {
+      deleteNote({ note_id: noteId });
+    }
     setIsDeleteOpen(false);
   };
 
@@ -46,20 +66,24 @@ export default function EditAndDelete({
           삭제하기
         </button>
       </div>
-      {isOpen && (
+      {isOpen && !noteId ? (
         <EditTodoModal
           onClose={() => {
             setIsOpen(false);
           }}
-          todoId={todoId}
-          todo={todo}
+          todoId={todoId || 0}
+          todo={todo || undefined}
         />
-      )}
+      ) : isOpen && noteId ? (
+        <Link href={`/editNote/${noteId}`}>수정하기</Link>
+      ) : null}
+
       {isDeleteOpen && (
-        <DeleteTodo
+        <DeleteModal
           setIsCloseConfirmOpen={setIsDeleteOpen}
           onClose={handleDeleteConfirm}
-          todoOrGoal={"할 일"}
+          todoOrGoal={noteId ? "노트" : "할 일"}
+          noteId={noteId}
         />
       )}
     </>

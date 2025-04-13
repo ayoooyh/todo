@@ -7,11 +7,13 @@ import { useState } from "react";
 import DetailNote from "./components/DetailNote";
 import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
 import Link from "next/link";
+import EditAndDelete from "@/components/common/EditAndDelete";
 
 export default function NotePage() {
   const goalId = useGoalId();
 
-  const [isDetailNoteOpen, setIsDetailNoteOpen] = useState(false);
+  const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null);
+  const [openNoteId, setOpenNoteId] = useState<number | null>(null);
 
   const { data, isLoading } = useGetNotesQuery({
     goal_id: goalId,
@@ -26,8 +28,18 @@ export default function NotePage() {
     return <></>;
   }
 
-  const handleNoteClick = () => {
-    setIsDetailNoteOpen(true);
+  const handleNoteClick = (noteId: number) => {
+    setSelectedNoteId(noteId);
+  };
+
+  const handleKebabClick = (noteId: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (openNoteId === noteId) {
+      setOpenNoteId(null);
+      setSelectedNoteId(null);
+    } else {
+      setOpenNoteId(noteId);
+    }
   };
 
   return (
@@ -67,23 +79,36 @@ export default function NotePage() {
                 width={28}
                 height={28}
               />
-              {/* TODO : 수정, 삭제하기 드롭다운 및 기능 구현 */}
-              <Image
-                src="/images/kebab.svg"
-                alt="kebab"
-                width={24}
-                height={24}
-              />
+              <div
+                className="cursor-pointer relative"
+                onClick={(e) => handleKebabClick(note.id, e)}
+              >
+                <Image
+                  src="/images/kebab.svg"
+                  alt="kebab"
+                  width={24}
+                  height={24}
+                />
+                {openNoteId === note.id && (
+                  <div className="absolute top-0 right-0">
+                    <EditAndDelete
+                      noteId={note.id}
+                      todo={note.todo || undefined}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-            {isDetailNoteOpen && (
+            {selectedNoteId === note.id && (
               <DetailNote
-                onClose={() => setIsDetailNoteOpen(false)}
+                onClose={() => setSelectedNoteId(null)}
                 noteId={note.id}
+                todoId={note.todo?.id}
               />
             )}
             <div
               className="flex flex-col gap-3 cursor-pointer"
-              onClick={handleNoteClick}
+              onClick={() => handleNoteClick(note.id)}
             >
               <span className="text-slate-800 font-semibold text-sm mt-0.5">
                 {note.title}
@@ -97,7 +122,7 @@ export default function NotePage() {
                 </span>
 
                 <span className="text-slate-700 font-normal text-xs">
-                  {data?.notes.map((note) => note.todo.title)}
+                  {note.todo?.title}
                 </span>
               </div>
             </div>
