@@ -36,7 +36,7 @@ export default function CreateNotePage() {
         alert("노트 생성에 실패했습니다.");
       }
     },
-    [goalId, router, createNoteMutation]
+    [router, createNoteMutation]
   );
 
   const handleClose = useCallback(() => {
