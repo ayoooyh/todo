@@ -1,5 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getGoals, postGoal, getGoal, updateGoal } from "@/apis/goals";
+import {
+  getGoals,
+  postGoal,
+  getGoal,
+  updateGoal,
+  deleteGoal,
+} from "@/apis/goals";
 import { IGoals, IPostAndUpdateGoals } from "@/types/goal";
 
 export const useGetGoalsQuery = (
@@ -76,6 +82,17 @@ export const useUpdateGoalMutation = () => {
     },
     onError: (error) => {
       console.error("Goal 수정 실패:", error);
+    },
+  });
+};
+
+export const useDeleteGoalMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (goalId: number) => await deleteGoal(goalId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["goals"] });
     },
   });
 };
