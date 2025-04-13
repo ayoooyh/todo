@@ -43,3 +43,7 @@ export const updateGoal = async (
   const response = await axiosInstance.patch(`/goals/${goalId}`, updateData);
   return response.data;
 };
+
+export const deleteGoal = async (goalId: number): Promise<void> => {
+  await axiosInstance.delete(`/goals/${goalId}`);
+};
