@@ -88,7 +88,10 @@ export const useDeleteNoteMutation = () => {
       const response = await deleteNote(note_id);
       return response;
     },
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["note", variables.note_id, data],
+      });
       queryClient.invalidateQueries({ queryKey: ["notes"] });
     },
   });
