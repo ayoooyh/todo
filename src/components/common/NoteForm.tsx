@@ -86,7 +86,7 @@ export default function NoteForm({
     setShowLinkInput(!showLinkInput);
   }, [showLinkInput]);
 
-  const handleTempSave = (e?: React.MouseEvent) => {
+  const handleTempSave = (e: React.MouseEvent) => {
     e?.preventDefault();
     if (mode === "edit") return; // 수정 모드에서는 임시저장 비활성화
     const key = `note:${goalId}:${todoId}`;
