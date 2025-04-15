@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ICreateTodo } from "@/types/todo";
 import GoalDropDown from "./GoalDropDown";
@@ -9,6 +9,7 @@ import Image from "next/image";
 import { useCreateTodoMutation } from "@/queries/useTodoQuery";
 import { IMakeTodoForm } from "@/types/form";
 import { ConfirmModal } from "./ConfirmModal";
+import { createPortal } from "react-dom";
 
 export function MakeTodoModal({ onClose }: { onClose: () => void }) {
   const {
@@ -24,6 +25,7 @@ export function MakeTodoModal({ onClose }: { onClose: () => void }) {
   const [isCloseConfirmOpen, setIsCloseConfirmOpen] = useState(false);
   const [attachmentType, setAttachmentType] = useState<"file" | "link">("file");
   const [selectedGoalId, setSelectedGoalId] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   const onSubmit = useCallback(
     async (data: IMakeTodoForm) => {
@@ -51,7 +53,12 @@ export function MakeTodoModal({ onClose }: { onClose: () => void }) {
     [attachmentType, onClose, createTodoMutation]
   );
 
-  return (
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
+  const modalContent = (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg max-w-[520px] w-full">
         <div className="flex justify-between items-center mb-6">
@@ -186,4 +193,6 @@ export function MakeTodoModal({ onClose }: { onClose: () => void }) {
       )}
     </div>
   );
+
+  return mounted ? createPortal(modalContent, document.body) : null;
 }
