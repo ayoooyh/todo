@@ -5,7 +5,7 @@ import { useGetNoteQuery } from "@/queries/useNoteQuery";
 import { useRouter } from "next/navigation";
 import { IUpdateNote } from "@/types/note";
 import { useUpdateNoteMutation } from "@/queries/useNoteQuery";
-import { useNoteId } from "@/hooks/useGoalId";
+import { useNoteId } from "@/hooks/useId";
 
 export default function EditNotePage() {
   const router = useRouter();

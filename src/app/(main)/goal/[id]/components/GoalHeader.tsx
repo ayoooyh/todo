@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
 import { useGetProgressTodoQuery } from "@/queries/useTodoQuery";
-import { useGoalId } from "@/hooks/useGoalId";
-import { useState } from "react";
+import { useGoalId } from "@/hooks/useId";
+import { useMemo, useState } from "react";
 import EditAndDelete from "@/components/common/EditAndDelete";
 
 export default function GoalHeader() {
@@ -23,6 +23,15 @@ export default function GoalHeader() {
   } = useGetProgressTodoQuery({ goalId });
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const progressString = useMemo(() => {
+    if (!progressData) {
+      return "";
+    }
+    const progress = (progressData.progress * 100).toFixed(0);
+
+    return `${progress}%`;
+  }, [progressData]);
 
   if (goalLoading || progressLoading)
     return (
@@ -48,7 +57,7 @@ export default function GoalHeader() {
   };
 
   return (
-    <div className="flex flex-col gap-6 bg-white rounded-xl p-4 relative">
+    <div className="flex flex-col gap-6 bg-white rounded-xl p-4 relative z-1">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <Image
@@ -81,16 +90,7 @@ export default function GoalHeader() {
         {/* TODO: 프로그레스 바 애니메이션 구현 */}
         <span className="text-slate-900 text-xs font-semibold">Progress</span>
         <span className="text-slate-900 text-xs font-semibold">
-          {progressData.progress === 0
-            ? "0"
-            : progressData.progress < 1
-            ? (progressData.progress * 100) % 1 === 0
-              ? Math.floor(progressData.progress * 100)
-              : (progressData.progress * 100).toFixed(1)
-            : progressData.progress === 1
-            ? "100"
-            : Math.floor(progressData.progress)}
-          %
+          {progressString}
         </span>
       </div>
     </div>

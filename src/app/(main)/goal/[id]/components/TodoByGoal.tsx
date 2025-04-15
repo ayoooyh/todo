@@ -8,7 +8,7 @@ import {
 import Image from "next/image";
 import { MakeTodoModal } from "@/components/CreateTodo";
 import { useState } from "react";
-import { useGoalId } from "@/hooks/useGoalId";
+import { useGoalId } from "@/hooks/useId";
 import { ErrorBoundary } from "react-error-boundary";
 import { ITodo } from "@/types/todo";
 import TodoAttachmentIcons from "@/components/common/TodoAttachmentIcons";

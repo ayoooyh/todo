@@ -5,13 +5,18 @@ import { useCallback } from "react";
 import { ICreateNote } from "@/types/note";
 import NoteForm from "@/components/common/NoteForm";
 import { useCreateNoteMutation } from "@/queries/useNoteQuery";
-import { useGoalId } from "@/hooks/useGoalId";
+import { useGoalId, useTodoId } from "@/hooks/useId";
 import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
+import { useGetTodosQuery } from "@/queries/useTodoQuery";
 
 export default function CreateNotePage() {
   const goalId = useGoalId();
+  const todoId = useTodoId();
   const router = useRouter();
-  const { data, isLoading } = useGetGoalQuery({ goalId: useGoalId() });
+  const { data, isLoading } = useGetGoalQuery({ goalId });
+  const { data: todoData, isLoading: todoLoading } = useGetTodosQuery({
+    goalId,
+  });
   const { mutate: createNoteMutation } = useCreateNoteMutation();
 
   const handleSubmit = useCallback(
@@ -30,7 +35,8 @@ export default function CreateNotePage() {
         const key = `note:${noteData.goal_id}:${noteData.todo_id}`;
         localStorage.removeItem(key);
 
-        router.push(`/notes/${noteData.goal_id}`);
+        router.back();
+        // router.push(`/notes/${noteData.goal_id}`);
       } catch (error) {
         console.error("노트 생성 실패:", error);
         alert("노트 생성에 실패했습니다.");
@@ -43,7 +49,7 @@ export default function CreateNotePage() {
     router.back();
   }, [router]);
 
-  if (isLoading) {
+  if (isLoading || todoLoading) {
     return <div>로딩 중...</div>;
   }
 
@@ -52,9 +58,11 @@ export default function CreateNotePage() {
       <NoteForm
         goalId={goalId}
         goalTitle={data?.title ?? ""}
-        todoId={0}
-        todoTitle=""
-        mode="create"
+        todoId={todoId}
+        todoTitle={
+          todoData?.todos.find((todo) => todo.id === todoId)?.title ?? ""
+        }
+        mode={"create"}
         onSubmit={handleSubmit}
         onClose={handleClose}
       />

@@ -4,7 +4,7 @@ import GoalHeader from "./components/GoalHeader";
 import Image from "next/image";
 import TodoByGoal from "./components/TodoByGoal";
 import { useGetNotesQuery } from "@/queries/useNoteQuery";
-import { useGoalId } from "@/hooks/useGoalId";
+import { useGoalId } from "@/hooks/useId";
 import Link from "next/link";
 
 export default function GoalPage() {
