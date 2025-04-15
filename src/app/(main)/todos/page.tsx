@@ -147,6 +147,8 @@ export default function TodosPage() {
                 linkUrl={todo.link_url}
                 todoId={todo.id}
                 todo={todo}
+                noteId={todo.note_id}
+                goalId={todo.goal_id}
               />
             </div>
           ))}
