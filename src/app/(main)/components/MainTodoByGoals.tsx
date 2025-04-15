@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useState, useMemo } from "react";
 import { CreateTodo } from "@/components/CreateTodo";
 import { useGetProgressTodoQuery } from "@/queries/useTodoQuery";
+import ProgressBar from "@/components/common/ProgressBar";
 
 export default function MainTodoByGoals() {
   const { data: goalsData, isLoading: goalsLoading } = useGetGoalsQuery();
@@ -34,12 +35,11 @@ export default function MainTodoByGoals() {
 
 function GoalContent({ goalId }: { goalId: number }) {
   const { data: goalData, isLoading: goalLoading } = useGetGoalsQuery();
-  const [todoSize, setTodoSize] = useState(5);
+  const [displayCount, setDisplayCount] = useState(5);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const { data: todosData, isLoading: todosLoading } = useGetTodosQuery({
     goalId,
     done: undefined,
-    size: todoSize,
   });
 
   const {
@@ -50,10 +50,9 @@ function GoalContent({ goalId }: { goalId: number }) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const progressString = useMemo(() => {
-    if (!progressData) return "";
-    const progress = (progressData.progress * 100).toFixed(0);
-    return `${progress}%`;
+  const progressValue = useMemo(() => {
+    if (!progressData) return 0;
+    return progressData.progress;
   }, [progressData]);
 
   if (goalLoading || todosLoading || progressLoading) {
@@ -66,8 +65,9 @@ function GoalContent({ goalId }: { goalId: number }) {
 
   const selectedGoal = goalData?.goals.find((goal) => goal.id === goalId);
   const todos = todosData?.todos || [];
-  const undoneTodos = todos.filter((todo) => !todo.done);
-  const doneTodos = todos.filter((todo) => todo.done);
+  const undoneTodos = todos.filter((todo) => !todo.done).slice(0, displayCount);
+  const doneTodos = todos.filter((todo) => todo.done).slice(0, displayCount);
+  const hasMoreTodos = todos.length > displayCount;
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -78,8 +78,8 @@ function GoalContent({ goalId }: { goalId: number }) {
   };
 
   const handleShowMore = () => {
-    setTodoSize((prev) => prev + 5);
     setIsLoadingMore(true);
+    setDisplayCount((prev) => prev + 5);
     setTimeout(() => {
       setIsLoadingMore(false);
     }, 500);
@@ -105,14 +105,7 @@ function GoalContent({ goalId }: { goalId: number }) {
         </button>
         {isModalOpen && <CreateTodo onClose={handleModalClose} />}
       </div>
-
-      {/* TODO: progress motion 수정 예정 */}
-      <div className="flex items-center justify-between">
-        <span className="text-slate-900 text-xs font-semibold">Progress</span>
-        <span className="text-slate-900 text-xs font-semibold">
-          {progressString}
-        </span>
-      </div>
+      <ProgressBar progress={progressValue} />
 
       <div className="flex gap-4">
         <div className="flex-1">
@@ -130,19 +123,21 @@ function GoalContent({ goalId }: { goalId: number }) {
         </div>
       </div>
       <div className="flex justify-center items-center">
-        <button
-          className="flex items-center gap-[2px] bg-white rounded-2xl px-9 py-1 justify-center"
-          onClick={handleShowMore}
-          disabled={isLoadingMore}
-        >
-          <span className="text-sm font-semibold text-slate-700">더보기</span>
-          <Image
-            src="/images/arrow_down.svg"
-            alt="arrow_down"
-            width={24}
-            height={24}
-          />
-        </button>
+        {hasMoreTodos && (
+          <button
+            className="flex items-center gap-[2px] bg-white rounded-2xl px-9 py-1 justify-center"
+            onClick={handleShowMore}
+            disabled={isLoadingMore}
+          >
+            <span className="text-sm font-semibold text-slate-700">더보기</span>
+            <Image
+              src="/images/arrow_down.svg"
+              alt="arrow_down"
+              width={24}
+              height={24}
+            />
+          </button>
+        )}
       </div>
     </div>
   );
