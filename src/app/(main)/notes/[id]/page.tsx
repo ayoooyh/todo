@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useGetNotesQuery } from "@/queries/useNoteQuery";
-import { useGoalId } from "@/hooks/useGoalId";
+import { useGoalId } from "@/hooks/useId";
 import { useState } from "react";
 import DetailNote from "./components/DetailNote";
 import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";

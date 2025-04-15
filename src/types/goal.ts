@@ -12,7 +12,7 @@ export interface IGoal {
   title: string;
 }
 
-export interface IPostGoalsRequest {
+export interface IPostAndUpdateGoals {
   title: string;
 }
 

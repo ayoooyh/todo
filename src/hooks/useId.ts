@@ -13,3 +13,10 @@ export const useNoteId = () => {
 
   return noteId;
 };
+
+export const useTodoId = () => {
+  const params = useParams<{ id: string }>();
+  const todoId = Number(params.id);
+
+  return todoId;
+};

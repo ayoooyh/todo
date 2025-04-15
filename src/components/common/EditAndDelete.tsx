@@ -8,26 +8,32 @@ import { useDeleteTodoMutation } from "@/queries/useTodoQuery";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDeleteNoteMutation } from "@/queries/useNoteQuery";
+import EditGoal from "@/components/EditGoal";
+import { useDeleteGoalMutation } from "@/queries/dashBoard/useGoalQuery";
 
 interface Props {
   todoId?: number;
   todo?: ITodo;
   noteId?: number;
+  goalId?: number;
   onEditClick?: () => void;
 }
 
-export default function EditAndDelete({ todoId, todo, noteId }: Props) {
+export default function EditAndDelete({ todoId, todo, noteId, goalId }: Props) {
   const { mutate: deleteTodo } = useDeleteTodoMutation();
   const { mutate: deleteNote } = useDeleteNoteMutation();
+  const { mutate: deleteGoal } = useDeleteGoalMutation();
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const router = useRouter();
 
   const handleEditClick = () => {
-    if (!noteId) {
+    if (goalId) {
       setIsOpen(true);
-    } else {
+    } else if (noteId) {
       router.push(`/editNote/${noteId}`);
+    } else if (todoId) {
+      setIsOpen(true);
     }
   };
 
@@ -38,6 +44,8 @@ export default function EditAndDelete({ todoId, todo, noteId }: Props) {
       setIsDeleteOpen(true);
     } else if (noteId) {
       setIsDeleteOpen(true);
+    } else if (goalId) {
+      setIsDeleteOpen(true);
     }
   };
 
@@ -46,6 +54,9 @@ export default function EditAndDelete({ todoId, todo, noteId }: Props) {
       deleteTodo(todoId);
     } else if (noteId) {
       deleteNote({ note_id: noteId });
+    } else if (goalId) {
+      deleteGoal(goalId);
+      router.push("/");
     }
     setIsDeleteOpen(false);
   };
@@ -66,7 +77,16 @@ export default function EditAndDelete({ todoId, todo, noteId }: Props) {
           삭제하기
         </button>
       </div>
-      {isOpen && !noteId ? (
+      {isOpen && goalId ? (
+        <EditGoal
+          goalId={goalId}
+          onClose={() => {
+            setIsOpen(false);
+          }}
+        />
+      ) : isOpen && noteId ? (
+        <Link href={`/editNote/${noteId}`}>수정하기</Link>
+      ) : isOpen && todoId ? (
         <EditTodoModal
           onClose={() => {
             setIsOpen(false);
@@ -74,16 +94,16 @@ export default function EditAndDelete({ todoId, todo, noteId }: Props) {
           todoId={todoId || 0}
           todo={todo || undefined}
         />
-      ) : isOpen && noteId ? (
-        <Link href={`/editNote/${noteId}`}>수정하기</Link>
       ) : null}
 
       {isDeleteOpen && (
         <DeleteModal
           setIsCloseConfirmOpen={setIsDeleteOpen}
           onClose={handleDeleteConfirm}
-          todoOrGoal={noteId ? "노트" : "할 일"}
+          todoOrGoalOrNote={noteId ? "노트" : todoId ? "할 일" : "목표"}
           noteId={noteId}
+          todoId={todoId}
+          goalId={goalId}
         />
       )}
     </>

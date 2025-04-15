@@ -1,3 +1,5 @@
+import { INote } from "./note";
+
 export interface ITodos {
   next_cursor: null;
   total_count: number;
@@ -14,6 +16,8 @@ export interface ITodo {
   done: boolean;
   file_url: string;
   goal_id: number;
+  note_id: number;
+  note: INote;
 }
 
 export interface ICreateTodo {

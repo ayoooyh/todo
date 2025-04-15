@@ -1,20 +1,24 @@
 "use client";
 
 import Image from "next/image";
-import { useDeleteNoteMutation } from "@/queries/useNoteQuery";
+// import { useDeleteNoteMutation } from "@/queries/useNoteQuery";
 
 export function DeleteModal({
   setIsCloseConfirmOpen,
   onClose,
-  todoOrGoal,
-  noteId,
-}: {
+  todoOrGoalOrNote,
+}: // noteId,
+// todoId,
+// goalId,
+{
   setIsCloseConfirmOpen: (isCloseConfirmOpen: boolean) => void;
   onClose: () => void;
-  todoOrGoal: string;
+  todoOrGoalOrNote: string;
   noteId?: number;
+  todoId?: number;
+  goalId?: number;
 }) {
-  const { mutate: deleteNote } = useDeleteNoteMutation();
+  // const { mutate: deleteNote } = useDeleteNoteMutation();
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/80 z-50">
@@ -30,8 +34,8 @@ export function DeleteModal({
           </div>
 
           <span className="mb-4 font-medium text-base text-center text-slate-800">
-            {todoOrGoal}을 삭제하시겠어요? <br /> 삭제된 {todoOrGoal}은 복구할
-            수 없습니다.
+            {todoOrGoalOrNote}을 삭제하시겠어요? <br /> 삭제된{" "}
+            {todoOrGoalOrNote}은 복구할 수 없습니다.
           </span>
 
           <div className="flex justify-center gap-2">
@@ -45,9 +49,6 @@ export function DeleteModal({
             </button>
             <button
               onClick={() => {
-                if (noteId) {
-                  deleteNote({ note_id: noteId });
-                }
                 onClose();
               }}
               className="py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 w-1/2"

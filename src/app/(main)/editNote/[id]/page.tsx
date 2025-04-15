@@ -5,7 +5,7 @@ import { useGetNoteQuery } from "@/queries/useNoteQuery";
 import { useRouter } from "next/navigation";
 import { IUpdateNote } from "@/types/note";
 import { useUpdateNoteMutation } from "@/queries/useNoteQuery";
-import { useNoteId } from "@/hooks/useGoalId";
+import { useNoteId } from "@/hooks/useId";
 
 export default function EditNotePage() {
   const router = useRouter();
@@ -39,9 +39,9 @@ export default function EditNotePage() {
     <div className="flex flex-col gap-3 py-6 px-20 max-w-[792px] mx-auto h-screen">
       <NoteForm
         goalId={note.goal_id}
-        goalTitle={note.goal.title}
+        goalTitle={note.goal?.title}
         todoId={note.todo_id}
-        todoTitle={note.todo.title}
+        todoTitle={note.todo?.title}
         mode="edit"
         initialData={{
           title: note.title,

@@ -3,7 +3,9 @@
 import Image from "next/image";
 import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
 import { useGetProgressTodoQuery } from "@/queries/useTodoQuery";
-import { useGoalId } from "@/hooks/useGoalId";
+import { useGoalId } from "@/hooks/useId";
+import { useMemo, useState } from "react";
+import EditAndDelete from "@/components/common/EditAndDelete";
 
 export default function GoalHeader() {
   const goalId = useGoalId();
@@ -19,6 +21,17 @@ export default function GoalHeader() {
     isLoading: progressLoading,
     error: progressError,
   } = useGetProgressTodoQuery({ goalId });
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const progressString = useMemo(() => {
+    if (!progressData) {
+      return "";
+    }
+    const progress = (progressData.progress * 100).toFixed(0);
+
+    return `${progress}%`;
+  }, [progressData]);
 
   if (goalLoading || progressLoading)
     return (
@@ -39,36 +52,45 @@ export default function GoalHeader() {
       </div>
     );
 
-  return (
-    <div className="flex flex-col gap-6 bg-white rounded-xl p-4 relative">
-      <div className="flex items-center gap-2">
-        <Image
-          src="/images/black-flag.svg"
-          alt="blackIcon"
-          width={40}
-          height={40}
-        />
-        <span className="text-lg font-medium">{goalData.title}</span>
+  const handleKebabClick = () => {
+    setIsOpen(!isOpen);
+  };
 
-        {/* TODO: 수정,삭제하기 드롭다운 애니메이션 구현 */}
-        <Image
-          src="/images/meatball.svg"
-          alt="meatball"
-          width={24}
-          height={24}
-          className="absolute right-4 top-4"
-        />
+  return (
+    <div className="flex flex-col gap-6 bg-white rounded-xl p-4 relative z-1">
+      <div className="flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <Image
+            src="/images/black-flag.svg"
+            alt="blackIcon"
+            width={40}
+            height={40}
+          />
+          <span className="text-lg font-medium">{goalData.title}</span>
+        </div>
+
+        <button
+          className="absolute right-4 top-5 cursor-pointer"
+          onClick={handleKebabClick}
+        >
+          <Image
+            src="/images/meatball.svg"
+            alt="meatball"
+            width={22}
+            height={22}
+          />
+        </button>
+        {isOpen && (
+          <div className="absolute top-4 right-3">
+            <EditAndDelete goalId={goalId} />
+          </div>
+        )}
       </div>
       <div className="flex items-center justify-between">
         {/* TODO: 프로그레스 바 애니메이션 구현 */}
         <span className="text-slate-900 text-xs font-semibold">Progress</span>
         <span className="text-slate-900 text-xs font-semibold">
-          {progressData.progress === 0
-            ? "0"
-            : progressData.progress < 1
-            ? (Math.ceil(progressData.progress * 10) / 10).toFixed(1)
-            : Math.floor(progressData.progress)}
-          %
+          {progressString}
         </span>
       </div>
     </div>

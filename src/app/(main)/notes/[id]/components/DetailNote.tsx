@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { useGetNoteQuery } from "@/queries/useNoteQuery";
 import { format } from "date-fns";
+import Link from "next/link";
+import { useDeleteNoteMutation } from "@/queries/useNoteQuery";
 
 export default function DetailNote({
   onClose,
@@ -14,6 +16,12 @@ export default function DetailNote({
   const { data, isLoading } = useGetNoteQuery({
     note_id: noteId,
   });
+  const { mutate: deleteNoteMutation } = useDeleteNoteMutation();
+
+  const handleDeleteNote = () => {
+    deleteNoteMutation({ note_id: noteId });
+    onClose();
+  };
 
   console.log(data);
 
@@ -22,11 +30,11 @@ export default function DetailNote({
   }
 
   return (
-    <div className="fixed inset-0 flex justify-end bg-black/80">
+    <div className="fixed inset-0 flex justify-end bg-black/80 z-50">
       <div className="flex w-full justify-end">
         <div className="bg-white p-6 w-1/2">
           <div className="flex flex-col gap-4">
-            <div className="flex justify-start">
+            <div className="flex justify-between items-center">
               <button
                 className="text-gray-500 hover:text-gray-700 cursor-pointer"
                 onClick={onClose}
@@ -38,6 +46,20 @@ export default function DetailNote({
                   height={24}
                 />
               </button>
+              <div className="flex gap-2 items-center">
+                <button
+                  onClick={handleDeleteNote}
+                  className="text-gray-500 hover:text-gray-700 font-semibold text-sm"
+                >
+                  삭제하기
+                </button>
+                <Link
+                  href={`/editNote/${noteId}`}
+                  className="text-blue-500 hover:text-blue-600 font-semibold text-sm"
+                >
+                  수정하기
+                </Link>
+              </div>
             </div>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-3">
@@ -60,7 +82,7 @@ export default function DetailNote({
                       </span>
 
                       <span className="text-slate-700 font-normal text-xs">
-                        {data?.todo.title}
+                        {data.todo.title}
                       </span>
                     </div>
 
