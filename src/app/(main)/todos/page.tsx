@@ -3,7 +3,7 @@
 import { useGetTodosQuery } from "@/queries/useTodoQuery";
 import Image from "next/image";
 import { useState, useMemo } from "react";
-import { MakeTodoModal } from "@/components/CreateTodo";
+import { CreateTodo } from "@/components/CreateTodo";
 import { useUpdateTodoMutation } from "@/queries/useTodoQuery";
 import TodoAttachmentIcons from "@/components/common/TodoAttachmentIcons";
 
@@ -105,7 +105,7 @@ export default function TodosPage() {
           />
           <span className="text-sm text-blue-500 font-semibold">할일 추가</span>
         </button>
-        {isModalOpen && <MakeTodoModal onClose={handleModalClose} />}
+        {isModalOpen && <CreateTodo onClose={handleModalClose} />}
       </div>
 
       <div className="flex flex-col gap-4 bg-white border border-slate-100 rounded-xl p-6">
