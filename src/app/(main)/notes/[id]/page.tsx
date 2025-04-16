@@ -5,7 +5,7 @@ import { useGetNotesQuery } from "@/queries/useNoteQuery";
 import { useGoalId } from "@/hooks/useId";
 import { useState } from "react";
 import DetailNote from "./components/DetailNote";
-import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
+import { useGetGoalQuery } from "@/queries/useGoalQuery";
 import Link from "next/link";
 import EditAndDelete from "@/components/common/EditAndDelete";
 

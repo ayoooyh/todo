@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  useGetGoalsQuery,
-  usePostGoalMutation,
-} from "@/queries/dashBoard/useGoalQuery";
+import { useGetGoalsQuery, usePostGoalMutation } from "@/queries/useGoalQuery";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";

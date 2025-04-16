@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetGoalsQuery } from "@/queries/dashBoard/useGoalQuery";
+import { useGetGoalsQuery } from "@/queries/useGoalQuery";
 import {
   useGetTodosQuery,
   useUpdateTodoMutation,

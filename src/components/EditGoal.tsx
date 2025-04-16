@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useUpdateGoalMutation } from "@/queries/dashBoard/useGoalQuery";
+import { useUpdateGoalMutation } from "@/queries/useGoalQuery";
 import { useForm } from "react-hook-form";
 import { IPostAndUpdateGoals } from "@/types/goal";
-import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
+import { useGetGoalQuery } from "@/queries/useGoalQuery";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 

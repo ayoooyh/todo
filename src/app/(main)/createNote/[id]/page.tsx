@@ -6,7 +6,7 @@ import { ICreateNote } from "@/types/note";
 import NoteForm from "@/components/common/NoteForm";
 import { useCreateNoteMutation } from "@/queries/useNoteQuery";
 import { useGoalId, useTodoId } from "@/hooks/useId";
-import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
+import { useGetGoalQuery } from "@/queries/useGoalQuery";
 import { useGetTodosQuery } from "@/queries/useTodoQuery";
 
 export default function CreateNotePage() {

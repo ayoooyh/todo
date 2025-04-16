@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
+import { useGetGoalQuery } from "@/queries/useGoalQuery";
 import { useGetProgressTodoQuery } from "@/queries/useTodoQuery";
 import { useGoalId } from "@/hooks/useId";
 import { useState } from "react";

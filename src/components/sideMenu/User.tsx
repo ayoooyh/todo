@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useUserQuery } from "@/queries/dashBoard/useUserQuery";
+import { useUserQuery } from "@/queries/useUserQuery";
 import { useState } from "react";
-import { MakeTodoModal } from "@/components/CreateTodo";
+import { CreateTodo } from "@/components/CreateTodo";
 
 export default function User() {
   const { data, isLoading, error } = useUserQuery();
@@ -70,7 +70,7 @@ export default function User() {
           새 할 일
         </span>
       </button>
-      {isModalOpen && <MakeTodoModal onClose={handleModalClose} />}
+      {isModalOpen && <CreateTodo onClose={handleModalClose} />}
     </div>
   );
 }

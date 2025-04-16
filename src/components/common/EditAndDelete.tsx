@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDeleteNoteMutation } from "@/queries/useNoteQuery";
 import EditGoal from "@/components/EditGoal";
-import { useDeleteGoalMutation } from "@/queries/dashBoard/useGoalQuery";
+import { useDeleteGoalMutation } from "@/queries/useGoalQuery";
 
 interface Props {
   todoId?: number;
