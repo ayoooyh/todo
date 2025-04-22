@@ -12,7 +12,7 @@ export default function SideMenu() {
   return (
     // TODO: fold 시 에니메이션 효과 추후 추가 필요
     <div
-      className={`flex flex-col border border-slate-200 bg-white transition-all duration-300 h-screen ${
+      className={`flex flex-col border border-slate-200 bg-white transition-all duration-300 h-screen overflow-y-auto ${
         isFolded ? "w-[60px]" : "max-w-[280px]"
       }`}
     >
@@ -42,7 +42,7 @@ export default function SideMenu() {
       </div>
 
       {!isFolded && (
-        <div className="flex flex-col gap-4 ">
+        <div className="flex flex-col gap-4">
           <User />
           <div className="border-t border-slate-200" />
           <div className="flex justify-left items-center gap-2 px-6">

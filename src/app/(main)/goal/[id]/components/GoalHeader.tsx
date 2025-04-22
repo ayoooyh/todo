@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useGetGoalQuery } from "@/queries/dashBoard/useGoalQuery";
+import { useGetGoalQuery } from "@/queries/useGoalQuery";
 import { useGetProgressTodoQuery } from "@/queries/useTodoQuery";
 import { useGoalId } from "@/hooks/useId";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import EditAndDelete from "@/components/common/EditAndDelete";
+import ProgressBar from "@/components/common/ProgressBar";
 
 export default function GoalHeader() {
   const goalId = useGoalId();
@@ -23,15 +24,6 @@ export default function GoalHeader() {
   } = useGetProgressTodoQuery({ goalId });
 
   const [isOpen, setIsOpen] = useState(false);
-
-  const progressString = useMemo(() => {
-    if (!progressData) {
-      return "";
-    }
-    const progress = (progressData.progress * 100).toFixed(0);
-
-    return `${progress}%`;
-  }, [progressData]);
 
   if (goalLoading || progressLoading)
     return (
@@ -86,13 +78,8 @@ export default function GoalHeader() {
           </div>
         )}
       </div>
-      <div className="flex items-center justify-between">
-        {/* TODO: 프로그레스 바 애니메이션 구현 */}
-        <span className="text-slate-900 text-xs font-semibold">Progress</span>
-        <span className="text-slate-900 text-xs font-semibold">
-          {progressString}
-        </span>
-      </div>
+
+      <ProgressBar progress={progressData.progress} />
     </div>
   );
 }

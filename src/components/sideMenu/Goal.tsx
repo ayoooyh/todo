@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  useGetGoalsQuery,
-  usePostGoalMutation,
-} from "@/queries/dashBoard/useGoalQuery";
+import { useGetGoalsQuery, usePostGoalMutation } from "@/queries/useGoalQuery";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -65,7 +62,7 @@ export default function Goal() {
     );
 
   return (
-    <div className="flex flex-col gap-4 px-6">
+    <div className="flex flex-col gap-4 px-6 overflow-y-auto">
       <div className="flex justify-left items-center gap-2">
         <Image src="/images/flag.svg" alt="goal" width={24} height={24} />
         <span className="text-lg font-medium text-slate-800">목표</span>
@@ -102,9 +99,9 @@ export default function Goal() {
       ) : (
         <button
           onClick={() => setIsAdding(true)}
-          className="bg-white border border-blue-500 py-3  rounded-xl w-full"
+          className="bg-white border border-blue-500 py-3 rounded-xl w-full mb-4"
         >
-          <div className="flex justify-center items-center gap-1 ">
+          <div className="flex justify-center items-center gap-1">
             <Image
               src="/images/plus-blue.svg"
               alt="plus"

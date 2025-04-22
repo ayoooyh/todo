@@ -11,7 +11,7 @@ import { IMakeTodoForm } from "@/types/form";
 import { ConfirmModal } from "./ConfirmModal";
 import { createPortal } from "react-dom";
 
-export function MakeTodoModal({ onClose }: { onClose: () => void }) {
+export function CreateTodo({ onClose }: { onClose: () => void }) {
   const {
     register,
     handleSubmit,
@@ -59,9 +59,9 @@ export function MakeTodoModal({ onClose }: { onClose: () => void }) {
   }, []);
 
   const modalContent = (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg max-w-[520px] w-full">
-        <div className="flex justify-between items-center mb-6">
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 overflow-y-auto">
+      <div className="bg-white px-6 pb-6 rounded-lg max-w-[520px] w-full max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center pt-6 mb-6 sticky top-0 bg-white">
           <span className="text-lg font-bold">할 일 생성</span>
           <button
             onClick={() => {

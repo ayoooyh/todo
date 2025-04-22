@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useGetGoalsQuery } from "@/queries/dashBoard/useGoalQuery";
+import { useGetGoalsQuery } from "@/queries/useGoalQuery";
 import { UseFormRegister, FieldValues, Path } from "react-hook-form";
 
 export default function GoalDropDown<T extends FieldValues>({

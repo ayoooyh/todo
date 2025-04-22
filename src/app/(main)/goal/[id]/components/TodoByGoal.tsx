@@ -6,7 +6,7 @@ import {
   useUpdateTodoMutation,
 } from "@/queries/useTodoQuery";
 import Image from "next/image";
-import { MakeTodoModal } from "@/components/CreateTodo";
+import { CreateTodo } from "@/components/CreateTodo";
 import { useState } from "react";
 import { useGoalId } from "@/hooks/useId";
 import { ErrorBoundary } from "react-error-boundary";
@@ -61,7 +61,7 @@ const TodoContainer = ({ goalId }: { goalId: number }) => {
               할일 추가
             </span>
           </button>
-          {isModalOpen && <MakeTodoModal onClose={handleModalClose} />}
+          {isModalOpen && <CreateTodo onClose={handleModalClose} />}
         </div>
         <Todos todos={undoneTodos} />
       </div>
