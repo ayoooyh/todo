@@ -3,7 +3,7 @@ import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { TokenTypes } from "@/types/token";
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  baseURL: "/api",
   headers: {
     "Content-Type": "application/json",
   },
