@@ -1,10 +1,12 @@
 import { signIn } from "@/apis/auth";
-import { setCookie } from "cookies-next";
+import { setCookie, deleteCookie } from "cookies-next";
 import { useCallback } from "react";
+import { TokenTypes } from "@/types/token";
 
 const useLogin = () => {
   const login = useCallback(
     async ({ email, password }: { email: string; password: string }) => {
+      console.log("login 함수 시작");
       let result;
       try {
         result = await signIn({ email, password });
@@ -14,8 +16,16 @@ const useLogin = () => {
         return Promise.reject(error);
       }
 
-      setCookie("access_token", result.access_token, { path: "/" });
-      setCookie("refresh_token", result.refresh_token, { path: "/" });
+      // 쿠키 옵션
+      const cookieOptions = {
+        path: "/",
+        secure: process.env.NODE_ENV === "production", // HTTPS에서만 쿠키 전송
+        sameSite: "strict" as const, // CSRF 방지
+      };
+
+      setCookie(TokenTypes.ACCESS_TOKEN, result.access_token, cookieOptions);
+      setCookie(TokenTypes.REFRESH_TOKEN, result.refresh_token, cookieOptions);
+
       return true;
     },
     []
@@ -24,4 +34,14 @@ const useLogin = () => {
   return { login };
 };
 
-export { useLogin };
+const useLogout = () => {
+  const logout = useCallback(() => {
+    deleteCookie(TokenTypes.ACCESS_TOKEN);
+    deleteCookie(TokenTypes.REFRESH_TOKEN);
+    window.location.href = "/auth/signin";
+  }, []);
+
+  return { logout };
+};
+
+export { useLogin, useLogout };
