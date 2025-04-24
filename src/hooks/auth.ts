@@ -6,7 +6,6 @@ import { TokenTypes } from "@/types/token";
 const useLogin = () => {
   const login = useCallback(
     async ({ email, password }: { email: string; password: string }) => {
-      console.log("login 함수 시작");
       let result;
       try {
         result = await signIn({ email, password });
