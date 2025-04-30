@@ -29,7 +29,9 @@ export default function SideMenu() {
             height={32}
           />
         ) : (
-          <Image src="/images/logo.svg" alt="logo" width={106} height={35} />
+          <Link href="/">
+            <Image src="/images/logo.svg" alt="logo" width={106} height={35} />
+          </Link>
         )}
         <Image
           src={isFolded ? "/images/expand.svg" : "/images/fold.svg"}
