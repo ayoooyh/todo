@@ -1,11 +1,11 @@
 "use client";
 
 import { useGetGoalsQuery, usePostGoalMutation } from "@/queries/useGoalQuery";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Reorder, AnimatePresence, motion } from "framer-motion";
 
-// TODO: infinite scroll 구현
 export default function Goal() {
   const { data, isLoading, error } = useGetGoalsQuery({
     cursor: undefined,
@@ -14,13 +14,33 @@ export default function Goal() {
   });
   const [isAdding, setIsAdding] = useState(false);
   const [newGoal, setNewGoal] = useState("");
+  const [items, setItems] = useState<Array<{ id: string; title: string }>>([]);
+
+  // useEffect를 추가하여 데이터가 로드되면 items 상태 업데이트
+  useEffect(() => {
+    if (data?.goals) {
+      setItems(
+        data.goals.map((goal) => ({
+          id: goal.id.toString(),
+          title: goal.title,
+        }))
+      );
+    }
+  }, [data?.goals]);
 
   //postGoal은 mutate 함수여서 mutateAsync를 사용해야 함
   const { mutateAsync: postGoal, isPending } = usePostGoalMutation();
 
   const handleAddGoal = async () => {
     try {
-      await postGoal({ title: newGoal });
+      const response = await postGoal({ title: newGoal });
+      // 새 목표를 상단에 추가
+      if (response?.id) {
+        setItems((prevItems) => [
+          { id: response.id.toString(), title: newGoal },
+          ...prevItems,
+        ]);
+      }
       setIsAdding(false);
       setNewGoal("");
     } catch (error) {
@@ -62,25 +82,67 @@ export default function Goal() {
     );
 
   return (
-    <div className="flex flex-col gap-4 px-6 overflow-y-auto">
+    <div className="flex flex-col gap-4 px-6 h-full">
       <div className="flex justify-left items-center gap-2">
         <Image src="/images/flag.svg" alt="goal" width={24} height={24} />
         <span className="text-lg font-medium text-slate-800">목표</span>
       </div>
-      <div className="flex flex-col">
-        {data.goals.map((goal) => (
-          <span
-            key={goal.id}
-            className="p-2 text-slate-700 font-medium text-sm"
+
+      <div className="flex-grow overflow-y-auto max-h-[calc(100vh-300px)] h-[300px] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+        <AnimatePresence mode="popLayout">
+          <Reorder.Group
+            axis="y"
+            values={items}
+            onReorder={setItems}
+            className="flex flex-col w-full"
+            layoutScroll
+            initial={false}
           >
-            <span className="pr-1 text-slate-700 font-medium text-sm">・</span>
-            <Link href={`/goal/${goal.id}`}>{goal.title}</Link>
-          </span>
-        ))}
+            {items.map((goal) => (
+              <Reorder.Item
+                key={goal.id}
+                value={goal}
+                className="cursor-move w-full"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 20,
+                  duration: 0.4,
+                }}
+                whileDrag={{
+                  scale: 1.01,
+                  backgroundColor: "rgba(240, 240, 240, 0.5)",
+                }}
+              >
+                {/* 임시 ID를 가진 항목에 특별한 스타일 적용 */}
+                <span
+                  className={`p-2 text-slate-700 font-medium text-sm block ${
+                    goal.id.startsWith("temp-")
+                      ? "bg-blue-50 border-l-2 border-blue-400 pl-3"
+                      : ""
+                  }`}
+                >
+                  <span className="pr-1 text-slate-700 font-medium text-sm">
+                    ・
+                  </span>
+                  <Link href={`/goal/${goal.id}`}>{goal.title}</Link>
+                </span>
+              </Reorder.Item>
+            ))}
+          </Reorder.Group>
+        </AnimatePresence>
       </div>
 
       {isAdding ? (
-        <div className="relative w-full">
+        <motion.div
+          className="relative w-full mt-2"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
+        >
           <input
             type="text"
             value={newGoal}
@@ -88,6 +150,7 @@ export default function Goal() {
             onKeyDown={handleKeyDown}
             className="w-full border border-blue-500 rounded-xl h-[50px] text-xs p-3"
             placeholder="새로운 목표를 입력하세요"
+            autoFocus
           />
           <button
             onClick={onClickCancel}
@@ -95,11 +158,14 @@ export default function Goal() {
           >
             <Image src="/images/exit.svg" alt="exit" width={12} height={12} />
           </button>
-        </div>
+        </motion.div>
       ) : (
-        <button
+        <motion.button
           onClick={() => setIsAdding(true)}
-          className="bg-white border border-blue-500 py-3 rounded-xl w-full mb-4"
+          className="bg-white border border-blue-500 py-3 rounded-xl w-full mb-4 mt-2"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          transition={{ duration: 0.2 }}
         >
           <div className="flex justify-center items-center gap-1">
             <Image
@@ -110,7 +176,7 @@ export default function Goal() {
             />
             <span className="text-base font-medium text-blue-500">새 목표</span>
           </div>
-        </button>
+        </motion.button>
       )}
     </div>
   );
