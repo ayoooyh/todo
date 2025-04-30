@@ -17,7 +17,6 @@ const TodoContainer = ({ goalId }: { goalId: number }) => {
   const { data: todosData, isLoading } = useGetTodosQuery({
     goalId,
     done: undefined,
-    size: 20,
   });
 
   const todos = useMemo(() => todosData?.todos || [], [todosData]);
@@ -86,7 +85,7 @@ const DoneTodos = ({ todos }: { todos: ITodo[] }) => {
   }
 
   return (
-    <div className="py-2 px-4 flex flex-col gap-2">
+    <div className="py-2 px-4 flex flex-col gap-2 overflow-y-auto max-h-[180px]">
       {todos.map((todo) => (
         <div
           key={todo.id}
@@ -128,7 +127,7 @@ const Todos = ({ todos }: { todos: ITodo[] }) => {
   }
 
   return (
-    <div className="py-2 px-2 flex flex-col gap-2">
+    <div className="py-2 px-2 flex flex-col gap-2 overflow-y-auto max-h-[180px]">
       {todos.map((todo) => (
         <div key={todo.id} className="flex justify-between items-center">
           <div className="flex items-center gap-2 text-neutral-700 text-sm">
