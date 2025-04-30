@@ -10,7 +10,7 @@ export function ConfirmModal({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/80">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/80 z-10">
       <div className="bg-white p-6 rounded-lg w-[300px]">
         <div className="flex flex-col gap-5">
           <div className="flex justify-end">
@@ -29,13 +29,13 @@ export function ConfirmModal({
           <div className="flex justify-center gap-2">
             <button
               onClick={() => setIsCloseConfirmOpen(false)}
-              className="py-3 bg-white border border-blue-500 rounded-xl hover:bg-blue-50 w-1/2"
+              className="py-3 bg-white border border-blue-500 rounded-xl hover:bg-blue-50 w-1/2 text-blue-500 font-semibold text-base"
             >
               취소
             </button>
             <button
               onClick={onClose}
-              className="py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 w-1/2"
+              className="py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 w-1/2 font-semibold text-base"
             >
               확인
             </button>

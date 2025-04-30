@@ -72,7 +72,7 @@ export default function User() {
         </div>
       </div>
       <button
-        className="flex justify-center items-center gap-1 bg-blue-500 py-3 rounded-xl"
+        className="flex justify-center items-center gap-1 bg-blue-500 py-3 rounded-xl hover:bg-blue-600 cursor-pointer"
         onClick={handleModalOpen}
       >
         <Image src="/images/plus.svg" alt="plus" width={24} height={24} />

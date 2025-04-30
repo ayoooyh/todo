@@ -72,7 +72,7 @@ export default function GoalDropDown<T extends FieldValues>({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute w-full mt-1 bg-white rounded-lg shadow-lg z-10"
+            className="absolute w-full mt-1 bg-white rounded-lg shadow-lg z-10 max-h-[200px] overflow-y-auto"
           >
             <motion.li
               whileHover={{ backgroundColor: "#f3f4f6" }}
