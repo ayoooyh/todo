@@ -4,10 +4,12 @@ import Image from "next/image";
 import { useUserQuery } from "@/queries/useUserQuery";
 import { useState } from "react";
 import { CreateTodo } from "@/components/CreateTodo";
+import { useLogout } from "@/hooks/auth";
 
 export default function User() {
   const { data, isLoading, error } = useUserQuery();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { logout } = useLogout();
 
   const handleModalOpen = () => {
     if (isModalOpen) {
@@ -19,6 +21,10 @@ export default function User() {
 
   const handleModalClose = () => {
     setIsModalOpen(false);
+  };
+
+  const handleLogout = () => {
+    logout();
   };
 
   // TODO: 로딩 중 화면 렌더링 추가 필요
@@ -48,7 +54,7 @@ export default function User() {
           width={64}
           height={64}
         />
-        <div className="flex flex-col justify-center gap-2">
+        <div className="flex flex-col items-start gap-2">
           <div className="flex flex-col">
             <span className="font-semibold text-sm text-slate-800">
               {data.name}
@@ -57,12 +63,16 @@ export default function User() {
               {data.email}
             </span>
           </div>
-          {/* TODO: 로그아웃 기능 추가 */}
-          <div className="text-xs font-normal text-slate-400">로그아웃</div>
+          <button
+            className="text-xs font-normal text-slate-400 hover:text-slate-600 cursor-pointer "
+            onClick={handleLogout}
+          >
+            로그아웃
+          </button>
         </div>
       </div>
       <button
-        className="flex justify-center items-center gap-1 bg-blue-500 py-3 rounded-xl"
+        className="flex justify-center items-center gap-1 bg-blue-500 py-3 rounded-xl hover:bg-blue-600 cursor-pointer"
         onClick={handleModalOpen}
       >
         <Image src="/images/plus.svg" alt="plus" width={24} height={24} />

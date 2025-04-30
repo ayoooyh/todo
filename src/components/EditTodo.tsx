@@ -220,7 +220,7 @@ export function EditTodoModal({
               </div>
             )}
           </div>
-          <span>목표</span>
+          <span className="text-base font-semibold text-slate-800">목표</span>
           <GoalDropDown
             onFilterChange={(goalId: number | null) => {
               setSelectedGoalId(goalId);

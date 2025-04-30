@@ -21,7 +21,7 @@ import {
 
 export const useGetTodosQuery = ({
   goalId = undefined,
-  size = 20,
+  size = 10000,
   done = undefined,
   cursor = undefined,
   sortOrder = "newest",

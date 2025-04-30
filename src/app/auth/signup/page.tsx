@@ -7,14 +7,12 @@ import { signUp } from "@/apis/auth";
 import { useForm, RegisterOptions } from "react-hook-form";
 import { Input } from "@/components/common/Input";
 import { IAuthFormData } from "@/types/auth";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useLogin } from "@/hooks/auth";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const router = useRouter();
   const { login } = useLogin();
 
   const {
@@ -79,7 +77,7 @@ export default function Signup() {
     }
 
     await login({ email: formData.email, password: formData.password });
-    router.push("/");
+    window.location.href = "/";
   };
 
   return (

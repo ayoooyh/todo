@@ -3,14 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { IAuthFormData } from "@/types/auth";
-import { useRouter } from "next/navigation";
 import { useForm, RegisterOptions } from "react-hook-form";
 import { useState } from "react";
 import { Input } from "@/components/common/Input";
 import { useLogin } from "@/hooks/auth";
 
 export default function Signin() {
-  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const { login } = useLogin();
   const {
@@ -46,8 +44,17 @@ export default function Signin() {
   };
 
   const onSubmit = async (formData: IAuthFormData) => {
-    await login({ email: formData.email, password: formData.password });
-    router.push("/");
+    try {
+      const success = await login({
+        email: formData.email,
+        password: formData.password,
+      });
+      if (success) {
+        window.location.href = "/";
+      }
+    } catch (error) {
+      alert("로그인에 실패했습니다: " + String(error));
+    }
   };
 
   return (

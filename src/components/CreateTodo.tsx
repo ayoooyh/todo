@@ -59,10 +59,10 @@ export function CreateTodo({ onClose }: { onClose: () => void }) {
   }, []);
 
   const modalContent = (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 overflow-y-auto">
-      <div className="bg-white px-6 pb-6 rounded-lg max-w-[520px] w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+      <div className="bg-white px-6 pb-6 rounded-lg max-w-[520px] w-full max-h-[90vh]">
         <div className="flex justify-between items-center pt-6 mb-6 sticky top-0 bg-white">
-          <span className="text-lg font-bold">할 일 생성</span>
+          <span className="text-lg font-bold text-slate-800">할 일 생성</span>
           <button
             onClick={() => {
               setIsCloseConfirmOpen(true);
@@ -93,7 +93,7 @@ export function CreateTodo({ onClose }: { onClose: () => void }) {
               },
             }}
           />
-          <span>자료</span>
+          <span className="text-base font-semibold text-slate-800">자료</span>
           <div className="flex flex-col gap-3">
             <div className="flex gap-3">
               <button
@@ -156,7 +156,7 @@ export function CreateTodo({ onClose }: { onClose: () => void }) {
               />
             )}
           </div>
-          <span>목표</span>
+          <span className="text-base font-semibold text-slate-800">목표</span>
           <GoalDropDown
             onFilterChange={(goalId: number | null) => {
               setSelectedGoalId(goalId);
