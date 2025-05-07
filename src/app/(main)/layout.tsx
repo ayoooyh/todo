@@ -16,7 +16,7 @@ export default function MainLayout({
   return (
     <div className="flex h-screen">
       {showSidebar && (
-        <div className="fixed inset-y-0 left-0">
+        <div className="fixed inset-y-0 left-0 z-50">
           <SideMenu />
         </div>
       )}
@@ -25,7 +25,8 @@ export default function MainLayout({
           pathname.includes("/createNote") || pathname.includes("/editNote")
             ? "bg-white"
             : "bg-slate-100"
-        } flex-col gap-3 py-6 px-20 ${showSidebar ? "pl-[180px]" : ""}`}
+        } 
+        flex-col gap-3 py-6 px-2 ${showSidebar ? "md:pl-13" : "sm:px-4"}`}
       >
         <div className="max-w-[1200px] mx-auto">{children}</div>
       </div>
