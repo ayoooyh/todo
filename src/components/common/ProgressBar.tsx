@@ -14,7 +14,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   return (
     <div className="flex items-center justify-between gap-4 bg-white rounded-[13px] px-2.5 py-[2px]">
       <div className="flex-1">
-        <div className="progress bg-slate-100 flex justify-start rounded-full items-center relative px-1 h-1 w-full">
+        <div className="progress bg-slate-100 flex justify-start rounded-full items-center relative px-1 h-1 w-full z-10">
           <div
             className="progress-value shadow-md rounded-full bg-black h-1"
             style={{

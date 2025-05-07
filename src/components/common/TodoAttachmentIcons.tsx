@@ -65,7 +65,7 @@ const TodoAttachmentIcons = ({
   };
 
   return (
-    <div ref={menuRef} className="flex gap-2 relative">
+    <div ref={menuRef} className="flex gap-2 relative z-0">
       {noteId && (
         <>
           <Image
