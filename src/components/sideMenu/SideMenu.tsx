@@ -62,20 +62,16 @@ export default function SideMenu() {
     );
   }
 
-  // 사이드 메뉴 스타일 함수
   const getSideMenuStyle = () => {
     if (isDesktopScreen) {
-      // 1280px 미만에서만 적용
       return isFolded ? "w-[60px] h-screen left-0" : "w-[240px] h-screen";
     } else {
-      // 1280px 이상(데스크톱)에서는 접혔을 때도 일부 보임
       return isFolded ? "w-[60px] h-screen" : "max-w-[280px] h-screen";
     }
   };
 
   return (
     <>
-      {/* 오버레이 배경 - 1280px 미만에서 메뉴가 펼쳐질 때만 표시 */}
       {isDesktopScreen && !isFolded && (
         <div
           className="fixed inset-0 bg-black/80 z-10"
@@ -102,7 +98,6 @@ export default function SideMenu() {
                   height={32}
                 />
               </Link>
-              {/* 1280px 미만에서만 펼치기 버튼 노출 */}
               {isDesktopScreen && (
                 <Image
                   src="/images/expand.svg"
@@ -127,7 +122,7 @@ export default function SideMenu() {
                   height={35}
                 />
               </Link>
-              {/* 1280px 미만에서만 접기 버튼 노출 */}
+
               {isDesktopScreen && (
                 <Image
                   src="/images/fold.svg"
