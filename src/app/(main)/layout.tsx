@@ -12,7 +12,7 @@ export default function MainLayout({
 }) {
   const pathname = usePathname();
   const showSidebar = !noSidebarRoutes.includes(pathname);
-
+  const isMobileScreen = window.innerWidth < 768;
   return (
     <div className="flex h-screen">
       {showSidebar && (
@@ -26,9 +26,14 @@ export default function MainLayout({
             ? "bg-white"
             : "bg-slate-100"
         } 
-        flex-col gap-3 py-6 px-2 ${showSidebar ? "md:pl-13" : "sm:px-4"}`}
+        flex-col gap-3 py-6 px-2
+        ${showSidebar ? "md:pl-13 xl:pl-[200px]" : "sm:px-4"}`}
       >
-        <div className="max-w-[1200px] mx-auto">{children}</div>
+        <div
+          className={`max-w-[1200px] mx-auto ${isMobileScreen ? "pt-4" : ""}`}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

@@ -43,7 +43,7 @@ export default function NotePage() {
   };
 
   return (
-    <div className="flex flex-col gap-3 py-6 px-20 max-w-[792px] mx-auto h-screen">
+    <div className="flex flex-col gap-3 py-6 px-2 max-w-[792px] mx-auto h-screen sm:px-4 md:px-6 lg:px-20">
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold text-slate-900">노트 모아보기</h1>
         <Link

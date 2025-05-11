@@ -42,8 +42,8 @@ const TodoContainer = ({ goalId }: { goalId: number }) => {
   };
 
   return (
-    <div className="flex gap-4">
-      <div className="flex flex-col gap-1 w-1/2 bg-white rounded-xl p-4 h-[228px]">
+    <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col gap-1 w-full md:w-1/2 bg-white rounded-xl p-4 h-auto md:h-[228px]">
         <div className="flex items-center justify-between">
           <span className="text-slate-800 font-semibold text-sm">To do</span>
           <button
@@ -65,7 +65,7 @@ const TodoContainer = ({ goalId }: { goalId: number }) => {
         <Todos todos={undoneTodos} />
       </div>
 
-      <div className="flex flex-col gap-1 w-1/2 bg-slate-200 rounded-xl p-4 h-[228px]">
+      <div className="flex flex-col gap-1 w-full md:w-1/2 bg-slate-200 rounded-xl p-4 h-auto md:h-[228px]">
         <span className="text-slate-800 font-semibold text-sm">Done</span>
         <DoneTodos todos={doneTodos} />
       </div>
