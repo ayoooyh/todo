@@ -47,14 +47,14 @@ export default function User() {
 
   return (
     <div className="flex flex-col justify-center gap-4 px-6">
-      <div className="flex justify-between items-center gap-3">
+      <div className="flex justify-between items-center gap-3 ">
         <Image
           src="/images/userDefaultImage.svg"
           alt="user"
           width={64}
           height={64}
         />
-        <div className="flex flex-col items-start gap-2">
+        <div className="flex flex-col gap-2 sm:items-center items-start w-full">
           <div className="flex flex-col">
             <span className="font-semibold text-sm text-slate-800">
               {data.name}

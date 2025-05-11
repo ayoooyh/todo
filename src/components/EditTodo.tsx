@@ -24,6 +24,7 @@ export function EditTodoModal({
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors, isValid },
   } = useForm<IEditTodoForm>({
     mode: "onChange",
@@ -73,7 +74,7 @@ export function EditTodoModal({
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg max-w-[520px] w-full">
-        <div className="flex flex-col gap-2.5 mb-6">
+        <div className="flex flex-col gap-2.5 mb-3">
           <div className="flex justify-between items-center">
             <span className="text-lg font-bold text-slate-800">할 일 수정</span>
             <button
@@ -85,28 +86,32 @@ export function EditTodoModal({
               <Image src="/images/exit.svg" alt="exit" width={24} height={24} />
             </button>
           </div>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
           <div className="flex items-center gap-1.5">
-            {todo?.done ? (
+            <button
+              type="button"
+              onClick={() =>
+                setValue("done", !getValues("done"), { shouldValidate: true })
+              }
+              className="focus:outline-none"
+            >
               <Image
-                src="/images/active.svg"
+                src={
+                  getValues("done")
+                    ? "/images/active.svg"
+                    : "/images/inactive.svg"
+                }
                 alt="check"
                 width={24}
                 height={24}
               />
-            ) : (
-              <Image
-                src="/images/inactive.svg"
-                alt="check"
-                width={24}
-                height={24}
-              />
-            )}
+            </button>
             <span className="text-base font-semibold text-slate-600 mt-[1px]">
               Done
             </span>
           </div>
-        </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+
           <Input
             label="제목"
             type="text"

@@ -58,7 +58,7 @@ export default function Signin() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-15">
+    <div className="flex flex-col items-center justify-center px-4 py-12 lg:min-h-screen md:py-16 xs:px-0">
       <Link href="/">
         <Image
           src="/images/logo.svg"
@@ -69,7 +69,7 @@ export default function Signin() {
         />
       </Link>
       <form
-        className="flex flex-col justify-center gap-12 w-full max-w-[640px]"
+        className="flex flex-col justify-center gap-12 w-full max-w-[640px] xs:max-w-[343px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col gap-6">
@@ -95,10 +95,10 @@ export default function Signin() {
             onTogglePassword={handleShowPassword}
           />
         </div>
-        <div className="flex flex-col items-center gap-10">
+        <div className="flex flex-col items-center gap-10 w-full">
           <button
             type="submit"
-            className={`rounded-xl py-3 px-[277px] font-semibold text-base
+            className={`rounded-xl py-3 w-full font-semibold text-base
               ${
                 isValid
                   ? "bg-blue-600 text-white hover:bg-blue-700"

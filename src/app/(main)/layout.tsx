@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import SideMenu from "@/components/sideMenu/SideMenu";
+import { useEffect, useState } from "react";
 
 const noSidebarRoutes = ["/auth/signin", "/auth/signup"];
 
@@ -13,10 +14,23 @@ export default function MainLayout({
   const pathname = usePathname();
   const showSidebar = !noSidebarRoutes.includes(pathname);
 
+  // 모바일 여부를 state로 관리
+  const [isMobileScreen, setIsMobileScreen] = useState(false);
+
+  useEffect(() => {
+    // 클라이언트에서만 실행됨
+    const handleResize = () => {
+      setIsMobileScreen(window.innerWidth < 768);
+    };
+    handleResize(); // 최초 실행
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div className="flex h-screen">
       {showSidebar && (
-        <div className="fixed inset-y-0 left-0">
+        <div className="fixed inset-y-0 left-0 z-50">
           <SideMenu />
         </div>
       )}
@@ -25,9 +39,15 @@ export default function MainLayout({
           pathname.includes("/createNote") || pathname.includes("/editNote")
             ? "bg-white"
             : "bg-slate-100"
-        } flex-col gap-3 py-6 px-20 ${showSidebar ? "pl-[180px]" : ""}`}
+        } 
+        flex-col gap-3 py-6 px-2
+        ${showSidebar ? "md:pl-13 xl:pl-[200px]" : "sm:px-4"}`}
       >
-        <div className="max-w-[1200px] mx-auto">{children}</div>
+        <div
+          className={`max-w-[1200px] mx-auto ${isMobileScreen ? "pt-4" : ""}`}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

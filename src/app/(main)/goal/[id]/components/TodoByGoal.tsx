@@ -42,8 +42,8 @@ const TodoContainer = ({ goalId }: { goalId: number }) => {
   };
 
   return (
-    <div className="flex gap-4">
-      <div className="flex flex-col gap-1 w-1/2 bg-white rounded-xl p-4 h-[228px]">
+    <div className="flex flex-col md:flex-row gap-4 h-[400px] md:h-auto">
+      <div className="flex flex-col gap-1 w-full md:w-1/2 bg-white rounded-xl p-4 h-full md:h-[228px] flex-1">
         <div className="flex items-center justify-between">
           <span className="text-slate-800 font-semibold text-sm">To do</span>
           <button
@@ -65,7 +65,7 @@ const TodoContainer = ({ goalId }: { goalId: number }) => {
         <Todos todos={undoneTodos} />
       </div>
 
-      <div className="flex flex-col gap-1 w-1/2 bg-slate-200 rounded-xl p-4 h-[228px]">
+      <div className="flex flex-col gap-1 w-full md:w-1/2 bg-slate-200 rounded-xl p-4 h-full md:h-[228px] flex-1">
         <span className="text-slate-800 font-semibold text-sm">Done</span>
         <DoneTodos todos={doneTodos} />
       </div>
@@ -85,7 +85,11 @@ const DoneTodos = ({ todos }: { todos: ITodo[] }) => {
   }
 
   return (
-    <div className="py-2 px-4 flex flex-col gap-2 overflow-y-auto max-h-[180px]">
+    <div
+      className={`py-2 px-4 flex flex-col gap-2 ${
+        todos.length > 1 ? "overflow-y-auto max-h-[180px]" : ""
+      }`}
+    >
       {todos.map((todo) => (
         <div
           key={todo.id}
@@ -127,7 +131,11 @@ const Todos = ({ todos }: { todos: ITodo[] }) => {
   }
 
   return (
-    <div className="py-2 px-2 flex flex-col gap-2 overflow-y-auto max-h-[180px]">
+    <div
+      className={`py-2 px-2 flex flex-col gap-2 ${
+        todos.length > 1 ? "overflow-y-auto max-h-[180px]" : ""
+      }`}
+    >
       {todos.map((todo) => (
         <div key={todo.id} className="flex justify-between items-center">
           <div className="flex items-center gap-2 text-neutral-700 text-sm">

@@ -6,7 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Reorder, AnimatePresence, motion } from "framer-motion";
 
-export default function Goal() {
+// optional prop과 타입 정의 추가
+interface GoalProps {
+  onGoalClick?: () => void;
+}
+
+export default function Goal({ onGoalClick }: GoalProps) {
   const { data, isLoading, error } = useGetGoalsQuery({
     cursor: undefined,
     size: 20,
@@ -117,7 +122,6 @@ export default function Goal() {
                   backgroundColor: "rgba(240, 240, 240, 0.5)",
                 }}
               >
-                {/* 임시 ID를 가진 항목에 특별한 스타일 적용 */}
                 <span
                   className={`p-2 text-slate-700 font-medium text-sm block ${
                     goal.id.startsWith("temp-")
@@ -128,7 +132,9 @@ export default function Goal() {
                   <span className="pr-1 text-slate-700 font-medium text-sm">
                     ・
                   </span>
-                  <Link href={`/goal/${goal.id}`}>{goal.title}</Link>
+                  <Link href={`/goal/${goal.id}`} onClick={onGoalClick}>
+                    {goal.title}
+                  </Link>
                 </span>
               </Reorder.Item>
             ))}
