@@ -54,7 +54,7 @@ export default function User() {
           width={64}
           height={64}
         />
-        <div className="flex flex-col gap-2 sm:items-center items-start w-full">
+        <div className="flex flex-col gap-2 items-start w-full">
           <div className="flex flex-col">
             <span className="font-semibold text-sm text-slate-800">
               {data.name}
