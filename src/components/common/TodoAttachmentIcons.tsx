@@ -25,6 +25,7 @@ const TodoAttachmentIcons = ({
   goalId,
 }: TodoAttachmentIconsProps) => {
   const [isOpen, setIsOpen] = useState(false);
+
   const menuRef = useRef<HTMLDivElement>(null);
   const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null);
   const router = useRouter();
@@ -41,9 +42,8 @@ const TodoAttachmentIcons = ({
     };
   }, []);
 
-  const handleKebabClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsOpen(!isOpen);
+  const handleDropdownToggle = () => {
+    setIsOpen((prev) => !prev);
   };
 
   const handleNoteClick = (noteId: number, e: React.MouseEvent) => {
@@ -65,7 +65,7 @@ const TodoAttachmentIcons = ({
   };
 
   return (
-    <div ref={menuRef} className="flex gap-2 relative z-0">
+    <div ref={menuRef} className="flex gap-2 relative">
       {noteId && (
         <>
           <Image
@@ -100,10 +100,20 @@ const TodoAttachmentIcons = ({
         </button>
       )}
 
-      <button className="cursor-pointer" onClick={handleKebabClick}>
+      <button className="cursor-pointer" onClick={handleDropdownToggle}>
         <Image src="/images/kebab.svg" alt="kebab" width={24} height={24} />
       </button>
-      {isOpen && <EditAndDelete todoId={todoId} todo={todo} />}
+      {isOpen && (
+        <EditAndDelete
+          todoId={todoId}
+          todo={todo}
+          noteId={noteId}
+          goalId={goalId}
+          onClose={() => setIsOpen(false)}
+          isDropdownOpen={isOpen}
+          setIsDropdownOpen={setIsOpen}
+        />
+      )}
     </div>
   );
 };

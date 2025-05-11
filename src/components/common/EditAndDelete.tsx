@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { EditTodoModal } from "@/components/EditTodo";
 import { ITodo } from "@/types/todo";
 import { DeleteModal } from "@/components/DeleteModal";
 import { useDeleteTodoMutation } from "@/queries/useTodoQuery";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDeleteNoteMutation } from "@/queries/useNoteQuery";
 import EditGoal from "@/components/EditGoal";
@@ -16,37 +15,60 @@ interface Props {
   todo?: ITodo;
   noteId?: number;
   goalId?: number;
-  onEditClick?: () => void;
+  onClose: () => void;
+  isDropdownOpen: boolean;
+  setIsDropdownOpen: (open: boolean) => void;
 }
 
-export default function EditAndDelete({ todoId, todo, noteId, goalId }: Props) {
+export default function EditAndDelete({
+  todoId,
+  todo,
+  noteId,
+  goalId,
+  onClose,
+  isDropdownOpen,
+  setIsDropdownOpen,
+}: Props) {
   const { mutate: deleteTodo } = useDeleteTodoMutation();
   const { mutate: deleteNote } = useDeleteNoteMutation();
   const { mutate: deleteGoal } = useDeleteGoalMutation();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const router = useRouter();
 
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+        setIsDeleteOpen(false);
+      }
+    }
+
+    if ((isDropdownOpen || isDeleteOpen) && !isEditOpen && !isDeleteOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDropdownOpen, isEditOpen, isDeleteOpen, setIsDropdownOpen]);
+
   const handleEditClick = () => {
-    if (goalId) {
-      setIsOpen(true);
+    if (goalId || todoId) {
+      setIsEditOpen(true);
     } else if (noteId) {
       router.push(`/editNote/${noteId}`);
-    } else if (todoId) {
-      setIsOpen(true);
+      onClose();
     }
   };
 
-  // 중첩 클릭 시 이벤트 충돌 방지를 위해 사용
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (todoId) {
-      setIsDeleteOpen(true);
-    } else if (noteId) {
-      setIsDeleteOpen(true);
-    } else if (goalId) {
-      setIsDeleteOpen(true);
-    }
+    setIsDeleteOpen(true);
   };
 
   const handleDeleteConfirm = () => {
@@ -59,42 +81,50 @@ export default function EditAndDelete({ todoId, todo, noteId, goalId }: Props) {
       router.push("/");
     }
     setIsDeleteOpen(false);
+    onClose();
   };
 
   return (
     <>
-      <div className="absolute z-10 top-8 right-1 flex flex-col gap-3 bg-white border border-slate-100 rounded-xl px-4 py-2 w-21 shadow-md">
-        <button
-          className="cursor-pointer text-sm font-normal text-slate-700"
-          onClick={handleEditClick}
+      {isDropdownOpen && (
+        <div
+          ref={menuRef}
+          className="absolute z-10 top-8 right-1 flex flex-col gap-3 bg-white border border-slate-100 rounded-xl px-4 py-2 w-21 shadow-md"
         >
-          수정하기
-        </button>
-        <button
-          className="cursor-pointer text-sm font-normal text-slate-700"
-          onClick={handleDeleteClick}
-        >
-          삭제하기
-        </button>
-      </div>
-      {isOpen && goalId ? (
+          <button
+            className="cursor-pointer text-sm font-normal text-slate-700"
+            onClick={handleEditClick}
+          >
+            수정하기
+          </button>
+          <button
+            className="cursor-pointer text-sm font-normal text-slate-700"
+            onClick={handleDeleteClick}
+          >
+            삭제하기
+          </button>
+        </div>
+      )}
+
+      {isEditOpen && goalId && (
         <EditGoal
           goalId={goalId}
           onClose={() => {
-            setIsOpen(false);
+            setIsEditOpen(false);
+            onClose();
           }}
         />
-      ) : isOpen && noteId ? (
-        <Link href={`/editNote/${noteId}`}>수정하기</Link>
-      ) : isOpen && todoId ? (
+      )}
+      {isEditOpen && todoId && (
         <EditTodoModal
           onClose={() => {
-            setIsOpen(false);
+            setIsEditOpen(false);
+            onClose();
           }}
           todoId={todoId || 0}
           todo={todo || undefined}
         />
-      ) : null}
+      )}
 
       {isDeleteOpen && (
         <DeleteModal

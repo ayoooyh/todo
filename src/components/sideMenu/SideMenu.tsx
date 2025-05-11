@@ -9,19 +9,17 @@ import MobileSideMenu from "@/components/sideMenu/MobileSideMenu";
 
 export default function SideMenu() {
   const [isFolded, setIsFolded] = useState(false);
-  const [isTabletScreen, setIsTabletScreen] = useState(false);
   const [isMobileScreen, setIsMobileScreen] = useState(false);
   const [isDesktopScreen, setIsDesktopScreen] = useState(false);
 
   useEffect(() => {
     const checkScreenSize = () => {
       const BREAKPOINTS = {
-        mobile: 744, // tailwind md
-        tablet: 1024, // tailwind lg
-        desktop: 1280, // tailwind xl
+        mobile: 744,
+        tablet: 1024,
+        desktop: 1280,
       };
       const currentWidth = window.innerWidth;
-      setIsTabletScreen(currentWidth < BREAKPOINTS.tablet);
       setIsMobileScreen(currentWidth < BREAKPOINTS.mobile);
       setIsDesktopScreen(currentWidth < BREAKPOINTS.desktop);
 
@@ -118,7 +116,10 @@ export default function SideMenu() {
             </>
           ) : (
             <>
-              <Link href="/">
+              <Link
+                href="/"
+                onClick={isDesktopScreen ? closeSideMenu : undefined}
+              >
                 <Image
                   src="/images/logo.svg"
                   alt="logo"
@@ -155,13 +156,13 @@ export default function SideMenu() {
               <Link
                 href="/"
                 className="text-lg font-medium text-slate-800"
-                onClick={isTabletScreen ? closeSideMenu : undefined}
+                onClick={isDesktopScreen ? closeSideMenu : undefined}
               >
                 대시보드
               </Link>
             </div>
             <div className="border-t border-slate-200" />
-            <Goal onGoalClick={isTabletScreen ? closeSideMenu : undefined} />
+            <Goal onGoalClick={isDesktopScreen ? closeSideMenu : undefined} />
           </div>
         )}
       </div>
