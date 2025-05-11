@@ -94,6 +94,9 @@ export default function NotePage() {
                     <EditAndDelete
                       noteId={note.id}
                       todo={note.todo || undefined}
+                      onClose={() => setOpenNoteId(null)}
+                      isDropdownOpen={openNoteId === note.id}
+                      setIsDropdownOpen={() => setOpenNoteId(note.id)}
                     />
                   </div>
                 )}

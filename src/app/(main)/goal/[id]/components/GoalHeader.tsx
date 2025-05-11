@@ -74,7 +74,12 @@ export default function GoalHeader() {
         </button>
         {isOpen && (
           <div className="absolute top-4 right-3">
-            <EditAndDelete goalId={goalId} />
+            <EditAndDelete
+              goalId={goalId}
+              onClose={() => setIsOpen(false)}
+              isDropdownOpen={isOpen}
+              setIsDropdownOpen={setIsOpen}
+            />
           </div>
         )}
       </div>

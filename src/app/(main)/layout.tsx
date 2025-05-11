@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import SideMenu from "@/components/sideMenu/SideMenu";
+import { useEffect, useState } from "react";
 
 const noSidebarRoutes = ["/auth/signin", "/auth/signup"];
 
@@ -12,7 +13,20 @@ export default function MainLayout({
 }) {
   const pathname = usePathname();
   const showSidebar = !noSidebarRoutes.includes(pathname);
-  const isMobileScreen = window.innerWidth < 768;
+
+  // 모바일 여부를 state로 관리
+  const [isMobileScreen, setIsMobileScreen] = useState(false);
+
+  useEffect(() => {
+    // 클라이언트에서만 실행됨
+    const handleResize = () => {
+      setIsMobileScreen(window.innerWidth < 768);
+    };
+    handleResize(); // 최초 실행
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div className="flex h-screen">
       {showSidebar && (

@@ -24,7 +24,7 @@ export default function MobileSideMenu({
       )}
 
       <div
-        className={`flex flex-col border border-slate-200 bg-white transition-all duration-300 overflow-y-auto z-20 fixed w-full ${
+        className={`flex flex-col border border-slate-200 bg-white transition-all duration-300 z-20 fixed w-full ${
           isFolded ? "h-[48px] top-0" : "h-screen top-0"
         }`}
       >
