@@ -2,6 +2,7 @@ import User from "@/components/sideMenu/User";
 import Goal from "@/components/sideMenu/Goal";
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 interface MobileSideMenuProps {
   isFolded: boolean;
@@ -14,6 +15,16 @@ export default function MobileSideMenu({
   toggleSideMenu,
   closeSideMenu,
 }: MobileSideMenuProps) {
+  const [showContent, setShowContent] = useState(false);
+
+  useEffect(() => {
+    if (!isFolded) {
+      setTimeout(() => setShowContent(true), 250);
+    } else {
+      setShowContent(false);
+    }
+  }, [isFolded]);
+
   return (
     <>
       {!isFolded && (
@@ -41,25 +52,29 @@ export default function MobileSideMenu({
 
         {!isFolded && (
           <div className="flex flex-col gap-4 animate-slideDown">
-            <User />
-            <div className="border-t border-slate-200" />
-            <div className="flex justify-left items-center gap-2 px-6">
-              <Image
-                src="/images/home.svg"
-                alt="dashBoard"
-                width={24}
-                height={24}
-              />
-              <Link
-                href="/"
-                className="text-lg font-medium text-slate-800"
-                onClick={closeSideMenu}
-              >
-                대시보드
-              </Link>
-            </div>
-            <div className="border-t border-slate-200" />
-            <Goal onGoalClick={closeSideMenu} />
+            {showContent && (
+              <>
+                <User />
+                <div className="border-t border-slate-200" />
+                <div className="flex justify-left items-center gap-2 px-6">
+                  <Image
+                    src="/images/home.svg"
+                    alt="dashBoard"
+                    width={24}
+                    height={24}
+                  />
+                  <Link
+                    href="/"
+                    className="text-lg font-medium text-slate-800"
+                    onClick={closeSideMenu}
+                  >
+                    대시보드
+                  </Link>
+                </div>
+                <div className="border-t border-slate-200" />
+                <Goal onGoalClick={closeSideMenu} />
+              </>
+            )}
           </div>
         )}
       </div>
