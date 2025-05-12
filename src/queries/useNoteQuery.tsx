@@ -80,7 +80,11 @@ export const useUpdateNoteMutation = () => {
   });
 };
 
-export const useDeleteNoteMutation = () => {
+export const useDeleteNoteMutation = ({
+  onSuccess,
+}: {
+  onSuccess: () => void;
+}) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -93,6 +97,7 @@ export const useDeleteNoteMutation = () => {
         queryKey: ["note", variables.note_id, data],
       });
       queryClient.invalidateQueries({ queryKey: ["notes"] });
+      onSuccess();
     },
   });
 };

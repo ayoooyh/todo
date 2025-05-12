@@ -122,13 +122,18 @@ export const useUpdateTodoMutation = () => {
   });
 };
 
-export const useDeleteTodoMutation = () => {
+export const useDeleteTodoMutation = ({
+  onSuccess,
+}: {
+  onSuccess: () => void;
+}) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (todoId: number) => await deleteTodo(todoId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
+      onSuccess();
     },
   });
 };

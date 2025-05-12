@@ -1,25 +1,16 @@
 "use client";
 
 import Image from "next/image";
-// import { useDeleteNoteMutation } from "@/queries/useNoteQuery";
 
 export function DeleteModal({
   setIsCloseConfirmOpen,
   onClose,
   todoOrGoalOrNote,
-}: // noteId,
-// todoId,
-// goalId,
-{
+}: {
   setIsCloseConfirmOpen: (isCloseConfirmOpen: boolean) => void;
   onClose: () => void;
   todoOrGoalOrNote: string;
-  noteId?: number;
-  todoId?: number;
-  goalId?: number;
 }) {
-  // const { mutate: deleteNote } = useDeleteNoteMutation();
-
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/80 z-50">
       <div className="bg-white p-6 rounded-lg w-[300px]">
