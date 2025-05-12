@@ -120,36 +120,46 @@ export default function NoteForm({
           <h1 className="text-lg font-semibold text-slate-900">
             {mode === "create" ? "노트 작성" : "노트 수정"}
           </h1>
-          <Image
+          {/* <Image
             src="/images/exit.svg"
             alt="exit"
             width={16}
             height={16}
             onClick={onClose}
             className="cursor-pointer"
-          />
-        </div>
+          /> */}
 
-        <div className="flex justify-end items-center gap-2">
-          {mode === "create" && (
-            <button
-              className="text-sm text-blue-500 font-semibold flex items-center gap-1 py-2.5 px-4.5 rounded-xl cursor-pointer"
-              onClick={handleTempSave}
-            >
-              임시저장
-            </button>
-          )}
-          <button
-            type="submit"
-            disabled={!isValid}
-            className={`text-sm py-2.5 px-4.5 rounded-xl text-white font-semibold flex items-center gap-1 cursor-pointer ${
-              isValid
-                ? "bg-blue-500 hover:bg-blue-600"
-                : "bg-slate-400 cursor-not-allowed"
-            }`}
-          >
-            {mode === "create" ? "작성완료" : "수정완료"}
-          </button>
+          <div className="flex justify-between items-center gap-4">
+            <div className="flex justify-end items-center gap-1">
+              {mode === "create" && (
+                <button
+                  className="text-sm text-blue-500 font-semibold flex items-center gap-1 py-2.5 px-4.5 rounded-xl cursor-pointer"
+                  onClick={handleTempSave}
+                >
+                  임시저장
+                </button>
+              )}
+              <button
+                type="submit"
+                disabled={!isValid}
+                className={`text-sm py-2.5 px-4.5 rounded-xl text-white font-semibold flex items-center gap-1 cursor-pointer ${
+                  isValid
+                    ? "bg-blue-500 hover:bg-blue-600"
+                    : "bg-slate-400 cursor-not-allowed"
+                }`}
+              >
+                {mode === "create" ? "작성완료" : "수정완료"}
+              </button>
+            </div>
+            <Image
+              src="/images/exit.svg"
+              alt="exit"
+              width={16}
+              height={16}
+              onClick={onClose}
+              className="cursor-pointer"
+            />
+          </div>
         </div>
 
         {mode === "create" && showTempNoteAlert && (
@@ -225,101 +235,39 @@ export default function NoteForm({
 
           <hr className="border-t border-slate-200" />
 
-          <div className="flex justify-between">
-            <div className="flex justify-between gap-4">
-              <div className="flex items-center gap-1">
-                <Image
-                  src="/images/editor-icons/ic_bold.svg"
-                  alt="bold"
-                  width={22}
-                  height={22}
-                />
-                <Image
-                  src="/images/editor-icons/ic_italic.svg"
-                  alt="italic"
-                  width={22}
-                  height={22}
-                />
-                <Image
-                  src="/images/editor-icons/ic_underline.svg"
-                  alt="underline"
-                  width={22}
-                  height={22}
-                />
-              </div>
-
-              <div className="flex items-center gap-1">
-                <Image
-                  src="/images/editor-icons/ic_Alignment_left.svg"
-                  alt="Alignment_left"
-                  width={22}
-                  height={22}
-                />
-                <Image
-                  src="/images/editor-icons/ic_Alignment_center.svg"
-                  alt="Alignment_center"
-                  width={22}
-                  height={22}
-                />
-                <Image
-                  src="/images/editor-icons/ic_Alignment_right.svg"
-                  alt="Alignment_right"
-                  width={22}
-                  height={22}
-                />
-              </div>
-
-              <div className="flex items-center gap-1">
-                <Image
-                  src="/images/editor-icons/ic_bullet.svg"
-                  alt="bullet"
-                  width={22}
-                  height={22}
-                />
-                <Image
-                  src="/images/editor-icons/ic_numbering.svg"
-                  alt="numbering"
-                  width={22}
-                  height={22}
-                />
-                <Image
-                  src="/images/editor-icons/ic_coloring.svg"
-                  alt="coloring"
-                  width={22}
-                  height={22}
-                />
-              </div>
-            </div>
-
-            <button type="button" onClick={handleLinkUrl}>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleLinkUrl}
+              className="w-10 h-10 flex items-center justify-center"
+            >
               <Image
                 src="/images/editor-icons/ic_link.svg"
                 alt="link"
-                width={22}
-                height={22}
+                width={30}
+                height={30}
               />
             </button>
-          </div>
 
-          <hr className="border-t border-slate-200" />
-          {showLinkInput && (
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="링크를 입력해주세요"
-                className="w-full bg-slate-200 rounded-[20px] px-10 py-1 placeholder:text-sm text-slate-800 font-normal"
-                {...register("linkUrl")}
-              />
-              <div className="absolute left-2 top-1/2 -translate-y-1/2">
-                <Image
-                  src="/images/linkUrl.svg"
-                  alt="link"
-                  width={22}
-                  height={22}
+            {showLinkInput && (
+              <div className="relative flex-1">
+                <input
+                  type="text"
+                  placeholder="링크를 입력해주세요"
+                  className="w-full bg-slate-200 rounded-[20px] px-10 py-1 placeholder:text-sm text-slate-800 font-normal"
+                  {...register("linkUrl")}
                 />
+                <div className="absolute left-2 top-1/2 -translate-y-1/2">
+                  <Image
+                    src="/images/linkUrl.svg"
+                    alt="link"
+                    width={22}
+                    height={22}
+                  />
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
           <textarea
             placeholder="이 곳을 클릭해 노트 작성을 시작해주세요"
