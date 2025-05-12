@@ -96,7 +96,9 @@ export default function NotePage() {
                       todo={note.todo || undefined}
                       onClose={() => setOpenNoteId(null)}
                       isDropdownOpen={openNoteId === note.id}
-                      setIsDropdownOpen={() => setOpenNoteId(note.id)}
+                      setIsDropdownOpen={(open) =>
+                        setOpenNoteId(open ? note.id : null)
+                      }
                     />
                   </div>
                 )}
