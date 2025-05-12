@@ -120,14 +120,6 @@ export default function NoteForm({
           <h1 className="text-lg font-semibold text-slate-900">
             {mode === "create" ? "노트 작성" : "노트 수정"}
           </h1>
-          {/* <Image
-            src="/images/exit.svg"
-            alt="exit"
-            width={16}
-            height={16}
-            onClick={onClose}
-            className="cursor-pointer"
-          /> */}
 
           <div className="flex justify-between items-center gap-4">
             <div className="flex justify-end items-center gap-1">
