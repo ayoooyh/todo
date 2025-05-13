@@ -17,11 +17,7 @@ export default function MainTodoByGoals() {
   const { data: goalsData, isLoading: goalsLoading } = useGetGoalsQuery();
 
   if (goalsLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        목표 로딩 중...
-      </div>
-    );
+    return <></>;
   }
 
   if (!goalsData || goalsData.goals.length === 0) {
@@ -66,7 +62,7 @@ function GoalContent({ goalId }: { goalId: number }) {
   }, [progressData]);
 
   if (goalLoading || todosLoading || progressLoading) {
-    return <div>데이터 로딩 중...</div>;
+    return <></>;
   }
 
   if (progressError) {

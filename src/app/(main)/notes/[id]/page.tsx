@@ -14,6 +14,7 @@ export default function NotePage() {
   const goalId = useGoalId();
 
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
+  const [openDetailNoteId, setOpenDetailNoteId] = useState<number | null>(null);
 
   const { data, isLoading } = useGetNotesQuery({
     goal_id: goalId,
@@ -34,7 +35,7 @@ export default function NotePage() {
   }
 
   const handleNoteClick = (noteId: number) => {
-    setOpenDropdownId(noteId);
+    setOpenDetailNoteId(noteId);
   };
 
   return (
@@ -63,7 +64,8 @@ export default function NotePage() {
 
       {data?.notes.length && data?.notes.length > 0 ? (
         data?.notes.map((note) => {
-          const isOpen = openDropdownId === note.id;
+          const isDropdownOpen = openDropdownId === note.id;
+          const isDetailOpen = openDetailNoteId === note.id;
           return (
             <div
               className="flex flex-col gap-4 bg-white border border-slate-100 rounded-xl px-6 py-3.5"
@@ -78,10 +80,10 @@ export default function NotePage() {
                 />
                 <div
                   className="cursor-pointer relative"
-                  ref={isOpen ? containerRef : undefined}
+                  ref={isDropdownOpen ? containerRef : undefined}
                   onClick={(e) => {
                     e.stopPropagation();
-                    setOpenDropdownId(isOpen ? null : note.id);
+                    setOpenDropdownId(isDropdownOpen ? null : note.id);
                   }}
                 >
                   <Image
@@ -90,13 +92,13 @@ export default function NotePage() {
                     width={24}
                     height={24}
                   />
-                  {isOpen && (
+                  {isDropdownOpen && (
                     <div className="absolute top-0 right-0">
                       <EditAndDelete
                         noteId={note.id}
                         todo={note.todo || undefined}
                         onClose={() => setOpenDropdownId(null)}
-                        isDropdownOpen={isOpen}
+                        isDropdownOpen={isDropdownOpen}
                         setIsDropdownOpen={(open) =>
                           setOpenDropdownId(open ? note.id : null)
                         }
@@ -105,13 +107,6 @@ export default function NotePage() {
                   )}
                 </div>
               </div>
-              {isOpen && (
-                <DetailNote
-                  onClose={() => setOpenDropdownId(null)}
-                  noteId={note.id}
-                  todoId={note.todo?.id}
-                />
-              )}
               <div
                 className="flex flex-col gap-3 cursor-pointer"
                 onClick={() => handleNoteClick(note.id)}
@@ -132,6 +127,13 @@ export default function NotePage() {
                   </span>
                 </div>
               </div>
+              {isDetailOpen && (
+                <DetailNote
+                  onClose={() => setOpenDetailNoteId(null)}
+                  noteId={note.id}
+                  todoId={note.todo?.id}
+                />
+              )}
             </div>
           );
         })
