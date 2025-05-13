@@ -30,7 +30,7 @@ const TodoContainer = ({ goalId }: { goalId: number }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (isLoading) {
-    return <div>로딩 중</div>;
+    return <></>;
   }
 
   const handleModalOpen = () => {
