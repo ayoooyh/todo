@@ -8,6 +8,9 @@ import { useState } from "react";
 import { Input } from "@/components/common/Input";
 import { useLogin } from "@/hooks/auth";
 
+const tempEmail = "test@test.com";
+const tempPassword = "test1234";
+
 export default function Signin() {
   const [showPassword, setShowPassword] = useState(false);
   const { login } = useLogin();
@@ -17,8 +20,8 @@ export default function Signin() {
     formState: { errors, isValid },
   } = useForm<IAuthFormData>({
     defaultValues: {
-      email: "",
-      password: "",
+      email: tempEmail,
+      password: tempPassword,
     },
     mode: "onChange",
   });
