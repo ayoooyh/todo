@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useGetNotesQuery } from "@/queries/useNoteQuery";
 import { useGoalId } from "@/hooks/useId";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import DetailNote from "./components/DetailNote";
 import { useGetGoalQuery } from "@/queries/useGoalQuery";
 import Link from "next/link";
@@ -23,6 +23,27 @@ export default function NotePage() {
   const { data: goalData, isLoading: isGoalLoading } = useGetGoalQuery({
     goalId: goalId,
   });
+
+  const kebabRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (openNoteId === null) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        kebabRef.current &&
+        !kebabRef.current.contains(event.target as Node)
+      ) {
+        setOpenNoteId(null);
+        setSelectedNoteId(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openNoteId]);
 
   if (isLoading || isGoalLoading) {
     return <></>;
@@ -81,6 +102,7 @@ export default function NotePage() {
               />
               <div
                 className="cursor-pointer relative"
+                ref={openNoteId === note.id ? kebabRef : null}
                 onClick={(e) => handleKebabClick(note.id, e)}
               >
                 <Image
