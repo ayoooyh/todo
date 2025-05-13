@@ -29,12 +29,13 @@ export default function MainLayout({
         </div>
       )}
       <div
-        className={`flex-1 min-h-screen overflow-y-auto ${
+        className={`flex-1 overflow-y-auto
+        flex-col gap-3 py-6 px-2
+        ${
           pathname.includes("/createNote") || pathname.includes("/editNote")
             ? "bg-white"
             : "bg-slate-100"
-        } 
-        flex-col gap-3 py-6 px-2
+        }
         ${showSidebar ? "md:pl-13 xl:pl-[200px]" : "sm:px-4"}`}
       >
         <div
