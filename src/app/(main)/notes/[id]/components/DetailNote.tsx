@@ -16,7 +16,11 @@ export default function DetailNote({
   const { data, isLoading } = useGetNoteQuery({
     note_id: noteId,
   });
-  const { mutate: deleteNoteMutation } = useDeleteNoteMutation();
+  const { mutate: deleteNoteMutation } = useDeleteNoteMutation({
+    onSuccess: () => {
+      onClose();
+    },
+  });
 
   const handleDeleteNote = () => {
     deleteNoteMutation({ note_id: noteId });
