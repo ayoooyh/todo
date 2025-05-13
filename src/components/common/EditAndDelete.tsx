@@ -57,7 +57,7 @@ export default function EditAndDelete({
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
+        setIsDropdownOpen(true);
         setIsDeleteOpen(false);
       }
     }
