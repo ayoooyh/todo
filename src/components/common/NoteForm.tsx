@@ -4,6 +4,7 @@ import { ICreateNote } from "@/types/note";
 import Image from "next/image";
 import { ICreateNoteForm } from "@/types/form";
 import TodoDropDown from "@/components/common/TodoDropDown";
+import { toast } from "react-hot-toast";
 
 interface NoteFormProps {
   goalId: number;
@@ -97,7 +98,7 @@ export default function NoteForm({
       todoId: getValues("todoId"),
     };
     localStorage.setItem(key, JSON.stringify(tempData));
-    alert("임시저장 완료");
+    toast.success("임시저장 완료");
   };
 
   const handleTempLoad = () => {
