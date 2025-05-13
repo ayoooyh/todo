@@ -103,7 +103,7 @@ export default function TodosPage() {
   };
 
   return (
-    <div className="flex flex-col gap-3 py-6 px-2 max-w-[792px] mx-auto h-[100dvh] sm:px-4 md:px-6 lg:px-20">
+    <div className="flex flex-col gap-3 py-6 px-7 max-w-[1200px] mx-auto lg:px-20">
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
           <span>모든 할 일</span>
