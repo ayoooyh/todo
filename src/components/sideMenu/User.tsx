@@ -27,21 +27,44 @@ export default function User() {
     logout();
   };
 
-  // TODO: 로딩 중 화면 렌더링 추가 필요
+  // 스켈레톤 로딩
   if (isLoading)
     return (
-      <div className="flex justify-center items-center h-full">로딩 중...</div>
+      <div className="flex flex-col justify-center gap-4 px-6">
+        <div className="flex animate-pulse space-x-4 justify-between items-center gap-3">
+          <div
+            className="rounded-xl bg-gray-200"
+            style={{ width: 64, height: 64 }}
+          />
+          <div className="flex flex-col gap-2 items-start w-full">
+            <div className="flex flex-col gap-1 w-full">
+              <div className="h-4 w-24 rounded bg-gray-200" />
+              <div className="h-4 w-32 rounded bg-gray-200" />
+            </div>
+            <div className="h-4 w-12 rounded bg-gray-200" />
+          </div>
+        </div>
+        <div className="flex justify-center items-center gap-1">
+          <div className="h-6 rounded bg-gray-200 w-full" />
+        </div>
+      </div>
     );
+
   if (error)
     return (
       <div className="flex justify-center items-center h-full">
-        에러가 발생했습니다: {error.message}
+        <span className="text-red-500 text-sm font-normal">
+          에러가 발생했습니다
+        </span>
       </div>
     );
+
   if (!data)
     return (
       <div className="flex justify-center items-center h-full">
-        사용자 정보가 없습니다.
+        <span className="text-slate-400 text-sm font-normal">
+          사용자 정보가 없습니다.
+        </span>
       </div>
     );
 

@@ -122,7 +122,7 @@ function GoalContent({ goalId }: { goalId: number }) {
           <div className="flex items-center justify-between mb-2">
             <span className="text-slate-800 font-semibold text-sm">To do</span>
           </div>
-          <div className="flex-1 max-h-60 overflow-visible">
+          <div className="flex-1">
             <TodoList todos={undoneTodos} />
           </div>
         </div>
@@ -131,7 +131,7 @@ function GoalContent({ goalId }: { goalId: number }) {
           <div className="flex items-center justify-between mb-2">
             <span className="text-slate-800 font-semibold text-sm">Done</span>
           </div>
-          <div className="flex-1 max-h-60 overflow-visible">
+          <div className="flex-1">
             <TodoList todos={doneTodos} isDone={true} />
           </div>
         </div>

@@ -50,7 +50,7 @@ export default function CreateNotePage() {
   }, [router]);
 
   if (isLoading || todoLoading) {
-    return <div>로딩 중...</div>;
+    return <></>;
   }
 
   return (

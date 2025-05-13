@@ -83,11 +83,7 @@ export default function TodosPage() {
   }, [filteredTodos, page]);
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        Loading...
-      </div>
-    );
+    return <></>;
   }
 
   const handleModalOpen = () => {
