@@ -1,10 +1,9 @@
-# 콘텐츠 학습과 프로젝트 진행을 할 일 목록으로 관리하고, 진행 상황을 대시보드로 시각화하며 노트를 작성할 수 있는 서비스, ✅ Slid Todo
+# ✅ Slid Todo - 콘텐츠 학습과 프로젝트 진행을 할 일 목록으로 관리하고, 진행 상황을 대시보드로 시각화하며 노트를 작성할 수 있는 서비스
 
 <br/>
 <br/>
 
 [![SlidTodo Logo](public/images/logo.svg)](https://slidtodo.vercel.app/)
-public/images/logo.svg
 <br/>
 <br/>
 
