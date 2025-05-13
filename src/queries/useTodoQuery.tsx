@@ -43,7 +43,6 @@ export const useGetTodosQuery = ({
         sortOrder,
       }),
     staleTime: 5 * 60 * 1000,
-    //TODO: 토큰 관련 부분 해결 후 수정예정, 임시로 retry 1로 설정
     retry: 1,
     refetchOnWindowFocus: false,
   });
