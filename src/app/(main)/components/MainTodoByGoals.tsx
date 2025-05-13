@@ -107,12 +107,12 @@ function GoalContent({ goalId }: { goalId: number }) {
       </div>
       <ProgressBar progress={progressValue} />
 
-      <div className="flex gap-4 sm:flex-row flex-col min-h-[300px] sm:min-h-0">
+      <div className="flex gap-4 sm:flex-row flex-col min-h-[300px] sm:min-h-0 md:h-auto">
         <div className="flex-1 sm:h-auto min-h-[150px] sm:min-h-0 flex flex-col">
           <div className="flex items-center justify-between mb-2">
             <span className="text-slate-800 font-semibold text-sm">To do</span>
           </div>
-          <div className="flex-1 max-h-60 overflow-y-auto">
+          <div className="flex-1 max-h-60 overflow-visible">
             <TodoList todos={undoneTodos} />
           </div>
         </div>
@@ -121,7 +121,7 @@ function GoalContent({ goalId }: { goalId: number }) {
           <div className="flex items-center justify-between mb-2">
             <span className="text-slate-800 font-semibold text-sm">Done</span>
           </div>
-          <div className="flex-1 max-h-60 overflow-y-auto">
+          <div className="flex-1 max-h-60 overflow-visible">
             <TodoList todos={doneTodos} isDone={true} />
           </div>
         </div>
