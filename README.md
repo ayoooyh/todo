@@ -26,107 +26,10 @@
 
 <br/>
 
-## 📄 페이지소개
+## 📄 미리보기
 
 <div align='center'>
-  <table>
-    <tr>
-      <th style='text-align: center;'>메인 페이지</th>
-      <th style='text-align: center;'>체험 검색</th>
-    </tr>
-    <tr>
-      <th style='text-align: center;'>여러 체험을 둘러볼 수 있는 페이지</th>
-      <th style='text-align: center;'>검색을 통한 체험을 탐색할 수 있는 페이지</th>
-    </tr>
-    <tr>
-      <th><img src='./source/images/메인.png' alt='메인'/></th>
-      <th><img src='./source/images/체험검색.png' alt='체험검색'/></th>
-    </tr>
-    <tr>
-    <th style='text-align: center;'>마이 페이지</th>
-      <th style='text-align: center;'>예약 확인</th>
-    </tr>
-    <tr>
-      <th style='text-align: center;'>내 정보를 볼 수 있는 페이지</th>
-      <th style='text-align: center;'>예약한 내용을 확인할 수 있는 페이지</th>
-    </tr>
-    <tr>
-      <th><img src='./source/images/마이페이지.png' alt='마이 페이지'/></th>
-      <th><img src='./source/images/예약확인.png' alt='예약확인'/></th>
-    </tr>
-    <tr>
-      <th style='text-align: center;'>후기 작성</th>  
-      <th style='text-align: center;'>내 체험 관리</th>
-    </tr>
-    <tr>
-      <th style='text-align: center;'>체험한 후기를 작성할 수 있는 페이지</th>
-      <th style='text-align: center;'>내가 등록한 체험을 관리하는 페이지</th>
-    </tr>
-    <tr>
-      <th><img src='./source/images/후기작성.png' alt='후기작성'/></th>
-      <th><img src='./source/images/체험관리.png' alt='체험 관리'/></th>
-    </tr>
-    <tr>
-    <th style='text-align: center;'>내 체험 등록</th>
-      <th style='text-align: center;'>내 체험 수정</th>
-    </tr>
-    <tr>
-    <th style='text-align: center;'>새로운 체험을 등록할 수 있는 페이지</th>
-      <th style='text-align: center;'>내가 등록한 체험을 수정할 수 있는 페이지</th>
-    </tr>
-    <tr>
-      <th><img src='./source/images/체험등록.png' alt='체험 등록'/></th>
-      <th><img src='./source/images/체험수정.png' alt='체험 수정'/></th>
-    </tr>
-    <tr>
-      <th style='text-align: center;'>내 체험 삭제</th>
-      <th style='text-align: center;'>예약 현황</th>
-    </tr>
-    <tr>
-      <th style='text-align: center;'>내가 등록한 체험을 삭제하는 모달</th>
-      <th style='text-align: center;'>내가 등록한 체험에 들어온 예약을 볼 수 있는 페이지</th>
-    </tr>
-    <tr>
-      <th><img src='./source/images/체험삭제.png' alt='체험 삭제'></th>
-      <th><img src='./source/images/예약현황.png' alt='예약 현황'/></th>
-    </tr>
-    <tr>
-      <th style='text-align: center;' colspan='2'>체험 상세 반응형</th>
-    </tr>
-    <tr>
-      <th style='text-align: center;' colspan='2'>체험을 상세하게 볼 수 있으며, 예약 가능한 페이지</th>
-    </tr>
-    <tr>
-      <th>PC</th>
-      <th>Mobile</th>
-    </tr>
-    <tr>
-      <th><img src='./source/images/체험상세.png' alt='체험 상세'/></th>
-      <th>
-        <div height='100%' align='center'>
-          <img src='./source/images/체험상세_반응형.png' alt='체험 상세 반응형' width='60%'/>
-        </div>
-      </th>
-    </tr>
-    <tr>
-      <th style='text-align: center;' colspan='2'>알림 반응형</th>
-    </tr>
-    <tr>
-      <th style='text-align: center;' colspan='2'>내가 신청한 체험의 수락/거절에 대한 알림</th>
-    </tr>
-    <tr>
-      <th>PC</th>
-      <th>Mobile</th>
-    </tr>
-    <tr>
-      <th><img src='./source/images/알림_풀사이즈.png' alt='예약 현황'/></th>
-      <th>
-        <div align='center' hegiht='100%'>
-          <img src='./source/images/알림.png' alt='알림' width='60%'/>
-        </div>
-      </th>
-    </tr>
-  </table>
+  
 </div>
 <!-- 
 ## 💡 핵심 기능
