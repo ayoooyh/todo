@@ -87,7 +87,7 @@ const DoneTodos = ({ todos }: { todos: ITodo[] }) => {
   return (
     <div
       className={`py-2 px-4 flex flex-col gap-2 ${
-        todos.length > 1 ? "overflow-y-auto max-h-[180px]" : ""
+        todos.length > 5 ? "overflow-y-auto max-h-[180px]" : "overflow-visible"
       }`}
     >
       {todos.map((todo) => (
@@ -133,7 +133,7 @@ const Todos = ({ todos }: { todos: ITodo[] }) => {
   return (
     <div
       className={`py-2 px-2 flex flex-col gap-2 ${
-        todos.length > 1 ? "overflow-y-auto max-h-[180px]" : ""
+        todos.length > 5 ? "overflow-y-auto max-h-[180px]" : "overflow-visible"
       }`}
     >
       {todos.map((todo) => (

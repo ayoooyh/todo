@@ -72,8 +72,14 @@ export function EditTodoModal({
   );
 
   return (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg max-w-[520px] w-full">
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 ">
+      <div
+        className="
+          bg-white p-6
+          w-full h-full sm:h-auto
+          sm:rounded-lg sm:max-w-[520px]
+        "
+      >
         <div className="flex flex-col gap-2.5 mb-3">
           <div className="flex justify-between items-center">
             <span className="text-lg font-bold text-slate-800">할 일 수정</span>

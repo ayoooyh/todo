@@ -8,6 +8,9 @@ import { useState } from "react";
 import { Input } from "@/components/common/Input";
 import { useLogin } from "@/hooks/auth";
 
+const tempEmail = "test@test.com";
+const tempPassword = "test1234";
+
 export default function Signin() {
   const [showPassword, setShowPassword] = useState(false);
   const { login } = useLogin();
@@ -17,8 +20,8 @@ export default function Signin() {
     formState: { errors, isValid },
   } = useForm<IAuthFormData>({
     defaultValues: {
-      email: "",
-      password: "",
+      email: tempEmail,
+      password: tempPassword,
     },
     mode: "onChange",
   });
@@ -58,7 +61,7 @@ export default function Signin() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-4 py-12 lg:min-h-screen md:py-16 xs:px-0">
+    <div className="flex flex-col items-center justify-center px-4 py-40 lg:min-h-screen">
       <Link href="/">
         <Image
           src="/images/logo.svg"

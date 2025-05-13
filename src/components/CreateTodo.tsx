@@ -59,8 +59,14 @@ export function CreateTodo({ onClose }: { onClose: () => void }) {
   }, []);
 
   const modalContent = (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-      <div className="bg-white px-6 pb-6 rounded-lg max-w-[520px] w-full max-h-[90vh]">
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 ">
+      <div
+        className="
+          bg-white p-6
+          w-full h-full sm:h-auto
+          sm:rounded-lg sm:max-w-[520px]
+        "
+      >
         <div className="flex justify-between items-center pt-6 mb-6 sticky top-0 bg-white">
           <span className="text-lg font-bold text-slate-800">할 일 생성</span>
           <button

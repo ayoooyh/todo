@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState, ReactNode, useRef, useEffect } from "react";
+import { useState, ReactNode } from "react";
+import useDropdownToggle from "@/hooks/useDropdownToggle";
 
 type Option = {
   label: string;
@@ -22,24 +23,10 @@ export default function DropDown({
   optionClassName,
 }: DropDownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  const { containerRef } = useDropdownToggle<HTMLDivElement>({
+    isOpen,
+    onClose: () => setIsOpen(false),
+  });
 
   const handleSelect = (option: Option) => {
     onSelect(option.value);
@@ -47,10 +34,10 @@ export default function DropDown({
   };
 
   return (
-    <div className="relative w-fit" ref={dropdownRef}>
+    <div className="relative w-fit" ref={containerRef}>
       <button
         className="bg-gray-50 hover:bg-gray-100 rounded-full p-1 transition-colors"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen((prev) => !prev)}
       >
         {trigger || (
           <Image

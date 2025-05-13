@@ -29,9 +29,25 @@ export default function EditAndDelete({
   isDropdownOpen,
   setIsDropdownOpen,
 }: Props) {
-  const { mutate: deleteTodo } = useDeleteTodoMutation();
-  const { mutate: deleteNote } = useDeleteNoteMutation();
-  const { mutate: deleteGoal } = useDeleteGoalMutation();
+  const { mutate: deleteTodo } = useDeleteTodoMutation({
+    onSuccess: () => {
+      setIsDeleteOpen(false);
+      onClose();
+    },
+  });
+  const { mutate: deleteNote } = useDeleteNoteMutation({
+    onSuccess: () => {
+      setIsDeleteOpen(false);
+      onClose();
+    },
+  });
+  const { mutate: deleteGoal } = useDeleteGoalMutation({
+    onSuccess: () => {
+      router.push("/");
+      setIsDeleteOpen(false);
+      onClose();
+    },
+  });
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const router = useRouter();
@@ -41,7 +57,7 @@ export default function EditAndDelete({
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
+        setIsDropdownOpen(true);
         setIsDeleteOpen(false);
       }
     }
@@ -131,9 +147,6 @@ export default function EditAndDelete({
           setIsCloseConfirmOpen={setIsDeleteOpen}
           onClose={handleDeleteConfirm}
           todoOrGoalOrNote={noteId ? "노트" : todoId ? "할 일" : "목표"}
-          noteId={noteId}
-          todoId={todoId}
-          goalId={goalId}
         />
       )}
     </>

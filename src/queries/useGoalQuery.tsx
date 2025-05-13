@@ -86,13 +86,18 @@ export const useUpdateGoalMutation = () => {
   });
 };
 
-export const useDeleteGoalMutation = () => {
+export const useDeleteGoalMutation = ({
+  onSuccess,
+}: {
+  onSuccess: () => void;
+}) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (goalId: number) => await deleteGoal(goalId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["goals"] });
+      onSuccess();
     },
   });
 };

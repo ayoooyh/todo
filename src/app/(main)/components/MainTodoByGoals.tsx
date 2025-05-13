@@ -17,11 +17,17 @@ export default function MainTodoByGoals() {
   const { data: goalsData, isLoading: goalsLoading } = useGetGoalsQuery();
 
   if (goalsLoading) {
-    return <div>목표 로딩 중...</div>;
+    return <></>;
   }
 
   if (!goalsData || goalsData.goals.length === 0) {
-    return <div>목표가 없습니다. 목표를 추가해주세요.</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <span className="text-slate-500 text-sm font-normal">
+          등록한 목표가 없어요
+        </span>
+      </div>
+    );
   }
 
   return (
@@ -56,7 +62,7 @@ function GoalContent({ goalId }: { goalId: number }) {
   }, [progressData]);
 
   if (goalLoading || todosLoading || progressLoading) {
-    return <div>데이터 로딩 중...</div>;
+    return <></>;
   }
 
   if (progressError) {
@@ -107,12 +113,12 @@ function GoalContent({ goalId }: { goalId: number }) {
       </div>
       <ProgressBar progress={progressValue} />
 
-      <div className="flex gap-4 sm:flex-row flex-col min-h-[300px] sm:min-h-0">
+      <div className="flex gap-4 sm:flex-row flex-col min-h-[300px] sm:min-h-0 md:h-auto">
         <div className="flex-1 sm:h-auto min-h-[150px] sm:min-h-0 flex flex-col">
           <div className="flex items-center justify-between mb-2">
             <span className="text-slate-800 font-semibold text-sm">To do</span>
           </div>
-          <div className="flex-1 max-h-60 overflow-y-auto">
+          <div className="flex-1">
             <TodoList todos={undoneTodos} />
           </div>
         </div>
@@ -121,7 +127,7 @@ function GoalContent({ goalId }: { goalId: number }) {
           <div className="flex items-center justify-between mb-2">
             <span className="text-slate-800 font-semibold text-sm">Done</span>
           </div>
-          <div className="flex-1 max-h-60 overflow-y-auto">
+          <div className="flex-1">
             <TodoList todos={doneTodos} isDone={true} />
           </div>
         </div>

@@ -16,7 +16,11 @@ export default function DetailNote({
   const { data, isLoading } = useGetNoteQuery({
     note_id: noteId,
   });
-  const { mutate: deleteNoteMutation } = useDeleteNoteMutation();
+  const { mutate: deleteNoteMutation } = useDeleteNoteMutation({
+    onSuccess: () => {
+      onClose();
+    },
+  });
 
   const handleDeleteNote = () => {
     deleteNoteMutation({ note_id: noteId });
@@ -30,9 +34,15 @@ export default function DetailNote({
   }
 
   return (
-    <div className="fixed inset-0 flex justify-end bg-black/80 z-50">
+    <div className="fixed inset-0 flex justify-end bg-black/80 z-50 ">
       <div className="flex w-full justify-end">
-        <div className="bg-white p-6 w-1/2">
+        <div
+          className="
+            bg-white p-6
+            w-full h-full
+            sm:rounded-lg sm:max-w-[520px] sm:h-screen
+          "
+        >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
               <button

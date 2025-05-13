@@ -17,7 +17,7 @@ export default function GoalPage() {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <></>;
   }
 
   console.log(data);
