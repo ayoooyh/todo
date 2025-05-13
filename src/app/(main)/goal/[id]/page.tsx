@@ -23,7 +23,7 @@ export default function GoalPage() {
   console.log(data);
 
   return (
-    <div className="flex flex-col gap-3 py-6 px-2 max-w-[1200px] mx-auto sm:px-4 md:px-6 lg:px-20 ">
+    <div className="flex flex-col gap-3 py-6 px-2 max-w-[1200px] mx-auto sm:px-4 md:px-6 lg:px-20">
       <h1 className="text-lg font-medium text-slate-900">목표</h1>
       <div className="flex flex-col gap-4">
         <GoalHeader />

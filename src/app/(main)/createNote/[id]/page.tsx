@@ -54,7 +54,7 @@ export default function CreateNotePage() {
   }
 
   return (
-    <div className="flex flex-col gap-3 py-6 px-4 max-w-[792px] mx-auto sm:px-4 md:px-6 lg:px-20">
+    <div className="flex flex-col gap-3 py-6 px-4 max-w-[792px] mx-auto h-screen sm:px-4 md:px-6 lg:px-20">
       <NoteForm
         goalId={goalId}
         goalTitle={data?.title ?? ""}
