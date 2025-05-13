@@ -29,7 +29,7 @@ export default function MainLayout({
         </div>
       )}
       <div
-        className={`flex-1 w-full h-screen overflow-y-auto ${
+        className={`flex-1 h-screen overflow-y-auto ${
           pathname.includes("/createNote") || pathname.includes("/editNote")
             ? "bg-white"
             : "bg-slate-100"

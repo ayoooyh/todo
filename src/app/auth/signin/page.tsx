@@ -61,7 +61,7 @@ export default function Signin() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-4 py-40 lg:min-h-screen">
+    <div className="flex flex-col items-center justify-center px-4 py-20 lg:min-h-screen">
       <Link href="/">
         <Image
           src="/images/logo.svg"
