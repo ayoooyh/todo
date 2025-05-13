@@ -18,13 +18,7 @@ export default function MainLayout({
   const [isMobileScreen, setIsMobileScreen] = useState(false);
 
   useEffect(() => {
-    // 클라이언트에서만 실행됨
-    const handleResize = () => {
-      setIsMobileScreen(window.innerWidth < 768);
-    };
-    handleResize(); // 최초 실행
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    setIsMobileScreen(window.innerWidth < 768);
   }, []);
 
   return (
