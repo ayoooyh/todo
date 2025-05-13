@@ -22,7 +22,7 @@ export default function MainLayout({
   }, []);
 
   return (
-    <div className="flex h-screen">
+    <div className="relative flex h-[100dvh]">
       {showSidebar && (
         <div className="fixed inset-y-0 left-0 z-50">
           <SideMenu />
