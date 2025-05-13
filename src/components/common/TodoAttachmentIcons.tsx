@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import EditAndDelete from "./EditAndDelete";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { ITodo } from "@/types/todo";
 import DetailNote from "@/app/(main)/notes/[id]/components/DetailNote";
 import { useRouter } from "next/navigation";
+import useDropdownToggle from "@/hooks/useDropdownToggle";
 
 interface TodoAttachmentIconsProps {
   fileUrl?: string | null;
@@ -25,26 +26,13 @@ const TodoAttachmentIcons = ({
   goalId,
 }: TodoAttachmentIconsProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { containerRef } = useDropdownToggle<HTMLDivElement>({
+    isOpen,
+    onClose: () => setIsOpen(false),
+  });
 
-  const menuRef = useRef<HTMLDivElement>(null);
   const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null);
   const router = useRouter();
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const handleDropdownToggle = () => {
-    setIsOpen((prev) => !prev);
-  };
 
   const handleNoteClick = (noteId: number, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -65,7 +53,7 @@ const TodoAttachmentIcons = ({
   };
 
   return (
-    <div ref={menuRef} className="flex gap-2 relative">
+    <div ref={containerRef} className="flex gap-2 relative">
       {noteId && (
         <>
           <Image
@@ -100,7 +88,10 @@ const TodoAttachmentIcons = ({
         </button>
       )}
 
-      <button className="cursor-pointer" onClick={handleDropdownToggle}>
+      <button
+        className="cursor-pointer"
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
         <Image src="/images/kebab.svg" alt="kebab" width={24} height={24} />
       </button>
       {isOpen && (

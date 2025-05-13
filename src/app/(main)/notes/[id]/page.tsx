@@ -3,17 +3,17 @@
 import Image from "next/image";
 import { useGetNotesQuery } from "@/queries/useNoteQuery";
 import { useGoalId } from "@/hooks/useId";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import DetailNote from "./components/DetailNote";
 import { useGetGoalQuery } from "@/queries/useGoalQuery";
 import Link from "next/link";
 import EditAndDelete from "@/components/common/EditAndDelete";
+import useDropdownToggle from "@/hooks/useDropdownToggle";
 
 export default function NotePage() {
   const goalId = useGoalId();
 
-  const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null);
-  const [openNoteId, setOpenNoteId] = useState<number | null>(null);
+  const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
 
   const { data, isLoading } = useGetNotesQuery({
     goal_id: goalId,
@@ -24,43 +24,17 @@ export default function NotePage() {
     goalId: goalId,
   });
 
-  const kebabRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (openNoteId === null) return;
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        kebabRef.current &&
-        !kebabRef.current.contains(event.target as Node)
-      ) {
-        setOpenNoteId(null);
-        setSelectedNoteId(null);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [openNoteId]);
+  const { containerRef } = useDropdownToggle<HTMLDivElement>({
+    isOpen: openDropdownId !== null,
+    onClose: () => setOpenDropdownId(null),
+  });
 
   if (isLoading || isGoalLoading) {
     return <></>;
   }
 
   const handleNoteClick = (noteId: number) => {
-    setSelectedNoteId(noteId);
-  };
-
-  const handleKebabClick = (noteId: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (openNoteId === noteId) {
-      setOpenNoteId(null);
-      setSelectedNoteId(null);
-    } else {
-      setOpenNoteId(noteId);
-    }
+    setOpenDropdownId(noteId);
   };
 
   return (
@@ -88,73 +62,79 @@ export default function NotePage() {
       </div>
 
       {data?.notes.length && data?.notes.length > 0 ? (
-        data?.notes.map((note) => (
-          <div
-            className="flex flex-col gap-4 bg-white border border-slate-100 rounded-xl px-6 py-3.5"
-            key={note.id}
-          >
-            <div className="flex items-center justify-between">
-              <Image
-                src="/images/note-list.svg"
-                alt="note"
-                width={28}
-                height={28}
-              />
-              <div
-                className="cursor-pointer relative"
-                ref={openNoteId === note.id ? kebabRef : null}
-                onClick={(e) => handleKebabClick(note.id, e)}
-              >
-                <Image
-                  src="/images/kebab.svg"
-                  alt="kebab"
-                  width={24}
-                  height={24}
-                />
-                {openNoteId === note.id && (
-                  <div className="absolute top-0 right-0">
-                    <EditAndDelete
-                      noteId={note.id}
-                      todo={note.todo || undefined}
-                      onClose={() => setOpenNoteId(null)}
-                      isDropdownOpen={openNoteId === note.id}
-                      setIsDropdownOpen={(open) =>
-                        setOpenNoteId(open ? note.id : null)
-                      }
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-            {selectedNoteId === note.id && (
-              <DetailNote
-                onClose={() => setSelectedNoteId(null)}
-                noteId={note.id}
-                todoId={note.todo?.id}
-              />
-            )}
+        data?.notes.map((note) => {
+          const isOpen = openDropdownId === note.id;
+          return (
             <div
-              className="flex flex-col gap-3 cursor-pointer"
-              onClick={() => handleNoteClick(note.id)}
+              className="flex flex-col gap-4 bg-white border border-slate-100 rounded-xl px-6 py-3.5"
+              key={note.id}
             >
-              <span className="text-slate-800 font-semibold text-sm mt-0.5">
-                {note.title}
-              </span>
-
-              <hr className="border-t border-slate-200" />
-
-              <div className="flex items-center gap-2">
-                <span className="px-[3px] py-0.5 bg-slate-100 rounded-[4px] text-xs font-medium text-slate-700">
-                  To do
+              <div className="flex items-center justify-between">
+                <Image
+                  src="/images/note-list.svg"
+                  alt="note"
+                  width={28}
+                  height={28}
+                />
+                <div
+                  className="cursor-pointer relative"
+                  ref={isOpen ? containerRef : undefined}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setOpenDropdownId(isOpen ? null : note.id);
+                  }}
+                >
+                  <Image
+                    src="/images/kebab.svg"
+                    alt="kebab"
+                    width={24}
+                    height={24}
+                  />
+                  {isOpen && (
+                    <div className="absolute top-0 right-0">
+                      <EditAndDelete
+                        noteId={note.id}
+                        todo={note.todo || undefined}
+                        onClose={() => setOpenDropdownId(null)}
+                        isDropdownOpen={isOpen}
+                        setIsDropdownOpen={(open) =>
+                          setOpenDropdownId(open ? note.id : null)
+                        }
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+              {isOpen && (
+                <DetailNote
+                  onClose={() => setOpenDropdownId(null)}
+                  noteId={note.id}
+                  todoId={note.todo?.id}
+                />
+              )}
+              <div
+                className="flex flex-col gap-3 cursor-pointer"
+                onClick={() => handleNoteClick(note.id)}
+              >
+                <span className="text-slate-800 font-semibold text-sm mt-0.5">
+                  {note.title}
                 </span>
 
-                <span className="text-slate-700 font-normal text-xs">
-                  {note.todo?.title}
-                </span>
+                <hr className="border-t border-slate-200" />
+
+                <div className="flex items-center gap-2">
+                  <span className="px-[3px] py-0.5 bg-slate-100 rounded-[4px] text-xs font-medium text-slate-700">
+                    To do
+                  </span>
+
+                  <span className="text-slate-700 font-normal text-xs">
+                    {note.todo?.title}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        ))
+          );
+        })
       ) : (
         <div className="flex flex-col justify-center items-center h-screen gap-4">
           <span className="text-slate-500 font-normal text-sm">
