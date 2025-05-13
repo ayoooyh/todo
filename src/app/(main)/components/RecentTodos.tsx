@@ -40,12 +40,25 @@ export default function RecentTodos() {
       </div>
 
       <div className="flex flex-col gap-1">
-        {data?.todos.map((todo) => (
-          <div className="flex items-center gap-2" key={todo.id}>
-            <Image src="/images/check.svg" alt="check" width={20} height={20} />
-            <div>{todo.title}</div>
+        {data?.todos.length === 0 ? (
+          <div className="flex justify-center items-center py-15">
+            <span className="text-slate-500 text-sm font-normal">
+              최근 등록한 할 일이 없어요
+            </span>
           </div>
-        ))}
+        ) : (
+          data?.todos.map((todo) => (
+            <div className="flex items-center gap-2" key={todo.id}>
+              <Image
+                src="/images/check.svg"
+                alt="check"
+                width={20}
+                height={20}
+              />
+              <div>{todo.title}</div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

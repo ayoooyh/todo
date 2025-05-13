@@ -134,44 +134,52 @@ export default function TodosPage() {
           onFilterChange={setSelectedFilter}
         />
         <div className="flex flex-col items-center gap-2">
-          {visibleTodos?.map((todo) => (
-            <div className="flex justify-between w-full" key={todo.id}>
-              <div className="flex items-center gap-2 text-slate-800 text-sm font-normal">
-                <Image
-                  src={
-                    todo.done ? "/images/active.svg" : "/images/inactive.svg"
-                  }
-                  alt={todo.done ? "완료" : "미완료"}
-                  width={20}
-                  height={20}
-                  className="cursor-pointer"
-                  onClick={() =>
-                    updateTodo({
-                      todoId: todo.id,
-                      title: todo.title,
-                      done: !todo.done,
-                      fileUrl: todo.file_url,
-                      linkUrl: todo.link_url,
-                      goalId: todo.goal_id,
-                    })
-                  }
-                />
-                {todo.done ? (
-                  <span className="line-through">{todo.title}</span>
-                ) : (
-                  <span>{todo.title}</span>
-                )}
-              </div>
-              <TodoAttachmentIcons
-                fileUrl={todo.file_url}
-                linkUrl={todo.link_url}
-                todoId={todo.id}
-                todo={todo}
-                noteId={todo.note_id}
-                goalId={todo.goal_id}
-              />
+          {visibleTodos.length === 0 ? (
+            <div className="flex items-center justify-center h-screen">
+              <span className="text-slate-500 text-sm font-normal">
+                등록한 일이 없어요
+              </span>
             </div>
-          ))}
+          ) : (
+            visibleTodos?.map((todo) => (
+              <div className="flex justify-between w-full" key={todo.id}>
+                <div className="flex items-center gap-2 text-slate-800 text-sm font-normal">
+                  <Image
+                    src={
+                      todo.done ? "/images/active.svg" : "/images/inactive.svg"
+                    }
+                    alt={todo.done ? "완료" : "미완료"}
+                    width={20}
+                    height={20}
+                    className="cursor-pointer"
+                    onClick={() =>
+                      updateTodo({
+                        todoId: todo.id,
+                        title: todo.title,
+                        done: !todo.done,
+                        fileUrl: todo.file_url,
+                        linkUrl: todo.link_url,
+                        goalId: todo.goal_id,
+                      })
+                    }
+                  />
+                  {todo.done ? (
+                    <span className="line-through">{todo.title}</span>
+                  ) : (
+                    <span>{todo.title}</span>
+                  )}
+                </div>
+                <TodoAttachmentIcons
+                  fileUrl={todo.file_url}
+                  linkUrl={todo.link_url}
+                  todoId={todo.id}
+                  todo={todo}
+                  noteId={todo.note_id}
+                  goalId={todo.goal_id}
+                />
+              </div>
+            ))
+          )}
         </div>
       </div>
       <div className="flex justify-center items-center">

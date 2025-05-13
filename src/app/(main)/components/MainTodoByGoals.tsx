@@ -17,11 +17,21 @@ export default function MainTodoByGoals() {
   const { data: goalsData, isLoading: goalsLoading } = useGetGoalsQuery();
 
   if (goalsLoading) {
-    return <div>목표 로딩 중...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        목표 로딩 중...
+      </div>
+    );
   }
 
   if (!goalsData || goalsData.goals.length === 0) {
-    return <div>목표가 없습니다. 목표를 추가해주세요.</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <span className="text-slate-500 text-sm font-normal">
+          등록한 목표가 없어요
+        </span>
+      </div>
+    );
   }
 
   return (
