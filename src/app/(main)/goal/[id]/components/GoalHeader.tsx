@@ -7,6 +7,7 @@ import { useGoalId } from "@/hooks/useId";
 import { useState } from "react";
 import EditAndDelete from "@/components/common/EditAndDelete";
 import ProgressBar from "@/components/common/ProgressBar";
+import useDropdownToggle from "@/hooks/useDropdownToggle";
 
 export default function GoalHeader() {
   const goalId = useGoalId();
@@ -25,12 +26,17 @@ export default function GoalHeader() {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  if (goalLoading || progressLoading)
-    return (
-      <div className="flex justify-center items-center h-screen">
-        로딩 중...
-      </div>
-    );
+  const { containerRef } = useDropdownToggle<HTMLDivElement>({
+    isOpen,
+    onClose: () => setIsOpen(false),
+  });
+
+  const handleKebabClick = () => {
+    setIsOpen(!isOpen);
+  };
+
+  if (goalLoading || progressLoading) return <></>;
+
   if (goalError || progressError)
     return (
       <div className="flex justify-center items-center h-screen">
@@ -43,10 +49,6 @@ export default function GoalHeader() {
         데이터를 불러오는데 실패했습니다.
       </div>
     );
-
-  const handleKebabClick = () => {
-    setIsOpen(!isOpen);
-  };
 
   return (
     <div className="flex flex-col gap-6 bg-white rounded-xl p-4 relative z-1">
@@ -73,7 +75,7 @@ export default function GoalHeader() {
           />
         </button>
         {isOpen && (
-          <div className="absolute top-4 right-3">
+          <div className="absolute top-4 right-3" ref={containerRef}>
             <EditAndDelete
               goalId={goalId}
               onClose={() => setIsOpen(false)}
