@@ -9,7 +9,7 @@ export default function RecentTodos() {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <></>;
   }
 
   return (

@@ -22,19 +22,20 @@ export default function MainLayout({
   }, []);
 
   return (
-    <div className="flex h-screen">
+    <div className="relative flex h-[100dvh]">
       {showSidebar && (
         <div className="fixed inset-y-0 left-0 z-50">
           <SideMenu />
         </div>
       )}
       <div
-        className={`flex-1 w-full h-screen overflow-y-auto ${
+        className={`flex-1 overflow-y-auto
+        flex-col gap-3 py-6 px-2
+        ${
           pathname.includes("/createNote") || pathname.includes("/editNote")
             ? "bg-white"
             : "bg-slate-100"
-        } 
-        flex-col gap-3 py-6 px-2
+        }
         ${showSidebar ? "md:pl-13 xl:pl-[200px]" : "sm:px-4"}`}
       >
         <div
