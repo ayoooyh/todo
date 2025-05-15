@@ -29,7 +29,7 @@
 ## 📄 미리보기
 
 <div align='center'>
-![Demo](public/your-video.gif)
+![Demo](./public/demo/slidTodo_video.gif)
 </div>
 <!-- 
 ## 💡 핵심 기능
