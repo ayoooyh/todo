@@ -39,7 +39,7 @@ export default function NotePage() {
   };
 
   return (
-    <div className="flex flex-col gap-3 py-6 px-2 max-w-[792px] mx-auto h-screen sm:px-4 md:px-6 lg:px-20">
+    <div className="flex flex-col gap-3 py-6 px-2 max-w-[792px] mx-auto sm:px-4 md:px-6 lg:px-20 h-dvh">
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold text-slate-900">노트 모아보기</h1>
         <Link
@@ -138,7 +138,7 @@ export default function NotePage() {
           );
         })
       ) : (
-        <div className="flex flex-col justify-center items-center h-screen gap-4">
+        <div className="flex flex-col justify-center items-center gap-4 h-dvh">
           <span className="text-slate-500 font-normal text-sm">
             아직 등록된 노트가 없어요
           </span>
