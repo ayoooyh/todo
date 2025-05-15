@@ -28,7 +28,7 @@
 
 ## 📄 미리보기
 
-![Demo](./public/demo/slidTodo_video.gif)
+<img src="./public/demo/slidTodo_video.gif" width="600" height="auto">
 
 <!-- 
 ## 💡 핵심 기능
