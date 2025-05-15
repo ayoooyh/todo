@@ -29,7 +29,7 @@
 ## 📄 미리보기
 
 <div align='center'>
-  
+![Demo](public/your-video.gif)
 </div>
 <!-- 
 ## 💡 핵심 기능
@@ -167,4 +167,4 @@
 
 <!-- links -->
 
-[배포]: https://give-me-five.vercel.app/
+[배포]: https://slidtodo.vercel.app/
