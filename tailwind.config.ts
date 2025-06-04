@@ -10,6 +10,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        pretendard: "var(--font-pretendard)",
+      },
       screens: {
         xs: "460px",
         sm: "640px",
