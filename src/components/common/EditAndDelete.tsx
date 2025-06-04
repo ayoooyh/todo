@@ -101,11 +101,11 @@ export default function EditAndDelete({
   };
 
   return (
-    <>
+    <div className="absolute z-10 top-8 right-1 w-21">
       {isDropdownOpen && (
         <div
           ref={menuRef}
-          className="absolute z-10 top-8 right-1 flex flex-col gap-3 bg-white border border-slate-100 rounded-xl px-4 py-2 w-21 shadow-md"
+          className="flex flex-col gap-3 bg-white border border-slate-100 rounded-xl px-4 py-2 shadow-md"
         >
           <button
             className="cursor-pointer text-sm font-normal text-slate-700"
@@ -149,6 +149,6 @@ export default function EditAndDelete({
           todoOrGoalOrNote={noteId ? "노트" : todoId ? "할 일" : "목표"}
         />
       )}
-    </>
+    </div>
   );
 }
