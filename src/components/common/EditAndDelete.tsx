@@ -101,20 +101,20 @@ export default function EditAndDelete({
   };
 
   return (
-    <div className="absolute z-10 top-8 right-1 w-21">
+    <div className="absolute z-10 top-8 right-1 min-w-max">
       {isDropdownOpen && (
         <div
           ref={menuRef}
-          className="flex flex-col gap-3 bg-white border border-slate-100 rounded-xl px-4 py-2 shadow-md"
+          className="flex flex-col gap-3 bg-white border border-slate-100 rounded-xl px-4 py-2 shadow-md min-w-max"
         >
           <button
-            className="cursor-pointer text-sm font-normal text-slate-700"
+            className="cursor-pointer text-sm font-normal text-slate-700 whitespace-nowrap text-left"
             onClick={handleEditClick}
           >
             수정하기
           </button>
           <button
-            className="cursor-pointer text-sm font-normal text-slate-700"
+            className="cursor-pointer text-sm font-normal text-slate-700 whitespace-nowrap text-left"
             onClick={handleDeleteClick}
           >
             삭제하기
